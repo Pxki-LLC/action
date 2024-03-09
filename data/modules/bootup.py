@@ -1,10 +1,12 @@
 def logo():
-    global activity,gameverfake,logoflashtime
+    global activity,gameverfake,logoflashtime,kd
     if activity==0:
         #if time.time()-logotime>1.5:
         #    activity=1
         toka=((1.5-(time.time()-logotime))/1)*190
         render('clear',arg=(0,0,0))
+        tmp=(delta/0.01)
+        #print(tmp)
         if toka<=-1500:
             activity=1
         if toka<=-100:
@@ -15,7 +17,7 @@ def logo():
             gameverfake=str(gamever).split('.')
             gameverfake=[gameverfake[0],gameverfake[1],int(gameverfake[2])]
         if toka<=-500 and not gameverfake[2]>=32:
-            gameverfake[2]+=0.1
+            gameverfake[2]+=tmp
             logoflashtime=time.time()
         if "logoflashtime" in globals():
             flash=((0.5-(time.time()-logoflashtime))/1)*1

@@ -1,12 +1,11 @@
-mtext='Play','','Top Plays','Leave'
+mtext='Play','Edit','Browse','Leave'
 toptext='Settings','Account'
 menupos=[]
 opacity=10
-bgdefaultcolour=(45,47,99)
+bgdefaultcolour=(45,47,100)
 mainmenucolor=((47,75,107),(67,56,105))
 for a in range(1,len(mtext)+1):
     menupos.extend([0])
-print(menupos)
 def mainmenu():
     global debugmode, activity,beatnowmusic, totperf,totscore,msg
     if activity==1 or activity==9:
@@ -41,12 +40,15 @@ def mainmenu():
         tmp2=tmp
         tmp=(255*tmp,255*tmp,255*tmp)
         if len(p2)!=0:
-            render('text', text='Now Playing - '+p2[beatsel], arg=((20*(tmp2),10), tmp))
+            render('text', text=p2[beatsel], arg=((20*(tmp2),10), tmp))
         else:
             render('text', text='Add Songs!', arg=((20*(tmp2),10), tmp))
         topbutton=menu_draw(tmenu, text=toptext,isblade=True,ignoremove=True,ishomemenu=True)
         render('text', text='Note: you can get songs from osu.ppy.sh.', arg=((20,55), forepallete))
-        print_card(totperf,totscore,username,(w,h-150),totrank,mini=True)
+        print_card(totperf,totscore,username,(w//2-150,h//2+120),totrank,home=True)
+        if menunotice!='':
+            render('rect',arg=((w//2-150,h//2-170,300,50),(bgdefaultcolour[0]+25,bgdefaultcolour[1]+25,bgdefaultcolour[2]+25),False),borderradius=10)
+            render('text',text=menunotice,arg=((20, 20),(255,255,255),'center'),relative=(w//2-150,h//2-170,300,50))
         if totrank==1:
             t=2
         else:
@@ -112,7 +114,10 @@ def mainmenu():
                     stopnow()
         if activity==9:
             render('rect', arg=((tmenu[1][0]-(350//2),tmenu[1][1]+55,350,250), (20,20,20), False),borderradius=10)
-            render('text', text='Placeholder', arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+55,350,250))
+            render('text', text='Username', arg=((tmenu[1][0]+25-(350//2),tmenu[1][1]+65), (255,255,255)))
+            render('text', text='Username', arg=((tmenu[1][0]+25-(350//2),tmenu[1][1]+185), (255,255,255)))
+            render('text', text='shredda', arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+55,350,250//2))
+            render('text', text='Password', arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+55+125,350,250//2))
 
 
 #        render('rect', arg=((-10,150,350,60), (maxt(40,bgcolour),maxt(40,bgcolour),maxt(100,bgcolour)), False),borderradius=10)

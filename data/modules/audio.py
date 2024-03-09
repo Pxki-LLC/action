@@ -1,8 +1,9 @@
 def beatmapload():
-    global p2,p1,beatnowmusic,gc,gametime,beatlist,objects,diffp,betaperf,reloaddatabase,maxperf,ranktype,diff,diffmode,pref,level,ismusic,bpm,realid,prestart,beatsel,tick,lastms,combotime,songoffset,metadata,id
+    global p2,p1,beatnowmusic,gc,gametime,beattitle,beatlist,objects,diffp,betaperf,reloaddatabase,maxperf,ranktype,diff,diffmode,pref,level,ismusic,bpm,realid,prestart,beatsel,tick,lastms,combotime,songoffset,metadata,beatmapid
     a=0
     p1=[]
     p2=[]
+    size=65
     if reloaddatabase:
         beatlist=[tmp for tmp in os.listdir(gamepath)]
         reloaddatabase=0
@@ -12,13 +13,16 @@ def beatmapload():
         prestart=0
     for b in beatlist:
 #        tmp.append(str(b))
-        p1.append(((w//2-(cardsize//2)-((size+5)*cross[0])+((size+5)*(a)),(h//2-size)-((size+5)*cross[0])+((size+5)*(a)),cardsize,size)))
-        p2.append(str(b)[str(b).index(' ')+1:])
+        try:
+            p1.append(((w//2-(cardsize//2)-((size+5)*cross[0])+((size+5)*(a)),(h//2-size)-((size+5)*cross[0])+((size+5)*(a)),cardsize,size)))
+            p2.append(str(b)[str(b).index(' ')+1:].replace('-','\n'))
+        except Exception:
+            pass
         a+=1
     if ismusic:
         #gametime=pygame.mixer.music.get_pos()
         gametime=((time.time()-gc)/0.001)*1
-        pygame.mixer.music.set_volume(vol)
+        pygame.mixer.music.set_volume(volvisual*0.01)
         #pygame.mixer.music.set_pos(time.time()-gametime)
         #pass
 #        if gametime<0:
@@ -38,15 +42,16 @@ def beatmapload():
     #            wait=int(time.time())
             ismusic=False
             if len(beatlist)!=0:
+                aga=0
                 if os.path.isdir(gamepath+beatlist[beatsel]):
                     ah=os.listdir(gamepath+beatlist[beatsel])
                     for bop in ah:
                         if bop.endswith('.mp3') or bop.endswith('.ogg'):
                             music=bop
-                            ismusic=True
+                            aga=1
                             break
-                        else:
-                            ismusic=False
+                    if aga:
+                        ismusic=True
             if ismusic:
                 #if not int(time.time()-wait)<=-1:
                 if 1==1:
@@ -70,25 +75,29 @@ def beatmapload():
                     diffp=[]
                     for difftmp in diff:
                         beatmap=open(gamepath+beatlist[beatsel]+'/'+pref+'['+difftmp+']'+'.osu').read().rstrip('\n').split('\n')
-                        objects=len(beatmap[beatmap.index('[HitObjects]')+1:])*300
+                        general=beatmap[beatmap.index('[General]')+1:]
+                        general=general[:general.index("")]
+                        for a in general:
+                            if "AudioFilename" in a:
+                                music=a.split(': ')[1]
+                        objects=len(beatmap[beatmap.index('[HitObjects]')+1:])
                         difficulty=beatmap[beatmap.index('[Difficulty]')+1:]
                         difficulty=difficulty[:difficulty.index('')]
                         metadata=beatmap[beatmap.index('[Metadata]')+1:beatmap.index('[Difficulty]')-1]
-                        level=float(difficulty[2].split(':')[-1])+float(difficulty[1].split(':')[-1])+float(difficulty[0].split(':')[-1])
-                        diffp.append((objects,difftmp,level))
+                        diffp.append((objects,difftmp))
+                        print(difftmp,objects)
                     diffp=sorted(diffp, key=lambda x: x[0])
                     diff=diffp
 #                    print(diffp)
-
                     pygame.mixer.music.load(gamepath+beatlist[beatsel]+'/'+music)
-                    pygame.mixer.music.play(loop,0,1000)
+                    pygame.mixer.music.play(-1)
                     #print(ids)
                     gametime=pygame.mixer.music.get_pos()
                     reloadstats()
                     betaperf=0
                     ptick=0
                     gener=0
-                    perfnerf=0.00975*level
+                    perfnerf=0.00975
                     perfntot=0
                     for a in objects:
                         if int(a.split(',')[2])//100>ptick:
@@ -102,11 +111,12 @@ def beatmapload():
                         betaperf=1500
                     lastms=int(objects[-1].split(',')[2])
                     for a in metadata:
-                        if 'BeatmapID' in a:
-                            id=int(a.replace('BeatmapID:',''))
+                        if 'BeatmapSetID' in a:
+                            beatmapid=int(a.replace('BeatmapSetID:',''))
                             break
                         else:
-                            id=None
+                            beatmapid=None
+                    beattitle=p2[beatsel]+' ['+str(diffmode)+']'
                     threading.Thread(target=getstat).start()
 #                    else:
 #                        ranktype=
@@ -123,36 +133,11 @@ def beatmapload():
         print('Could not load Song: '+str(error))
         crash(str(error))
         song_change(1)
-def getstat():
-    global ranktype,getpoints
-    #print('Loading...')
-    try:
-            f = requests.get('https://api.osu.direct/v2/b/'+str(id),headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'},timeout=1)
-            f=f.json()['ranked']
-            print(f)
-            ranktypetmp=int(f)
-    except Exception as error:
-        sprint(error,'(Returning as Unranked)')
-        ranktypetmp=99
-    getpoints=0
-    #if id!=None:
-#        print(ranktypetmp)
-    if ranktypetmp==3:
-#        print(rankmodes[2][0])
-        ranktype=2
-    elif ranktypetmp>0:
-        print(rankmodes[0][0])
-        ranktype=0
-    else:
-#        print(rankmodes[1][0])
-        ranktype=1
-        getpoints=1
 def volchg(t):
     global vol,voltime
     voltime=time.time()+1
-    step=0.1
-    if t:
+    step=5
+    if vol<100 and t:
         vol+=step
-    else:
-        if not vol<=0.01:
+    elif vol>0 and not t:
             vol-=step

@@ -47,7 +47,7 @@ def render(type, arg=(0, 0) ,  text='N/A', bordercolor=forepallete, borderradius
             crash('Render unsupported Type')
     except Exception as error:
         crash(str(error)+' (renderer)')
-def menu_draw(instruction, text=None,ishomemenu=False,ignoremove=False, istextbox=False, selected_button=0,enabled_button=[],enable_border=False, hidebutton=False,bigmode=False,startlimit=1,endlimit=None,styleid=1,isblade=False):
+def menu_draw(instruction, text=None,showicon=False,ishomemenu=False,ignoremove=False, istextbox=False, selected_button=0,enabled_button=[],enable_border=False, hidebutton=False,bigmode=False,startlimit=1,endlimit=None,styleid=1,isblade=False,icon=0):
     if endlimit==None:
         endlimit=len(instruction)
     elif endlimit>=len(instruction):
@@ -60,11 +60,15 @@ def menu_draw(instruction, text=None,ishomemenu=False,ignoremove=False, istextbo
     else:
         if styleid==0:
             buttonc=30, 100, 120
-#        elif styleid==1:
-            #buttonc=35,37,89
+            tcol=255,255,255
+        elif styleid==1:
+            buttonc=bgdefaultcolour[0]+15,bgdefaultcolour[1]+15,bgdefaultcolour[2]+15
+            tcol=255,255,255
+        elif styleid==2:
+            buttonc=219, 219, 219
+            tcol=0,0,0
     select=False
     for a in range(startlimit,  endlimit+1):	
-        buttonc=bgdefaultcolour[0]+10,bgdefaultcolour[1]+10,bgdefaultcolour[2]+10
         tmp=instruction[a-1]
         tmp=pygame.Rect(tmp[0],tmp[1],tmp[2],tmp[3])
         if tmp.collidepoint(pygame.mouse.get_pos()) and not select:
@@ -74,11 +78,11 @@ def menu_draw(instruction, text=None,ishomemenu=False,ignoremove=False, istextbo
                 button=a
         else:
             buttcolour = buttonc
-        b = (50,150,150)
+        b = (128, 255, 255)
         #drawRhomboid(screen, (255,255,255), 50, 50, 300, 200, 100, 3)
         if not hidebutton:
             if not isblade:
-                if selected_button==a:
+                if selected_button==a or (enabled_button!=[] and enabled_button[a-1]):
                     enable_border=True
                 else:
                     enable_border=False
@@ -91,11 +95,11 @@ def menu_draw(instruction, text=None,ishomemenu=False,ignoremove=False, istextbo
                 if ishomemenu:
                     if not ignoremove:
                         if button==a and not int(menupos[a-1])>19:
-                            menupos[a-1]+=100*drawtime
+                            menupos[a-1]+=300*drawtime
                         elif button==a and int(menupos[a-1])==20:
                             pass
                         elif int(menupos[a-1])>0:
-                            menupos[a-1]-=100*drawtime
+                            menupos[a-1]-=300*drawtime
                         moveid=menupos[a-1]
                     else:
                         moveid=0
@@ -110,7 +114,17 @@ def menu_draw(instruction, text=None,ishomemenu=False,ignoremove=False, istextbo
                         home=moveid
                     else:
                         home=0
-                    render('text', text=text[a-1], arg=((0,0), forepallete,'center'),relative=(instruction[a-1][0],instruction[a-1][1]-home,instruction[a-1][2],instruction[a-1][3]))
+                    if icon:
+                        showicon=1
+                        for b in icon:
+                            screen.blit(b, (instruction[a-1][0], instruction[a-1][1]))
+                    if not showicon:
+                        s=text[a-1].split('\n')
+                        d=instruction[a-1][3]//len(s)
+                        f=0
+                        for e in s:
+                            render('text', text=e.rstrip(' '), arg=((0,0), tcol,'center'),relative=(instruction[a-1][0],instruction[a-1][1]-home+(d*f),instruction[a-1][2],d))
+                            f+=1
     return button
 def clear(color):screen.fill(color)
 def blend(opacity,bgcolour):

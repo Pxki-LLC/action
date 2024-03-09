@@ -1,5 +1,5 @@
 def fullscreenchk():
-    global w, h, w, h, screen, button_size_width, firstcom,tal,keymap,fonts,transa
+    global w, h, w, h, screen, button_size_width, firstcom,tal,keymap,fonts,transa,keysize
     reload=False
     if not settingskeystore[0]:
         if not firstcom:
@@ -31,6 +31,7 @@ def fullscreenchk():
         fonts = pygame.font.Font(fontname,  int(f//1.2)),pygame.font.Font(fontname,  f//2),pygame.font.Font(fontname,  f*2),pygame.font.Font(fontname,  int(f))
         button_size_width=w//2
     tal=25*(w/25)//len(bars)
-    scroll=h-60
+    keysize=30
+    scroll=h-30-keysize
     #scroll=h//2
-    keymap=(pygame.Rect(w//2-(50*4),scroll,100,30),pygame.Rect(w//2-(50*2),scroll,100,30),pygame.Rect(w//2-(50*0),scroll,100,30),pygame.Rect(w//2-(50*-2),scroll,100,30),)
+    keymap=((w//2-(50*4),scroll,100,keysize),(w//2-(50*2),scroll,100,keysize),(w//2-(50*0),scroll,100,keysize),(w//2-(50*-2),scroll,100,keysize),)
