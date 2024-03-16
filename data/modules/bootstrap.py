@@ -5,21 +5,23 @@
 #    (Using Slyph Engine, Tinyworld's Game Engine)
 #
 #
-import random,re,json,zipfile
+import random,re,json,zipfile,os
 from random import randint
-import pygame, os, time, sys, threading, requests, socket
+import pygame, time, sys, threading, requests, socket
 import tkinter as tk
+from tweener import *
 nline='\n'
 axe=0
 gamename='Qlute'
 gameeditions='stable','beta','canary','dev'
-gameedition=gameeditions[3]
-gamever='2023.03.05'
+gameedition=gameeditions[-1]
+gamever='2023.03.16'
 sylphenginever='2023.09.29'
 gameverspl=gamever.split('.')
 #gameminserve=int(gameverspl[0])+((1+float(gameverspl[1]))*float(gameverspl[2]))
 modpath=datapath+'mods/'
 gamepath=datapath+'beatmaps/'
+samplepath=syspath+'samples/'
 downpath=datapath+'downloads/'
 username='Guest'
 propath=datapath+'profiles/'
@@ -28,7 +30,7 @@ gameupdateurl='https://github.com/pxkidoescoding/Qlute/'
 gameauthor='Pxki Games'
 print('Starting Game...')
 if not "fpsmode" in globals():
-    fpsmode=1
+    fpsmode=4
 button_size_height=33
 stop=0
 rankdiff='Easy','Normal','Hard','Extra','Expert','Impossible','WTF!'
@@ -36,7 +38,7 @@ rankdiffc=(0,100,200),(0,200,50),(150,200,0),(200,50,0),(0,0,0),(150,0,150)
 sa=time.time()
 gametime=0
 ismusic=0
-paths=datapath,gamepath,propath,profilepath,modpath,downpath
+paths=datapath,syspath,gamepath,propath,profilepath,modpath,downpath,samplepath
 prestart=1
 reloaddatabase=1
 vol=0
@@ -93,10 +95,7 @@ oldstats=[0,0]
 rankmodes=('Ranked',(100,200,100)),('Unranked',(200,100,100)),('In Review',(200,200,100)),('Loading...',(200,200,200)),
 
 pygame.init()
-surface=[]
-for a in range(1,10):
-    surface.append(pygame.Surface((0,0)))
-fontname=resource_path(datapath+'font.ttf')
+fontname=resource_path(syspath+'font.ttf')
 clock=pygame.time.Clock()
 activity=0
 select=False
@@ -121,9 +120,10 @@ change=False
 colorstep = 0
 loaded=[]
 ama=0
-bars=[0,0,0,0]
+bars=[0,0,0,0,0,0,0,0]
 t=''
 miss=0
+go=False
 hits=[0,0,0,0]
 #hitperfect=keymap[0][1]
 #hitperfect=keymap[0][1]
@@ -144,7 +144,7 @@ countersp=0
 drawtime=0.0000001
 kiai=0
 def main():
-    global fps, activity,oneperf,voltime,delta,volvisual,volvismo,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
+    global fps, activity,oneperf,voltime,delta,volvisual,volvismo,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
     if gameedition!=gameeditions[0]:
         gs='/'+gameedition
     else:
@@ -157,7 +157,7 @@ def main():
     pygame.display.set_caption(gamename+gs+' '+str(gamever)+' '+alttitle)
     if not firstcom:
         pygame.display.set_icon(programIcon)
-    pygame.mouse.set_visible(True)
+    pygame.mouse.set_visible(False)
     update=time.time()
     posmouse=pygame.mouse.get_pos()
 #    if modsen[0]:
@@ -206,6 +206,7 @@ def main():
         print('Imported',a)
     if totrank<1:
         totrank=1
+    get_input()
     beatmapload()
     logo()
     beatres()
@@ -220,9 +221,9 @@ def main():
         crash(error)
         activity=1
     if msg!='':
-        tmp=(posmouse[0]+15,posmouse[1]+15,(10*len(msg))+5,25)
-        render('rect', arg=(tmp, (20,20,20), True), borderradius=5)
-        render('text',text=msg,arg=((0,0),forepallete,'center'),relative=tmp)
+        tmp=(posmouse[0]+15,posmouse[1]+15,25,25)
+        render('text',text=msg,arg=((tmp[0],tmp[1]),forepallete,'min','tooltip'))
+        msg=''
     transitionto()
     #updateraw=(time.time()-update)/0.001
     #spectrum()
@@ -250,29 +251,28 @@ def main():
         render('rect', arg=((volpos[0],volpos[1]+1+volpos[3]-((volvisual*0.01)*volpos[3]),volpos[2],(volvisual*0.01)*volpos[3]), (168*(volvisual*0.01), 232*(volvisual*0.01), 255*(volvisual*0.01)), False), borderradius=15)
         render('text',text=str(int(volvisual))+'%',arg=((0,0),forepallete,'center'),relative=(volpos[0]+50,volpos[1],0,volpos[3]))
     if debugmode:
-        updatetime=int(float(str((delta)/0.001)[:4]))
-        if updatetime>=6:
+        updatetime=float((delta)/0.001)
+        if updatetime>=10:
             fpscolour=(150,50,50)
         else:
             fpscolour=(50,150,50)
-        render('rect', arg=((w-98, of+15, 110, 45), (fpscolour), False), borderradius=10)
-        fps_text = f'{fps}/{fpsmodes[fpsmode]}'
-        render('text', text=fps_text, arg=((w - 120, 23), forepallete, 'center'), relative=(w - 107, of + 20, 120, 20))
-        render('text', text=f'{updatetime}ms', arg=((w - 120, 43), forepallete, 'center'), relative=(w - 107, of + 40, 120, 20))        #render('text',text='TICK:'+str(tick)+'/'+str(gametime//bpm)+'/'+str(gametime)+'/'+str(bpm),arg=((20, 43),forepallete))
+        render('rect', arg=((w-98, of+17, 110, 45), (fpscolour), False), borderradius=10)
+        render('text', text=f'{fps} fps', arg=((w - 120, 23), forepallete, 'center'), relative=(w - 107, of + 20, 120, 20))
+        render('text', text=f'{str(updatetime)}ms', arg=((w - 120, 43), forepallete, 'center'), relative=(w - 107, of + 40, 120, 20))        #render('text',text='TICK:'+str(tick)+'/'+str(gametime//bpm)+'/'+str(gametime)+'/'+str(bpm),arg=((20, 43),forepallete))
         #render('rect', arg=((5, 5, struct, 5), (0,255,0), False), borderradius=10)
-    x=0
-    for a in logbox[::-1][:10]:
-        if time.time()-a[1]>4:
-            logbox.remove(a)
-        render('rect', arg=((10, 10+(60*x), 150, 50), (20,20,20), False), borderradius=10)
-        render('text', text=a[0], arg=((0,0), forepallete, 'center'), relative=(10, 10+(60*x), 150, 50))
-        x+=1
+#    x=0
+#    for a in logbox[::-1][:10]:
+#        if time.time()-a[1]>4:
+#            logbox.remove(a)
+#        render('rect', arg=((10, 10+(60*x), 150, 50), (20,20,20), False), borderradius=10)
+#        render('text', text=a[0], arg=((0,0), forepallete, 'center'), relative=(10, 10+(60*x), 150, 50))
+#        x+=1
     #print((time.time()-gametime)/0.001)
-#    if activity in allowed:
-#        render('rect', arg=((posmouse[0]-10,posmouse[1]-10,20,20), (80,80,150), True),borderradius=10)
+    if activity in allowed:
+        render('rect', arg=((posmouse[0]-10,posmouse[1]-10,20,20), (102, 155, 212), True),borderradius=20)
 #    if not (posmouse[0],posmouse[1]) in crox:
 #        crox.append((posmouse[0],posmouse[1]))
-    pygame.display.update()
+    pygame.display.flip()
     drawtime=clock.tick(fpsmodes[fpsmode])/1000
     delta=drawtime
     #print(drawtime)
@@ -308,7 +308,6 @@ def loginwindow():
 
 # Start the Tkinter event loop
     parent.mainloop()
-username='aquapoki'
 
 if __name__  ==  "__main__":
     try:
@@ -318,9 +317,9 @@ if __name__  ==  "__main__":
         for a in modsen:
             greph.append(randint(1,2)-1)
         icons=[]
-        for a in os.listdir(datapath+'icons/'):
-            icons.append(pygame.image.load(datapath+'icons/'+a)) # Icons!
-        programIcon = pygame.image.load(resource_path(datapath+'icon.png'))
+        for a in os.listdir(syspath+'icons/'):
+            icons.append(pygame.image.load(syspath+'icons/'+a)) # Icons!
+        programIcon = pygame.image.load(resource_path(syspath+'icon.png'))
         threading.Thread(target=ondemand).start()
         #threading.Thread(target=loginwindow).start()
         while True:

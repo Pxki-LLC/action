@@ -12,23 +12,23 @@ def render(type, arg=(0, 0) ,  text='N/A', bordercolor=forepallete, borderradius
         relative=pygame.Rect(relative)
         if type == 'text':
             if "bold" in arg:
-                surf.blit(fonts[3].render(str(text),  True,  colour),  arg[0])
+                ftype=3
             elif "min" in arg:
-                surf.blit(fonts[1].render(str(text),  True,  colour),  arg[0])
+                ftype=1
             elif "grade" in arg:
-                if "center" in arg:
-                    tmp = fonts[2].render(str(text),  True,  colour)
-                    centertext = tmp.get_rect(center=relative.center)
-                    surf.blit(tmp,  centertext)
-                    grad2=True
-                else:
-                    surf.blit(fonts[2].render(str(text),  True,  colour),  arg[0])
-            elif not "center" in arg:
-                surf.blit(fonts[0].render(str(text),  True,  colour),  arg[0])
-            if "center" in arg and not grad2:
-                tmp = fonts[0].render(str(text),  True,  colour)
-                centertext = tmp.get_rect(center=relative.center)
-                surf.blit(tmp,  centertext)
+                ftype=2
+            else:
+                ftype=0
+            tmp = fonts[ftype].render(str(text),  True,  colour)
+            txtrect=tmp.get_rect()
+            if "center" in arg:
+                out = tmp.get_rect(center=relative.center)
+            else:
+                out=arg[0]
+            if "tooltip" in arg:
+                render('rect', arg=((out[0]-2,out[1]-2,txtrect[2]+4,txtrect[3]+4), (50,50,50), False),borderradius=5)
+            surf.blit(tmp,  out)
+            return tmp.get_rect()
         elif type == 'clear':
             screen.fill(arg)
         elif type == 'line':
@@ -37,7 +37,7 @@ def render(type, arg=(0, 0) ,  text='N/A', bordercolor=forepallete, borderradius
 #			print(arg[0][0], arg[0][1], arg[0][2], arg[0][3])
             pygame.draw.rect(surf, colour, (arg[0][0], arg[0][1], arg[0][2]-off, arg[0][3]-off), border_radius=borderradius)
             if arg[2]:
-                pygame.draw.rect(surf, bordercolor, (arg[0][0], arg[0][1], arg[0][2]-off, arg[0][3]-off), 2, border_radius=borderradius)
+                pygame.draw.rect(surf, bordercolor, (arg[0][0], arg[0][1], arg[0][2]-off, arg[0][3]-off), 1, border_radius=borderradius)
             ## This was for a "Wireframe" Like Square
 #            pygame.draw.rect(screen, (0, 255, 0), (arg[0][0], arg[0][1], arg[0][2], arg[0][3]), 1)
         elif type == 'header':
@@ -46,8 +46,11 @@ def render(type, arg=(0, 0) ,  text='N/A', bordercolor=forepallete, borderradius
         else:
             crash('Render unsupported Type')
     except Exception as error:
+        print(error)
+        exit()
         crash(str(error)+' (renderer)')
 def menu_draw(instruction, text=None,showicon=False,ishomemenu=False,ignoremove=False, istextbox=False, selected_button=0,enabled_button=[],enable_border=False, hidebutton=False,bigmode=False,startlimit=1,endlimit=None,styleid=1,isblade=False,icon=0):
+    global osam
     if endlimit==None:
         endlimit=len(instruction)
     elif endlimit>=len(instruction):
@@ -76,6 +79,11 @@ def menu_draw(instruction, text=None,showicon=False,ishomemenu=False,ignoremove=
             buttcolour = (buttonc[0]+10,buttonc[1]+10,buttonc[2]+10)
             if pygame.mouse.get_focused():
                 button=a
+                if osam!=button:
+                    osam=button
+                    pygame.mixer.Sound(samplepath+'hover.wav').play()
+            else:
+                osam=0
         else:
             buttcolour = buttonc
         b = (128, 255, 255)
@@ -122,7 +130,7 @@ def menu_draw(instruction, text=None,showicon=False,ishomemenu=False,ignoremove=
                         s=text[a-1].split('\n')
                         d=instruction[a-1][3]//len(s)
                         f=0
-                        for e in s:
+                        for e in s[::-1]:
                             render('text', text=e.rstrip(' '), arg=((0,0), tcol,'center'),relative=(instruction[a-1][0],instruction[a-1][1]-home+(d*f),instruction[a-1][2],d))
                             f+=1
     return button
@@ -136,3 +144,46 @@ def drawRhomboid(surf, color, x, y, width, height, offset, thickness=0):
         (x + width-offset, y + height), 
         (x-offset, y + height)]
     pygame.draw.polygon(surf, color, points, thickness)
+def fullscreenchk():
+    global w, h, w, h, screen, button_size_width, firstcom,tal,keymap,fonts,transa,keysize,logopos
+    reload=False
+    if not settingskeystore[0]:
+        if not firstcom:
+            w=800
+            h=600
+            screenw=w
+            screenh=h
+        else:
+            w=screen.get_width()
+            h=screen.get_height()
+
+    flags=pygame.RESIZABLE
+    bit=24
+    if settingskeystore[0]:
+        if not firstcom:
+            screen=pygame.display.set_mode((0, 0), pygame.FULLSCREEN|flags, bit)
+            reload=True
+    else:
+        if not firstcom:
+            screen=pygame.display.set_mode((w, h), flags, bit)
+            reload=True
+    if not firstcom:
+        firstcom=True
+        logopos=Tween(begin=h, 
+               end=-100, #-100?
+               duration=1000,
+               easing=Easing.CUBIC,
+               easing_mode=EasingMode.OUT)
+        logopos.start()
+    w=screen.get_width()
+    h=screen.get_height()
+    ins=1
+    if reload:
+        f=24
+        fonts = pygame.font.Font(fontname,  int(f//1.2)),pygame.font.Font(fontname,  f//2),pygame.font.Font(fontname,  f*2),pygame.font.Font(fontname,  int(f))
+        button_size_width=w//2
+    tal=25*(w/25)//len(bars)
+    keysize=30
+    scroll=h-30-keysize
+    #scroll=h//2
+    keymap=((w//2-(50*4),scroll,100,keysize),(w//2-(50*2),scroll,100,keysize),(w//2-(50*0),scroll,100,keysize),(w//2-(50*-2),scroll,100,keysize),)

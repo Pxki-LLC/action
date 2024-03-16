@@ -4,11 +4,14 @@ menupos=[]
 opacity=10
 bgdefaultcolour=(45,47,100)
 mainmenucolor=((47,75,107),(67,56,105))
+dcolour=(40,40,40) # default colour for top bar and blades~
+accounts=0
+osam=0
 for a in range(1,len(mtext)+1):
     menupos.extend([0])
 def mainmenu():
-    global debugmode, activity,beatnowmusic, totperf,totscore,msg
-    if activity==1 or activity==9:
+    global debugmode, activity,beatnowmusic, totperf,totscore,msg,menubutton,topbutton,accounts
+    if activity==1:
         mmenu=[]
         tmenu=[]
         #wid=90*(w//640)
@@ -20,9 +23,9 @@ def mainmenu():
             mmenu.append((w//2-(int(wid*(len(mtext)/2)))+(wid*(a-1)),h//2-75,wid,150))
         for a in range(1,len(toptext)+1):
             tmenu.append((w-((20*len(toptext[a-1]))*(a))+25,0,20*len(toptext[a-1]),wod))
-        render('rect', arg=((0,h//2-75,w,150), blend(opacity,bgcolour), False))
+        render('rect', arg=((0,h//2-75,w,150), dcolour, False))
         menubutton=menu_draw(mmenu, text=mtext,isblade=True,ishomemenu=True)
-        render('rect',arg=((0,0,w,45),blend(opacity,bgcolour),False))#,surf=surface[0])
+        render('rect',arg=((0,0,w,45),dcolour,False))#,surf=surface[0])
 #        for a in range(1,len(rankdiffc)+1):
 #            render('rect',arg=((0+(60*(a-1)),h-150,50,20),rankdiffc[a-1],False),borderradius=20)
 #        render('text', text=gametime/lastms, arg=((20,h-80), forepallete))
@@ -40,12 +43,13 @@ def mainmenu():
         tmp2=tmp
         tmp=(255*tmp,255*tmp,255*tmp)
         if len(p2)!=0:
-            render('text', text=p2[beatsel], arg=((20*(tmp2),10), tmp))
+            render('text', text=beattitle, arg=((20*(tmp2),10), tmp))
         else:
-            render('text', text='Add Songs!', arg=((20*(tmp2),10), tmp))
+            render('text', text='nothing...', arg=((20,10), (255,255,255)))
         topbutton=menu_draw(tmenu, text=toptext,isblade=True,ignoremove=True,ishomemenu=True)
         render('text', text='Note: you can get songs from osu.ppy.sh.', arg=((20,55), forepallete))
-        print_card(totperf,totscore,username,(w//2-150,h//2+120),totrank,home=True)
+        if not qlutaerror:
+            print_card(totperf,totscore,username,(w//2-150,h//2+120),totrank,home=True)
         if menunotice!='':
             render('rect',arg=((w//2-150,h//2-170,300,50),(bgdefaultcolour[0]+25,bgdefaultcolour[1]+25,bgdefaultcolour[2]+25),False),borderradius=10)
             render('text',text=menunotice,arg=((20, 20),(255,255,255),'center'),relative=(w//2-150,h//2-170,300,50))
@@ -75,52 +79,24 @@ def mainmenu():
                     b+=1
                     rank+=1
         #print_card(totperf//2,totscore//2,'MiXer',(340,60),2,isgrayed=1)
-        render('text', text=gamename+'/'+gameedition+' ('+str(gamever)+')', arg=((0,0), forepallete,'center'),relative=(w//2,h-30,0,0))
+        render('text', text=gamename+'/'+gameedition+' ('+str(gamever)+')', arg=((0,0), forepallete,'center'),relative=(w//2,h-35,0,0))
         if menubutton == 1:
-            msg='You have '+str(format(len(p2),','))+' Songs'
-        else:
-            msg=''
-        for event in pygame.event.get():
-            if event.type  ==  pygame.QUIT:
-                stopnow()
-            if event.type  ==  pygame.MOUSEBUTTONDOWN:
-                if menubutton  ==  1:
-                    transitionprep(3)
-                elif menubutton  ==  3:
-                    transitionprep(6)
-                elif menubutton  ==  4:
-                    stopnow()
-                elif menubutton  ==  5:
-                    transitionprep(8)
-                elif topbutton  ==  1:
-                    transitionprep(2)
-                elif topbutton  ==  2:
-                    if activity==9:
-                        transitionprep(1)
-                    else:
-                        transitionprep(9)
-
-            if event.type  ==  pygame.KEYDOWN:
-                if event.key  ==  pygame.K_MINUS:
-                    volchg(0)
-                if event.key  ==  pygame.K_EQUALS:
-                    volchg(1)
-                if event.key  ==  pygame.K_F5:
-                    if debugmode:
-                        debugmode = False
-                    else:
-                        debugmode = True
-                if event.key  ==  pygame.K_q or event.key  ==  pygame.K_ESCAPE:
-                    stopnow()
-        if activity==9:
-            render('rect', arg=((tmenu[1][0]-(350//2),tmenu[1][1]+55,350,250), (20,20,20), False),borderradius=10)
+            msg=' You have '+str(format(len(p2),','))+' Songs '
+        elif menubutton == 2:
+            msg='Time to make beatmaps!'
+        elif menubutton == 3:
+            msg='Browse our catalog'
+        elif menubutton == 4:
+            msg='See ya next time~'
+        if accounts:
+            render('rect', arg=((tmenu[1][0]-(350//2),tmenu[1][1]+55,350,230), dcolour, False),borderradius=10)
             render('text', text='Username', arg=((tmenu[1][0]+25-(350//2),tmenu[1][1]+65), (255,255,255)))
-            render('text', text='Username', arg=((tmenu[1][0]+25-(350//2),tmenu[1][1]+185), (255,255,255)))
-            render('text', text='shredda', arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+55,350,250//2))
-            render('text', text='Password', arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+55+125,350,250//2))
+            render('text', text=username, arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+55,350,230//2))
+            render('text', text='Password', arg=((tmenu[1][0]+25-(350//2),tmenu[1][1]+135), (255,255,255)))
+            render('text', text='Password', arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+125,350,230//2))
+            menu_draw(((tmenu[1][0]-(350//2)+20,tmenu[1][1]+225,140,50),(tmenu[1][0]-(350//2)+5+185,tmenu[1][1]+225,140,50)),text=['Sign in','Register'])
 
 
 #        render('rect', arg=((-10,150,350,60), (maxt(40,bgcolour),maxt(40,bgcolour),maxt(100,bgcolour)), False),borderradius=10)
 #        render('text', text='WILL CHANGE', arg=((25,155), (255,255,maxt(0,bgcolour)),'grade'))
-        screen.blit(surface[0],(0,0))
         song_progress()

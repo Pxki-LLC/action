@@ -1,6 +1,6 @@
 import pygame
 def beatmenu():
-    global activity,beatsel,beatnowmusic,menuback,cross,diffcon,hits,modshow,modsen,speedvel,scoremult,msg
+    global activity,beatsel,beatnowmusic,menuback,cross,diffcon,hits,modshow,mod,modsen,button,beatsel,speedvel,scoremult,msg,sysbutton,gobutton,go
     go=False
     if activity==3 or activity==7:
         screen.blit(background, (0, 0))
@@ -25,7 +25,7 @@ def beatmenu():
             crok=999
         else:
             crok=0
-        sysbuttonpos=(-10,h-50,100+menuback,40),(140,h-50+crok,100,40),
+        sysbuttonpos=(-10,h-60,100+menuback,60),(140,h-50+crok,100,40),
         if modshow:
             render('rect', arg=((0,h-200,500,43), blend(opacity,20), False),borderradius=10)
             render('rect', arg=((0,h-170,500,120), blend(opacity,0), False),borderradius=10)
@@ -49,12 +49,13 @@ def beatmenu():
         render('rect', arg=((0,h-60,w,60), blend(opacity,0), False))
 #        for systrocity in sysbuttonpos:
 #            render('rect', arg=((systrocity), (100,100,150), True),bordercolor=(80,80,100),borderradius=10)
-        gobutton=menu_draw(((w-125,h-80,120,70),),("->",),bigmode=True,styleid=1)
+        gobutton=menu_draw(((w-125,h-80+crok,120,70),),("->",),bigmode=True,styleid=1)
         sysbutton=menu_draw(sysbuttonpos,('Back','Mods'),styleid=1)
         render('rect',arg=((0,h-5,w,5),blend(-opacity,0),False))
-        render('rect',arg=((w//2-155,h-90,310,100),blend(-opacity,0),False),borderradius=10)
-        render('rect',arg=((w//2-150,h-75,300,75),blend(-opacity,0),False))
-        print_card(totperf,totscore,username,(w//2-150,h-85),totrank)
+        if not qlutaerror:
+            render('rect',arg=((w//2-155,h-90,310,100),blend(-opacity,0),False),borderradius=10)
+            render('rect',arg=((w//2-150,h-75,300,75),blend(-opacity,0),False))
+            print_card(totperf,totscore,username,(w//2-150,h-85),totrank)
 #        if ranktype and not ranktype==3:
 #            if not modshow:
 #                of=110
@@ -78,100 +79,6 @@ def beatmenu():
             if not menuback<=0:
                 menuback-=backspeed
         freeze=0
-        for event in pygame.event.get():
-            if event.type  ==  pygame.QUIT:
-                stopnow()
-            if event.type  ==  pygame.MOUSEBUTTONDOWN:
-                if event.button==1:
-                    if sysbutton  ==  1:
-                        if not activity==7:
-                            transitionprep(1)
-                        else:
-                            transitionprep(3)
-                    elif sysbutton == 2:
-                        modshow=not modshow
-                        print(modshow)
-                    else:
-                        if gobutton:        
-                            if not activity==7:
-                                if len(diff)>1:
-                                    transitionprep(7)
-                                else:
-                                    go=True
-                            else:
-                                go=True
-                        else:
-                            if mod:
-                                for a in range(1,len(modsen)+1):
-                                    if mod==a:
-                                        modsen[a-1]=not modsen[a-1]
-                                        reloadstats()
-                            else:
-                                if button:
-                                    if activity!=7:
-                                        if button-1!=beatsel:
-                                            beatnowmusic=1
-                                            beatsel=button-1
-                                            diffcon=0
-                                            cross[1]=0
-                                        else:
-                                            if not activity==7:
-                                                if len(diff)>1:
-                                                    transitionprep(7)
-                                                else:
-                                                    go=True
-                                            else:
-                                                go=True
-                                    else:
-                                        if button-1!=diffcon:
-                                            diffcon=button-1
-                                            reloadstats()
-                                        else:
-                                            go=True
-                elif event.button==4:
-                        if not activity==7:
-                            song_change(0)
-                        else:
-                            diff_change(0)
-                elif event.button==5:
-                        if not activity==7:
-                            song_change(1)
-                        else:
-                            diff_change(1)
-
-            if event.type  ==  pygame.KEYDOWN:
-                if event.key  ==  pygame.K_RETURN:
-                    if not activity==7:
-                        if len(diff)>1:
-                            transitionprep(7)
-                        else:
-                            go=True
-                    else:
-                        go=True
-                if event.key  ==  pygame.K_UP:
-                    if activity!=7:
-                        song_change(0)
-                    else:
-                        diff_change(0)
-                if event.key  ==  pygame.K_DOWN:
-                    if activity!=7:
-                        song_change(1)
-                    else:
-                        diff_change(1)
-                        
-                if event.key  ==  pygame.K_e:
-                    change_diff()
-                if event.key  ==  pygame.K_F5:
-
-                    if debugmode:
-                        debugmode = False
-                    else:
-                        debugmode = True
-                if event.key  ==  pygame.K_q or event.key  ==  pygame.K_ESCAPE:                    
-                    if not activity==7:
-                        transitionprep(1)
-                    else:
-                        transitionprep(3)
         tmp=0
         if maxperf>=1000:
             beatcol=rankdiffc[-1]
@@ -202,7 +109,8 @@ def beatmenu():
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],140+bgcolour,30), (beatcol[0]-20,beatcol[1]-20,beatcol[2]-20), False),borderradius=10)
             render('rect', arg=((diffpos[0],diffpos[1],140,30), beatcol, False),borderradius=10)
             render('text', text=beatname, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],140,30))
-    if go:
-        beatnowmusic=1
-        resetscore()
-        transitionprep(4)
+def preparemap():
+    global beatnowmusic
+    beatnowmusic=1
+    resetscore()
+    transitionprep(4)

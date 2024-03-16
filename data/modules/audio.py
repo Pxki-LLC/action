@@ -1,5 +1,11 @@
+def spectrum():
+    global bars
+    for a in range(1,len(bars)+1):
+        ral=random.randint(1,100)
+        bars[a-1]=ral
+        render('rect', arg=(((tal)*(a-1),h-ral,(tal),ral), (255,255,255), False),borderradius=10)
 def beatmapload():
-    global p2,p1,beatnowmusic,gc,gametime,beattitle,beatlist,objects,diffp,betaperf,reloaddatabase,maxperf,ranktype,diff,diffmode,pref,level,ismusic,bpm,realid,prestart,beatsel,tick,lastms,combotime,songoffset,metadata,beatmapid
+    global p2,p1,beatnowmusic,gc,gametime,beattitle,beatlist,objects,diffp,betaperf,reloaddatabase,maxperf,background,ranktype,diff,diffmode,pref,level,ismusic,bpm,realid,prestart,beatsel,tick,lastms,combotime,songoffset,metadata,beatmapid
     a=0
     p1=[]
     p2=[]
@@ -22,7 +28,10 @@ def beatmapload():
     if ismusic:
         #gametime=pygame.mixer.music.get_pos()
         gametime=((time.time()-gc)/0.001)*1
-        pygame.mixer.music.set_volume(volvisual*0.01)
+        pygame.mixer.music.set_volume((volvisual*0.01))
+    else:
+        background=pygame.Surface((0,0))
+#        pygame.mixer.music.set_volume(0)
         #pygame.mixer.music.set_pos(time.time()-gametime)
         #pass
 #        if gametime<0:
@@ -116,7 +125,7 @@ def beatmapload():
                             break
                         else:
                             beatmapid=None
-                    beattitle=p2[beatsel]+' ['+str(diffmode)+']'
+                    beattitle=p2[beatsel].replace('\n','-')+' ['+str(diffmode)+']'
                     threading.Thread(target=getstat).start()
 #                    else:
 #                        ranktype=

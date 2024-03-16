@@ -1,3 +1,4 @@
+fpsmodes=[30,60,120,240,480,1000]
 if os.path.isfile(datapath+'settings.db'):
     if not len(open(datapath+'settings.db').read().rstrip("\n").split("\n"))<4:
         settingskeystore=open(datapath+'settings.db').read().rstrip("\n").split("\n")
@@ -25,7 +26,7 @@ else:
     settingskeystore.append(0)
 
 def settingspage():
-    global settingskeystore, activity, screen, firstcom, change, fpsmode,totperf,totscore,msg,logotime
+    global settingskeystore, activity, screen, firstcom, change, fpsmode,totperf,totscore,msg,logotime,setbutton,sysbutton
     if activity==2:
         if change:
             tmp=open(datapath+'settings.db', 'w')
@@ -59,39 +60,3 @@ def settingspage():
             msg='Allows Skinning'
         elif setbutton == 5:
             msg='Enable Hitsounds'
-            
-        for event in pygame.event.get():
-            if event.type  ==  pygame.QUIT:
-                stopnow()
-            if event.type  ==  pygame.MOUSEBUTTONDOWN: 
-                if setbutton:
-                  change=True
-                if setbutton  ==  1:
-                    change=True
-                    if fpsmode<1:
-                        fpsmode=len(fpsmodes)-1
-                    else:
-                        fpsmode-=1
-                    settingskeystore[3]=fpsmode
-                elif setbutton == 2:
-                  settingskeystore[0] = not settingskeystore[0]
-                  firstcom=False
-                elif setbutton == 3:
-                  settingskeystore[1] = not settingskeystore[1]
-                elif setbutton == 4:
-                  settingskeystore[2] = not settingskeystore[2]
-                elif setbutton == 5:
-                  settingskeystore[4] = not settingskeystore[4]
-                elif setbutton == 6:
-                  transitionprep(99)
-                elif setbutton == 7:
-                  crash('This is a test')
-                elif setbutton == 8:
-                    transitionprep(0)
-                    logotime=time.time()
-                elif sysbutton:
-                    transitionprep(1)
-
-            if event.type  ==  pygame.KEYDOWN:
-                if event.key  ==  pygame.K_q:
-                    transitionprep(1)

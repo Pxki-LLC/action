@@ -187,13 +187,14 @@ def ondemand():
                     f=requests.get(apiurl+'api/setstatus?'+str(username)+'?playing?'+str(pre+str(beattitle)),headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
                     f=f.text
                     menunotice=requests.get(apiurl+'api/menunotice',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5).text
+                    qlutaerror=False
                 except Exception as err:
                     totperf=0
                     totscore=0
                     totrank=0
+                    menunotice='Server is Busy'
                     print(err)
                     #issigned=False
                     qlutaerror=True
             nettick=time.time()
-            qlutaerror=False
         time.sleep(1/5)

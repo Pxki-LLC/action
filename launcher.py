@@ -9,6 +9,8 @@ def maxt(t,o):
 def mint(t,o):
     if t-o<1:
         return 0
+    elif t+o>254:
+        return 255
     else:
         return t-o
 def stopnow():
@@ -41,34 +43,38 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
-datapath='./data/'
+datapath='./userdata/'
+syspath='./data/'
 modulepath='./data/modules/'
 forepallete=(255,255,255)
-fpsmodes=[30,60,120,1000]
 moduletime=time.time()
+#apiurl='http://10.1.1.2:8762/' # Internal Server
+apiurl='https://qlute.pxki.us.to/'
 if not "-devmode" in sys.argv:
     devmode=True # Bypasses the sha256sum Checks and open as Normal. Which would make players able to run the game with modified code that I didn't Verify yet.
 else:
     devmode=False # This is the Default
 for a in os.listdir(resource_path(modulepath)):
     try:
-        tmpr=open(resource_path(modulepath+a),'rb').read()
-        tmp=open(resource_path(modulepath+a)).read()
-        if not devmode:
-            url = "https://api.github.com/repos/pxkidoescoding/Qlute/contents/data/modules/"+str(a)
-            response = requests.get(url)
-            print(url)
-            sha = response.json()["sha"]
-            shalocal=hashlib.sha256(tmpr).hexdigest()
-            print(shalocal)
-        if not 'bootstrap.py' in a:
-            exec(tmp)
+        if not os.path.isdir(resource_path(modulepath+a)):
+            tmpr=open(resource_path(modulepath+a),'rb').read()
+            tmp=open(resource_path(modulepath+a)).read()
+            if not devmode:
+                url = "https://api.github.com/repos/pxkidoescoding/Qlute/contents/data/modules/"+str(a)
+                response = requests.get(url)
+                print(url)
+                sha = response.json()["sha"]
+                shalocal=hashlib.sha256(tmpr).hexdigest()
+                print(shalocal)
+            if not 'bootstrap.py' in a:
+                exec(tmp)
     except Exception as error:
         print(str(a),error)
         #print('File:'+str(a)+' is Not Verified, Skipping')
         exit()
+        os.remove(resource_path(modulepath+a))
 moduletime=time.time()-moduletime
 if os.path.isfile(modulepath+'bootstrap.py'):
-    exec(open(resource_path(modulepath+'bootstrap.py')).read())
+        exec(open(resource_path(modulepath+'bootstrap.py')).read())
 else:
     print('Bootstrap not Found')

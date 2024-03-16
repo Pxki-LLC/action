@@ -82,7 +82,7 @@ def game():
             tok=a.split(',')
             #if tok[2]==firstobject:
             block=temp-(int(tok[2]))+(h//2)
-            if block <=h+100 and block>=-40:
+            if (block <=h+100 and block>=-40 and not modsen[2]) or (block <=h+100 and block>=h//2 and modsen[2]):
                 if ob==0:
                     if not end*1000000 >=999000 and (modsen[0] and health>1):
                         health-=t1
@@ -158,8 +158,6 @@ def game():
                         combo=0
                         health-=t1
             stripetime=[]
-        if modsen[2]:
-            render('rect', arg=((0,0,w,h//2), playfield, False))
         
         if modsen[5]:
             players=1
@@ -200,48 +198,6 @@ def game():
         render('line',arg=((0,h-miss),(255,255,255),(w,h-miss)))
         render('text',text='pp - '+str(perf),arg=((20, 150),forepallete))
 #        render('text',text='Key Speed: '+str(keyspeed)+' ('+str(0)+'ms)',arg=((20, 70),forepallete))
-        for event in pygame.event.get():
-            if event.type  ==  pygame.QUIT:
-                stopnow()
-            if event.type  ==  pygame.KEYDOWN:
-                if event.key  ==  pygame.K_d:
-                    keys[0]=1
-                    keyslight[0]=time.time()
-                if event.key  ==  pygame.K_f:
-                    keys[1]=1
-                    keyslight[1]=time.time()
-                if event.key  ==  pygame.K_j:
-                    keys[2]=1
-                    keyslight[2]=time.time()
-                if event.key  ==  pygame.K_k:
-                    keys[3]=1
-                    keyslight[3]=time.time()
-#                if event.key  ==  pygame.K_e:
-#                    if keyspeed-1:
-#                        keyspeed-=1
-#                if event.key  ==  pygame.K_r:
-#                    keyspeed+=1
-                if event.key  ==  pygame.K_BACKQUOTE:
-                    beatnowmusic=1
-                    resetscore()
-                if event.key  ==  pygame.K_q or event.key  ==  pygame.K_ESCAPE:
-                    activity=3
-            if event.type  ==  pygame.KEYUP:
-                if event.key  ==  pygame.K_t:
-                    tip=0
-                if event.key  ==  pygame.K_d:
-                    keys[0]=0
-                if event.key  ==  pygame.K_f:
-                    keys[1]=0
-                if event.key  ==  pygame.K_j:
-                    keys[2]=0
-                if event.key  ==  pygame.K_k:
-                    keys[3]=0
-                if event.key  ==  pygame.K_F5:
-                    if debugmode:
-                        debugmode = False
-                    else:
-                        debugmode = True
         render('rect', arg=((w//2-200,5,400,10), (20,20,20), False),borderradius=10)
         #render('rect', arg=((w//2-200,50,((maxscore-score)/maxscore)*400,20), (255,0,0), True),borderradius=10)
         tmp=(health/100)*400
