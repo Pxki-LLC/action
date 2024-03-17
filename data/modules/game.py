@@ -5,7 +5,7 @@ def song_progress():
     render('rect', arg=((10,h-20,w-20,10), (50,50,50), False),borderradius=10)
     render('rect', arg=((10,h-20,slop*(w-20),10), (255,255,255), False),borderradius=10)
 def iscatched(block,isauto,ob,fir,id):
-    lean=(perfect,great,ok,miss)
+    lean=(perfect,great,ok,miss,20) # Last one is for Auto
     tick=0
     if ob==fir:
         agree=True
@@ -14,7 +14,7 @@ def iscatched(block,isauto,ob,fir,id):
     if block>=h-lean[3]:
         lastcall=True
         tick=3
-    elif block>=keymap[0][1]-lean[0] and block<=keymap[0][1]+keymap[0][3]+lean[0] and agree:
+    elif (block>=keymap[0][1]-lean[0] and block<=keymap[0][1]+keymap[0][3]+lean[0] and agree and not isauto) or (block>=keymap[0][1]-lean[4] and block<=keymap[0][1]+keymap[0][3]+lean[0] and agree and isauto):
         lastcall=True
         tick=0
     elif block>=keymap[0][1]-lean[1] and block<=keymap[0][1]+keymap[0][3]+lean[1] and not isauto and agree:
@@ -78,6 +78,16 @@ def game():
         hit=-1
         tip=1
         hidden=0
+        b=0
+        for a in unstablerate[::-1]:
+            if time.time()-a[0]>0.5:
+                unstablerate.remove(a)
+            if b>16:
+                break
+            else:
+                render('rect', arg=((keymap[3][0]+110,keymap[0][1]-50-(25*b),20*(1+b),20), hitcolour[a[1]], False))
+                render('rect', arg=((keymap[0][0]-30-(20*(b)),keymap[0][1]-50-(25*b),20*(b+1),20), hitcolour[a[1]], False))
+                b+=1
         for a in objects[objecon:maxobjec+objecon]:
             tok=a.split(',')
             #if tok[2]==firstobject:
@@ -185,6 +195,7 @@ def game():
         render('rect', arg=((w//2-200,19,401,61), (50,50,80), False),borderradius=20)
         render('text',text=format(int(end*1000000),','),arg=((20, 20),t,'grade','center'),relative=(w//2-200,22,400,60))
         render('text',text='Acc - '+str(accuracy)+'%',arg=((20, 170),forepallete,'center'),relative=(w//2-200,82,400,20))
+        get_mods((20,20))
         if combo!=0:
             kek=(keymap[0][0],100,400,100)
             comboo=str(format(int(combo),','))
@@ -218,16 +229,6 @@ def game():
           #  tim=temp-(int(tim[0]))+(h//2)
             #if tim <=h+100 and tim>=-40:
 #                render('rect', arg=((keymap[0][0]-keymap[0][2],tim,keymap[0][2]*6,5), (255,255,255), False),borderradius=20)
-        b=0
-        for a in unstablerate[::-1]:
-            if time.time()-a[0]>0.5:
-                unstablerate.remove(a)
-            if b>16:
-                break
-            else:
-                render('rect', arg=((keymap[3][0]+110,keymap[0][1]-50-(25*b),20*(1+b),20), hitcolour[a[1]], False))
-                render('rect', arg=((keymap[0][0]-30-(20*(b)),keymap[0][1]-50-(25*b),20*(b+1),20), hitcolour[a[1]], False))
-                b+=1
             
 #        tmp=end*400
 #        if tmp<0:

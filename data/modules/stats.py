@@ -49,7 +49,7 @@ def reloadstats():
     scoremult=1
     inc=0.5
     inf=0.1
-    perfect=30
+    perfect=80
     #perfect=60
     great=perfect*2
     ok=perfect*3

@@ -1,4 +1,17 @@
 import pygame
+modsalias="Auto",'Blind','Slice','EZ','Random','Multi'
+modsaliasab='AT','BD','SL','EZ','RND','MP'
+def get_mods(bpos):
+    b=0
+    tap=0
+    for a in modsaliasab:
+        if modsen[b]:
+            pos=(bpos[0]+(15*tap),bpos[1])
+            rec=icons[1].get_rect()
+            screen.blit(icons[1],pos)
+            render('text', text=a, arg=((0,0), (0,0,0),'center'),relative=(pos[0],pos[1],rec[2],rec[3]))
+            tap+=1
+        b+=1
 def beatmenu():
     global activity,beatsel,beatnowmusic,menuback,cross,diffcon,hits,modshow,mod,modsen,button,beatsel,speedvel,scoremult,msg,sysbutton,gobutton,go
     go=False
@@ -29,7 +42,7 @@ def beatmenu():
         if modshow:
             render('rect', arg=((0,h-200,500,43), blend(opacity,20), False),borderradius=10)
             render('rect', arg=((0,h-170,500,120), blend(opacity,0), False),borderradius=10)
-            mod=menu_draw(((20,h-160,90,40),(20,h-110,90,40),(130,h-160,90,40),(130,h-110,90,40),(230,h-160,90,40),(340,h-160,90,40)),("Auto",'Blinded','Slice','EZ','Random','Multi'),enabled_button=modsen)
+            mod=menu_draw(((20,h-160,90,40),(20,h-110,90,40),(130,h-160,90,40),(130,h-110,90,40),(230,h-160,90,40),(340,h-160,90,40)),(modsalias),enabled_button=modsen)
             render('text', text=str(scoremult)+'x', arg=((20,h-195), forepallete))
             if mod==1:
                 msg='view a "Perfect" play'
@@ -45,7 +58,7 @@ def beatmenu():
                 msg='Enable Leaderboard'
         else:
             mod=0
-            #mod=menu_draw(((20,h-160,80,40),),('Auto',),selected_button=modsen[0])
+            get_mods((150,h-110))
         render('rect', arg=((0,h-60,w,60), blend(opacity,0), False))
 #        for systrocity in sysbuttonpos:
 #            render('rect', arg=((systrocity), (100,100,150), True),bordercolor=(80,80,100),borderradius=10)

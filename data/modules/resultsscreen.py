@@ -47,12 +47,19 @@ def beatres():
             changed=[totrank-prevrank,totperf-oldstats[0],totscore-oldstats[1],totrank,totperf,totscore]
             for a in range(1,4):
                 #print(changed)
+                cha=(255, 155, 128),(186, 255, 171)
                 if changed[a-1]<0:
                     chap=''
-                    chac=(255, 155, 128)
+                    if a==1:
+                        chac=cha[1]
+                    else:
+                        chac=cha[0]
                 elif changed[a-1]>0:
                     chap='+'
-                    chac=(186, 255, 171)
+                    if a==1:
+                        chac=cha[0]
+                    else:
+                        chac=cha[1]
                 if changed[a-1]!=changed[2+a] and changed[a-1]!=0:
                     render('text', text=chap+str(format(changed[a-1],',')), arg=((0,0), chac,'center'),relative=(scrop[0]+150,scrop[1]+240+(30*(a-1)),scrop[2]+50,scrop[3]))
         else:
