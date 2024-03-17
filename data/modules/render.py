@@ -168,6 +168,8 @@ def fullscreenchk():
         if not firstcom:
             screen=pygame.display.set_mode((w, h), flags, bit)
             reload=True
+    w=screen.get_width()
+    h=screen.get_height()
     if not firstcom:
         firstcom=True
         logopos=Tween(begin=h, 
@@ -177,8 +179,6 @@ def fullscreenchk():
                easing_mode=EasingMode.OUT)
         bladeani=[Tween(begin=w, end=0,duration=500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),0]
         logopos.start()
-    w=screen.get_width()
-    h=screen.get_height()
     ins=1
     if reload:
         f=24
