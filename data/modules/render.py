@@ -137,6 +137,7 @@ def menu_draw(instruction, text=None,showicon=False,ishomemenu=False,ignoremove=
 def clear(color):screen.fill(color)
 def blend(opacity,bgcolour):
     return maxt(bgdefaultcolour[0]-opacity,bgcolour),maxt(bgdefaultcolour[1]-opacity,bgcolour),maxt(bgdefaultcolour[2]-opacity,bgcolour)
+
 def drawRhomboid(surf, color, x, y, width, height, offset, thickness=0):
     points = [
         (x + offset, y), 
@@ -145,7 +146,7 @@ def drawRhomboid(surf, color, x, y, width, height, offset, thickness=0):
         (x-offset, y + height)]
     pygame.draw.polygon(surf, color, points, thickness)
 def fullscreenchk():
-    global w, h, w, h, screen, button_size_width, firstcom,tal,keymap,fonts,transa,keysize,logopos
+    global w, h, w, h, screen, button_size_width, firstcom,tal,keymap,fonts,transa,keysize,logopos,bladeani
     reload=False
     if not settingskeystore[0]:
         if not firstcom:
@@ -174,6 +175,7 @@ def fullscreenchk():
                duration=1000,
                easing=Easing.CUBIC,
                easing_mode=EasingMode.OUT)
+        bladeani=[Tween(begin=w, end=0,duration=500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),0]
         logopos.start()
     w=screen.get_width()
     h=screen.get_height()

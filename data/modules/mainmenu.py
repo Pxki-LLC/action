@@ -10,8 +10,14 @@ osam=0
 for a in range(1,len(mtext)+1):
     menupos.extend([0])
 def mainmenu():
-    global debugmode, activity,beatnowmusic, totperf,totscore,msg,menubutton,topbutton,accounts
+    global debugmode, activity,beatnowmusic, totperf,totscore,msg,menubutton,topbutton,accounts,bladeani
+    if not bladeani[1] and activity==1:
+        bladeani[1]=1
+        bladeani[0].start()
+    elif activity!=1:
+        bladeani[1]=0
     if activity==1:
+        bladeani[0].update()
         mmenu=[]
         tmenu=[]
         #wid=90*(w//640)
@@ -20,10 +26,10 @@ def mainmenu():
         if wid>90*2:
             wid=90*2
         for a in range(1,len(mtext)+1):
-            mmenu.append((w//2-(int(wid*(len(mtext)/2)))+(wid*(a-1)),h//2-75,wid,150))
+            mmenu.append((bladeani[0].value+(w//2-(int(wid*(len(mtext)/2)))+(wid*(a-1))),h//2-75,wid,150))
         for a in range(1,len(toptext)+1):
             tmenu.append((w-((20*len(toptext[a-1]))*(a))+25,0,20*len(toptext[a-1]),wod))
-        render('rect', arg=((0,h//2-75,w,150), dcolour, False))
+        drawRhomboid(screen,dcolour,bladeani[0].value-25,h//2-76,w+50,150,26)
         menubutton=menu_draw(mmenu, text=mtext,isblade=True,ishomemenu=True)
         render('rect',arg=((0,0,w,45),dcolour,False))#,surf=surface[0])
 #        for a in range(1,len(rankdiffc)+1):

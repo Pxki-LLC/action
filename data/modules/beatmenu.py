@@ -104,7 +104,7 @@ def beatmenu():
             render('text', text=rankmodes[ranktype][0], arg=((popupw+20+hax,70), rankmodes[ranktype][1])) # Rank Type
             render('text', text=str(int(int(diffp[0][0])*perfbom*scoremult))+'-'+str(int(int(diffp[-1][0])*perfbom*scoremult))+'pp', arg=((popupw+20+hax,100), forepallete))
             render('text', text='BPM - '+str(int(60000/bpm)+1), arg=((popupw+20,70), forepallete))
-            render('text', text='Lv '+str(maxperf*0.123)[:4], arg=((popupw+20,135), forepallete))
+            render('text', text='Lv '+str(round(maxperf*0.123,2)), arg=((popupw+20,135), forepallete))
             render('text', text='Max pp - '+str(format(maxperf,',')), arg=((popupw+20,100), forepallete))
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],140+bgcolour,30), (beatcol[0]-20,beatcol[1]-20,beatcol[2]-20), False),borderradius=10)
             render('rect', arg=((diffpos[0],diffpos[1],140,30), beatcol, False),borderradius=10)

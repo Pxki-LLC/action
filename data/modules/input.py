@@ -4,6 +4,8 @@ def get_input():
         if event.type  ==  pygame.QUIT:
             stopnow()
         if event.type  ==  pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                pygame.mixer.Sound(samplepath+'click.wav').play()
             if activity==1:
                 if menubutton  ==  1:
                     transitionprep(3)

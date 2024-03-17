@@ -308,9 +308,19 @@ def loginwindow():
 
 # Start the Tkinter event loop
     parent.mainloop()
-
 if __name__  ==  "__main__":
     try:
+        if os.path.isfile(datapath+'devsettings'):
+            devset=open(datapath+'devsettings').read().split('\n')
+            for a in devset:
+                amp=a.split('=')
+                if a[0][0]!='#':
+                    if amp[0]=='apiurl':
+                        apiurl=amp[1]
+                    elif amp[0]=='username':
+                        username=amp[1]
+                    elif amp[0]=='vol':
+                        vol=int(amp[1])
         if prestart:
             logotime=time.time()
         greph=[]
