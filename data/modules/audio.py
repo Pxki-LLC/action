@@ -5,7 +5,7 @@ def spectrum():
         bars[a-1]=ral
         render('rect', arg=(((tal)*(a-1),h-ral,(tal),ral), (255,255,255), False),borderradius=10)
 def beatmapload():
-    global p2,p1,beatnowmusic,gc,gametime,beattitle,beatlist,objects,diffp,betaperf,reloaddatabase,maxperf,background,ranktype,diff,diffmode,pref,level,ismusic,bpm,realid,prestart,beatsel,tick,lastms,combotime,songoffset,metadata,beatmapid
+    global p2,p1,beatnowmusic,gc,gametime,beattitle,beatlist,objects,diffp,betaperf,reloaddatabase,maxperf,background,ranktype,diff,diffmode,pref,level,ismusic,bpm,realid,prestart,beatsel,tick,lastms,combotime,songoffset,metadata
     a=0
     p1=[]
     p2=[]
@@ -119,14 +119,6 @@ def beatmapload():
                     if betaperf>1500:
                         betaperf=1500
                     lastms=int(objects[-1].split(',')[2])
-                    for a in metadata:
-                        if 'BeatmapSetID' in a:
-                            beatmapid=int(a.replace('BeatmapSetID:',''))
-                            break
-                        else:
-                            beatmapid=None
-                    beattitle=p2[beatsel].replace('\n','-')+' ['+str(diffmode)+']'
-                    threading.Thread(target=getstat).start()
 #                    else:
 #                        ranktype=
             else:
@@ -143,10 +135,14 @@ def beatmapload():
         crash(str(error))
         song_change(1)
 def volchg(t):
-    global vol,voltime
+    global vol,voltime,volani
     voltime=time.time()+1
     step=5
     if vol<100 and t:
+        volani=Tween(begin=vol, end=vol+step,duration=250,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
+        volani.start()
         vol+=step
     elif vol>0 and not t:
-            vol-=step
+        volani=Tween(begin=vol, end=vol-step,duration=250,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
+        volani.start()
+        vol-=step

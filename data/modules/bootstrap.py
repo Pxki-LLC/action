@@ -209,8 +209,8 @@ def main():
     get_input()
     beatmapload()
     logo()
-    beatres()
     mainmenu()
+    beatres()
     settingspage()
     beatmenu()
     shopdirect()
@@ -218,32 +218,34 @@ def main():
     try:
         game()
     except Exception as error:
+        raise TypeError
         crash(error)
         activity=1
     if msg!='':
         tmp=(posmouse[0]+15,posmouse[1]+15,25,25)
         render('text',text=msg,arg=((tmp[0],tmp[1]),forepallete,'min','tooltip'))
         msg=''
-    transitionto()
+    render('rect', arg=(((w//2)*(1-((transani[0].value)*0.01)),(h//2)*(1-((transani[0].value)*0.01)),(w)*((transani[0].value)*0.01),h*((transani[0].value)*0.01)), (0,0,0), False))
+    if transani[1]:
+        transani[0].update()
+        if transani[0].value>99:
+            activity=actto
+        elif transani[0].value==0:
+            transani[1]=0
     #updateraw=(time.time()-update)/0.001
     #spectrum()
     if activity==1:
         of=35
     else:
         of=0
-    if int(volvisual)>int(vol):
-        volvisual-=volvismo
-        v=1
-    elif int(volvisual)<int(vol):
-        volvisual+=volvismo
+    volvisual=volani.value
+    if int(volvisual)>int(vol) or int(volvisual)<int(vol):
+        volani.update()
         v=1
     else:
         v=0
     if v:
         voltime=time.time()
-        volvismo+=1*(drawtime/15)
-    else:
-        volvismo=0
     if not int(time.time()-voltime)>1:
         volpos=(20, h//2-100, 20, 200)
         render('rect', arg=((-15,h//2-105,115,210), (60,60,100), False), borderradius=15)
