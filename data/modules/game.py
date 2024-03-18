@@ -223,7 +223,8 @@ def game():
 #        print(tim,reall)
         if reall>=int(float(tim[0])) and not fon:
 #            print(timestep,a)
-            timestep+=1
+            if not timestep+1>len(timings)-1:
+                timestep+=1
             if int(tim[7])==1:
                 kiai=1
             else:
