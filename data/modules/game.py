@@ -28,7 +28,7 @@ def iscatched(block,isauto,ob,fir,id):
     tim=block
     return (lastcall,tick,tim)
 def game():
-    global activity,debugmode,beatnowmusic,kiai,unstablerate,fpsmode,score,scorew,keyspeed,bgcolour,totperf,totscore,objecon,healthtime,health,ranking,oldupdatetime,t,tip,gametime,combo,sre,combotime,sre,hits,last,stripetime,tmp,pptime,pptmp,ppcounter,perf
+    global activity,timestep,debugmode,beatnowmusic,kiai,unstablerate,fpsmode,score,scorew,keyspeed,bgcolour,totperf,totscore,objecon,healthtime,health,ranking,oldupdatetime,t,tip,gametime,combo,sre,combotime,sre,hits,last,stripetime,tmp,pptime,pptmp,ppcounter,perf
     if activity==4:
         if bgcolour>=1:
             bgcolour-=1
@@ -207,7 +207,7 @@ def game():
         #render('text',text=h//2+reall-(int(objects[0].split(',')[2])),arg=((20, 80),forepallete))
         render('text',text=str(hits),arg=((20, 130),forepallete))
         render('line',arg=((0,h-miss),(255,255,255),(w,h-miss)))
-        render('text',text='pp - '+str(perf),arg=((20, 150),forepallete))
+        render('text',text=str(int(perf))+' PP',arg=((20, 150),forepallete))
 #        render('text',text='Key Speed: '+str(keyspeed)+' ('+str(0)+'ms)',arg=((20, 70),forepallete))
         render('rect', arg=((w//2-200,5,400,10), (20,20,20), False),borderradius=10)
         #render('rect', arg=((w//2-200,50,((maxscore-score)/maxscore)*400,20), (255,0,0), True),borderradius=10)
@@ -218,17 +218,20 @@ def game():
             tmp=400
         render('rect', arg=((w//2-200,5,tmp,10), (0,180,0), False),borderradius=10)
         fon=0
-        for a in timings[::-1]: # 7 == Kiai
-            tim=a.split(',')
-            if reall>=int(tim[0]) and not fon:
-                if int(tim[7])==1:
-                    kiai=1
-                else:
-                    kiai=0
-                fon=1
-          #  tim=temp-(int(tim[0]))+(h//2)
-            #if tim <=h+100 and tim>=-40:
-#                render('rect', arg=((keymap[0][0]-keymap[0][2],tim,keymap[0][2]*6,5), (255,255,255), False),borderradius=20)
+        #for a in timings[timestep]: # 7 == Kiai
+        tim=timings[timestep].split(',')
+#        print(tim,reall)
+        if reall>=int(float(tim[0])) and not fon:
+#            print(timestep,a)
+            timestep+=1
+            if int(tim[7])==1:
+                kiai=1
+            else:
+                kiai=0
+            fon=1
+        tim=temp-(int(float(tim[0])))+(h//2)
+        if tim <=h+100 and tim>=-40:
+            render('rect', arg=((keymap[0][0]-keymap[0][2],tim,keymap[0][2]*6,5), (255,255,255), False),borderradius=20)
             
 #        tmp=end*400
 #        if tmp<0:
@@ -244,9 +247,8 @@ def game():
             render('rect', arg=((0,h//2-50,w,100), (255,255,255), False))
             render('text',text='Loading...',arg=((20, 20),(0,0,0),'grade','center'),relative=(w//2-100,h//2-50,200,100))
             pygame.display.update()
-            print('Completed')
-            if 1==1:
-                submit_score(perf,combo,other=str(beatmapid)
+            submit_score(perf,combo,other=str(beatmapid)
+                             +';'+str(beatmapsetid) # BeatmapSet ID
                              +';'+str(hits[0])+';' # PERFECT / OUTRAGOUS
                              +str(hits[1])+';' #GREAT
                              +str(hits[2])+';' # OK
@@ -255,5 +257,5 @@ def game():
                              +str(scoremult)+';' # More Points yas
                              +str(maxperf)+';' # Max Points
                              +str(int(time.time()-timetaken)))
-            transitionprep(5)
+            activity=5
 

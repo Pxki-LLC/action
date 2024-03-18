@@ -1,7 +1,7 @@
 def bpmparse(bpm):
     return bpm.split(',')[1]
 def reloadstats():
-    global objects,difficulty,background,metadata,timings,level,bpm,songoffset,maxperf,scoremult,ismulti,perfect,great,ok,diffmode
+    global objects,difficulty,background,metadata,timings,level,bpm,songoffset,maxperf,scoremult,ismulti,beattitle,perfect,great,ok,diffmode,beatmapid,beatmapsetid
     diffmode=diff[diffcon][1]
     beatmap=open(gamepath+beatlist[beatsel]+'/'+pref+'['+diffmode+']'+'.osu').read().rstrip('\n').split('\n')
     objects=beatmap[beatmap.index('[HitObjects]')+1:]
@@ -37,6 +37,15 @@ def reloadstats():
 #            song_change(1)
     difficulty=difficulty[:difficulty.index('')]
     metadata=beatmap[beatmap.index('[Metadata]')+1:beatmap.index('[Difficulty]')-1]
+    beatmapid=None
+    beatmapsetid=None
+    for a in metadata:
+        if 'BeatmapID' in a:
+            beatmapid=int(a.replace('BeatmapID:',''))
+        elif 'BeatmapSetID' in a:
+            beatmapsetid=int(a.replace('BeatmapSetID:',''))
+    beattitle=p2[beatsel].replace('\n','-')+' ['+str(diffmode)+']'
+    threading.Thread(target=getstat).start()
     timingst=beatmap[beatmap.index('[TimingPoints]')+1:]
     timings=[]
     for a in timingst:
@@ -66,15 +75,14 @@ def getstat():
     global ranktype,getpoints
     #print('Loading...')
     try:
-            f = requests.get('https://api.chimu.moe/cheesegull/s/'+str(beatmapid),headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'},timeout=1)
-#            print(f.json())
-#            print(beatmapid)
+            f = requests.get('https://api.chimu.moe/cheesegull/s/'+str(beatmapsetid),headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'},timeout=3)
             f=f.json()['RankedStatus']
 #            print(f)
             ranktypetmp=int(f)
     except Exception as error:
         print(error,'(Returning as Unranked)')
         ranktypetmp=-99
+    #ranktypetmp=1
     getpoints=0
     #if id!=None:
 #        print(ranktypetmp)
@@ -89,11 +97,12 @@ def getstat():
         ranktype=1
         getpoints=0
 def resetscore():
-    global score,barclicked,prevrank,unstablerate,timetaken,perf,scorew,kiai,bgcolour,objecon,combo,sre,health,healthtime,combotime,hits,last,stripetime,ppcounter,pptime,pptmp,modshow,ranking,playboard
+    global score,barclicked,prevrank,timestep,unstablerate,timetaken,perf,scorew,kiai,bgcolour,objecon,combo,sre,health,healthtime,combotime,hits,last,stripetime,ppcounter,pptime,pptmp,modshow,ranking,playboard
     last=0
     prevrank=totrank
     unstablerate=[]
     playboard=[]
+    timestep=0
     healthtime=time.time()
     timetaken=time.time()
     combo=0
