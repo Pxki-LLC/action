@@ -1,5 +1,5 @@
 def get_input():
-    global keys,activity,modshow,gobutton,beatsel,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,activity,modshow,gobutton,replaymen,beatsel,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -20,7 +20,14 @@ def get_input():
                 elif topbutton  ==  2:
                     accounts=not accounts
             elif activity==0:
-                activity=1
+                transitionprep(1)
+            elif activity==5:
+                if butt:
+                    if replaymen:
+                        transitionprep(6)
+                        replaymen=not replaymen
+                    else:
+                        transitionprep(3)
             elif activity==2:
                 if setbutton:
                     change=True
@@ -57,7 +64,7 @@ def get_input():
                         if not activity==7:
                             transitionprep(1)
                         else:
-                            transitionprep(3)
+                            activity=3
                     elif sysbutton == 2:
                         modshow=not modshow
                         print(modshow)
@@ -65,7 +72,7 @@ def get_input():
                         if gobutton:        
                             if not activity==7:
                                 if len(diff)>1:
-                                    transitionprep(7)
+                                    activity=7
                                 else:
                                     preparemap()
                             else:
@@ -87,7 +94,7 @@ def get_input():
                                         else:
                                             if not activity==7:
                                                 if len(diff)>1:
-                                                    transitionprep(7)
+                                                    activity=7
                                                 else:
                                                     preparemap()
                                             else:
@@ -117,18 +124,18 @@ def get_input():
                 volchg(1)
             elif event.key  ==  pygame.K_q or event.key  ==  pygame.K_ESCAPE:
                 if activity==4:
-                    activity=3           
+                    transitionprep(3)           
                 elif not activity==7:
                     transitionprep(1)
                 elif activity==7:
-                    transitionprep(3)
+                    activity=3
                 elif not activity==1:
                     stopnow()
             if activity==7 or activity==3:
                 if event.key  ==  pygame.K_RETURN:
                     if not activity==7:
                         if len(diff)>1:
-                            transitionprep(7)
+                            activity=7
                         else:
                             preparemap()
                     else:
@@ -146,6 +153,13 @@ def get_input():
                         
                 if event.key  ==  pygame.K_e:
                     change_diff()    
+            elif activity==5:
+                if event.key == pygame.K_q:
+                    if replaymen:
+                        transitionprep(6)
+                        replaymen=not replaymen
+                    else:
+                        transitionprep(3)
             elif activity==4:
                 if event.key  ==  pygame.K_d:
                     keys[0]=1
