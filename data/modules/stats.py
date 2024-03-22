@@ -3,9 +3,10 @@ def bpmparse(bpm):
 def reloadstats():
     global objects,difficulty,background,metadata,timings,level,bpm,songoffset,maxperf,scoremult,ismulti,beattitle,perfect,great,ok,diffmode,beatmapid,beatmapsetid
     diffmode=diff[diffcon][1]
-    beatmap=open(gamepath+beatlist[beatsel]+'/'+pref+'['+diffmode+']'+'.osu').read().rstrip('\n').split('\n')
+    beatmap=open(gamepath+fullbeatmapname[beatsel]+'/'+pref+'['+diffmode+']'+'.osu').read().rstrip('\n').split('\n')
     objects=beatmap[beatmap.index('[HitObjects]')+1:]
     b=0
+    background=pygame.surface.Surface((0,0))
     if modsen[4]:
         print('RND MODE')
         lol=0
@@ -24,7 +25,7 @@ def reloadstats():
     if background[:3]=='0,0':
         background=background.split(',')[2].rstrip('"')[1:]
         b=0.50
-        background=pygame.image.load(gamepath+beatlist[beatsel]+'/'+background).convert_alpha()
+        background=pygame.image.load(gamepath+fullbeatmapname[beatsel]+'/'+background).convert_alpha()
         background=pygame.transform.scale(background, (w, h))
         background.fill((255*b, 255*b, 255*b,128), special_flags=pygame.BLEND_RGBA_MULT)
     difficulty=beatmap[beatmap.index('[Difficulty]')+1:]
@@ -140,7 +141,7 @@ def change_diff():
     else:
         diffcon=0
 def song_change(switch):
-    global beatsel,beatnowmusic,diffcon
+    global beatsel,beatnowmusic,diffcon,cross
     if not switch:
         if not beatsel-1<=-1:
             beatsel-=1
@@ -153,8 +154,9 @@ def song_change(switch):
             beatsel=0
     beatnowmusic=1
     diffcon=0
+    cross[1]=0
 def diff_change(switch):
-    global beatsel,beatnowmusic,diffcon
+    global beatsel,beatnowmusic,diffcon,diffani
     if not switch:
         if not diffcon-1<=-1:
             diffcon-=1
@@ -166,6 +168,8 @@ def diff_change(switch):
         else:
             diffcon=0
     reloadstats()
+    diffani=Tween(begin=cross[1], end=diffcon,duration=1500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
+    diffani.start()
 def get_rank(num):
     #crok=256*oneperf
     crok=oneperf/2

@@ -1,5 +1,5 @@
 def get_input():
-    global keys,activity,modshow,gobutton,replaymen,beatsel,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,activity,modshow,gobutton,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -90,7 +90,6 @@ def get_input():
                                             beatnowmusic=1
                                             beatsel=button-1
                                             diffcon=0
-                                            cross[1]=0
                                         else:
                                             if not activity==7:
                                                 if len(diff)>1:
@@ -102,6 +101,8 @@ def get_input():
                                     else:
                                         if button-1!=diffcon:
                                             diffcon=button-1
+                                            diffani=Tween(begin=cross[1], end=diffcon,duration=1500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
+                                            diffani.start()
                                             reloadstats()
                                         else:
                                             preparemap()
@@ -140,6 +141,11 @@ def get_input():
                             preparemap()
                     else:
                         preparemap()
+                if activity==3:
+                    if event.key == pygame.K_F2:
+                        if len(fullbeatmapname)!=0:
+                            beatsel=random.randint(1,len(fullbeatmapname))-1
+                            beatnowmusic=1
                 if event.key  ==  pygame.K_UP:
                     if activity!=7:
                         song_change(0)

@@ -13,10 +13,16 @@ def get_mods(bpos):
             tap+=1
         b+=1
 def beatmenu():
-    global activity,beatsel,beatnowmusic,menuback,cross,diffcon,hits,modshow,mod,modsen,button,beatsel,speedvel,scoremult,msg,sysbutton,gobutton,go
+    global activity,beatsel,beatnowmusic,background,menuback,cross,diffcon,hits,modshow,mod,modsen,button,beatsel,speedvel,scoremult,msg,sysbutton,gobutton,go
     go=False
     if activity==3 or activity==7:
-        screen.blit(background, (0, 0))
+        beatani.update()
+        diffani.update()
+        try:
+            if background:
+                screen.blit(background, (0, 0))
+        except Exception:
+            background=0
         a=0
         tmp=(h//60)//2
         if activity==7:
@@ -26,14 +32,14 @@ def beatmenu():
             bp2=[]
             a=0
             for b in diff:
-                bp1.append(((w//2-(cardsize//2)-((size+5)*cross[1])+((size+5)*(a)),(h//2-size)-((size+5)*cross[1])+((size+5)*(a)),cardsize,size)))
+                bp1.append(((w//2-(cardsize//2),(h//2-size)-((size+5)*cross[1])+((size+5)*(a)),cardsize,size)))
                 bp2.append(str(b[1]))
                 a+=1
             button=menu_draw(bp1,bp2,selected_button=sel+1,startlimit=int(cross[1])-tmp+1,endlimit=int(cross[1])+tmp,styleid=1)
         else:
             soup=0
             sel=beatsel
-            button=menu_draw(p1,p2,selected_button=sel+1,startlimit=int(cross[0])-tmp-1,endlimit=int(cross[0])+tmp+2,styleid=1)
+            button=menu_draw(p1,p2,beatmenu=True,selected_button=sel+1,startlimit=int(cross[0])-tmp-1,endlimit=int(cross[0])+tmp+2,styleid=1)
         if len(p2)==0:
             crok=999
         else:
@@ -76,15 +82,8 @@ def beatmenu():
 #                of=0
 #            render('rect', arg=((40,h-200+of,250,25), blend(opacity//2,0), False),borderradius=5)
 #            render('text', text='You will not earn Points', arg=((0,0), forepallete,"center"),relative=(40,h-200+of,250,25))
-        speed=speedvel[soup]
-        if cross[soup]>sel-0.01 and cross[soup]>sel+0.01:
-            cross[soup]-=speed
-            speedvel[soup]+=0.1*drawtime
-        elif int(round(cross[soup]))<sel:
-            cross[soup]+=speed
-            speedvel[soup]+=0.1*drawtime
-        else:
-            speedvel[soup]=0
+        cross[0]=beatani.value
+        cross[1]=diffani.value
         if sysbutton==1:
             if not menuback>=30:
                 menuback+=backspeed

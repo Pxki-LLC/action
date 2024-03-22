@@ -5,26 +5,24 @@ def spectrum():
         bars[a-1]=ral
         render('rect', arg=(((tal)*(a-1),h-ral,(tal),ral), (255,255,255), False),borderradius=10)
 def beatmapload():
-    global p2,p1,beatnowmusic,gc,gametime,beattitle,beatlist,objects,diffp,betaperf,reloaddatabase,maxperf,background,ranktype,diff,diffmode,pref,level,ismusic,bpm,realid,prestart,beatsel,tick,lastms,combotime,songoffset,metadata
-    a=0
-    p1=[]
-    p2=[]
-    size=65
+    global p2,p1,beatnowmusic,gc,gametime,beatani,diffani,beattitle,fullbeatmapname,objects,diffp,betaperf,reloaddatabase,maxperf,background,ranktype,diff,diffmode,pref,level,ismusic,bpm,realid,prestart,beatsel,tick,lastms,combotime,songoffset,metadata
     if reloaddatabase:
-        beatlist=[tmp for tmp in os.listdir(gamepath)]
+        p1=[]
+        p2=[]
+        fullbeatmapname=[]
         reloaddatabase=0
-    if prestart:
-        if len(beatlist)!=0:
-            beatsel=random.randint(1,len(beatlist))-1
-        prestart=0
-    for b in beatlist:
+        for b in os.listdir(gamepath):
 #        tmp.append(str(b))
-        try:
-            p1.append(((w//2-(cardsize//2)-((size+5)*cross[0])+((size+5)*(a)),(h//2-size)-((size+5)*cross[0])+((size+5)*(a)),cardsize,size)))
-            p2.append(str(b)[str(b).index(' ')+1:].replace('-','\n'))
-        except Exception:
-            pass
-        a+=1
+            try:
+                p1.append((((cardsize//2),(size),cardsize,size)))
+                p2.append(str(b)[str(b).index(' ')+1:])
+                fullbeatmapname.append(b)
+            except Exception:
+                pass
+    if prestart:
+        if len(fullbeatmapname)!=0:
+            beatsel=random.randint(1,len(fullbeatmapname))-1
+        prestart=0
     if ismusic:
         #gametime=pygame.mixer.music.get_pos()
         gametime=((time.time()-gc)/0.001)*1
@@ -39,6 +37,11 @@ def beatmapload():
         #pygame.mixer.music.play(-1,(time.time()-gametime))
     try:
         if beatnowmusic:
+            beatani=Tween(begin=cross[0], end=beatsel,duration=1500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
+            beatani.start()
+            diffani=Tween(begin=0, end=1,duration=1,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
+            diffani.start()
+            print(fullbeatmapname[beatsel],p2[beatsel])
             gc=time.time()
             ranktype=3
             gametime=0
@@ -50,10 +53,10 @@ def beatmapload():
     #        else:
     #            wait=int(time.time())
             ismusic=False
-            if len(beatlist)!=0:
+            if len(fullbeatmapname)!=0:
                 aga=0
-                if os.path.isdir(gamepath+beatlist[beatsel]):
-                    ah=os.listdir(gamepath+beatlist[beatsel])
+                if os.path.isdir(gamepath+fullbeatmapname[beatsel]):
+                    ah=os.listdir(gamepath+fullbeatmapname[beatsel])
                     for bop in ah:
                         if bop.endswith('.mp3') or bop.endswith('.ogg'):
                             music=bop
@@ -65,7 +68,7 @@ def beatmapload():
                 #if not int(time.time()-wait)<=-1:
                 if 1==1:
                     beatnowmusic=0
-                    realid=beatlist[beatsel]
+                    realid=fullbeatmapname[beatsel]
                     diff=[]
                     pref=''
                     if activity in allowed:
@@ -83,7 +86,7 @@ def beatmapload():
                             pref=pref[:pref.index('[')]
                     diffp=[]
                     for difftmp in diff:
-                        beatmap=open(gamepath+beatlist[beatsel]+'/'+pref+'['+difftmp+']'+'.osu').read().rstrip('\n').split('\n')
+                        beatmap=open(gamepath+fullbeatmapname[beatsel]+'/'+pref+'['+difftmp+']'+'.osu').read().rstrip('\n').split('\n')
                         general=beatmap[beatmap.index('[General]')+1:]
                         general=general[:general.index("")]
                         for a in general:
@@ -98,7 +101,7 @@ def beatmapload():
                     diffp=sorted(diffp, key=lambda x: x[0])
                     diff=diffp
 #                    print(diffp)
-                    pygame.mixer.music.load(gamepath+beatlist[beatsel]+'/'+music)
+                    pygame.mixer.music.load(gamepath+fullbeatmapname[beatsel]+'/'+music)
                     pygame.mixer.music.play(-1)
                     #print(ids)
                     gametime=pygame.mixer.music.get_pos()
@@ -132,7 +135,6 @@ def beatmapload():
 #            sys.exit()
     except Exception as error:
         print('Could not load Song: '+str(error))
-        crash(str(error))
         song_change(1)
 def volchg(t):
     global vol,voltime,volani

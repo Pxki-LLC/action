@@ -43,7 +43,7 @@ def game():
         #    pygame.mixer.music.play(-1,0)
 
         b=0
-        perf=(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3))-(hits[3]*(perfbom*2)))*scoremult)
+        perf=(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3)))*scoremult)-(hits[3]*(perfbom*2))
         accuracy=((maxperf-(hits[1]*(perfbom/2))-(hits[2]*(perfbom/3))-(hits[3]*(perfbom*2)))/maxperf)*100
         #accuracy=100
         if int(maxperf)!=0:
@@ -207,7 +207,7 @@ def game():
         #render('text',text=h//2+reall-(int(objects[0].split(',')[2])),arg=((20, 80),forepallete))
         render('text',text=str(hits),arg=((20, 130),forepallete))
         render('line',arg=((0,h-miss),(255,255,255),(w,h-miss)))
-        render('text',text=str(int(perf))+' PP',arg=((20, 150),forepallete))
+        render('text',text=format(int(perf),',')+' PP',arg=((20, 150),forepallete))
 #        render('text',text='Key Speed: '+str(keyspeed)+' ('+str(0)+'ms)',arg=((20, 70),forepallete))
         render('rect', arg=((w//2-200,5,400,10), (20,20,20), False),borderradius=10)
         #render('rect', arg=((w//2-200,50,((maxscore-score)/maxscore)*400,20), (255,0,0), True),borderradius=10)
