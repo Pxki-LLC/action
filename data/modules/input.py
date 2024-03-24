@@ -46,10 +46,12 @@ def get_input():
                 elif setbutton == 5:
                   settingskeystore[4] = not settingskeystore[4]
                 elif setbutton == 6:
-                  transitionprep(99)
+                  settingskeystore[5] = not settingskeystore[5]
                 elif setbutton == 7:
-                  crash('This is a test')
+                  transitionprep(99)
                 elif setbutton == 8:
+                  crash('This is a test')
+                elif setbutton == 9:
                     transitionprep(0)
                     logotime=time.time()
                 elif sysbutton:

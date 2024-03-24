@@ -1,6 +1,6 @@
 import pygame
-modsalias="Auto",'Blind','Slice','EZ','Random','Multi'
-modsaliasab='AT','BD','SL','EZ','RND','MP'
+modsalias="Auto",'Blind','Slice','EZ','Random'
+modsaliasab='AT','BD','SL','EZ','RND'
 def get_mods(bpos):
     b=0
     tap=0
@@ -48,7 +48,8 @@ def beatmenu():
         if modshow:
             render('rect', arg=((0,h-200,500,43), blend(opacity,20), False),borderradius=10)
             render('rect', arg=((0,h-170,500,120), blend(opacity,0), False),borderradius=10)
-            mod=menu_draw(((20,h-160,90,40),(20,h-110,90,40),(130,h-160,90,40),(130,h-110,90,40),(230,h-160,90,40),(340,h-160,90,40)),(modsalias),enabled_button=modsen)
+            #(340,h-160,90,40) ~ Placeholder
+            mod=menu_draw(((20,h-160,90,40),(20,h-110,90,40),(130,h-160,90,40),(130,h-110,90,40),(230,h-160,90,40)),(modsalias),enabled_button=modsen)
             render('text', text=str(scoremult)+'x', arg=((20,h-195), forepallete))
             if mod==1:
                 msg='view a "Perfect" play'

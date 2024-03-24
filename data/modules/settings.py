@@ -5,8 +5,7 @@ if os.path.isfile(datapath+'settings.db'):
         for a in range(len(settingskeystore)):
             if settingskeystore[a].isdigit() or settingskeystore[a] == 'True' or settingskeystore[a] == 'False':
               settingskeystore[a]=eval(settingskeystore[a])
-        print(settingskeystore)
-        if len(settingskeystore) >= 4 and str(settingskeystore[3]).isdigit():
+        if len(settingskeystore) >= 6 and str(settingskeystore[3]).isdigit():
             if int(settingskeystore[3]) in fpsmodes:
                 fpsmode=int(settingskeystore[3])
                 print('FPS set to '+str(fpsmodes[fpsmode]))
@@ -17,11 +16,11 @@ if os.path.isfile(datapath+'settings.db'):
                 print('FPS '+str(settingskeystore[3])+' is not valid,  set back to 60 (Normal)')
                 fpsmode=1
         else:
-            for a in range(1,len(settingskeystore)+1):
-                settingskeystore.append(0)
+            for a in range(len(settingskeystore),len(settingskeystore)+1):
+                settingskeystore.append(False)
 else:
     settingskeystore=[]
-    for a in range(1, 5):
+    for a in range(1, 6):
         settingskeystore.append(False)
     settingskeystore.append(0)
 
@@ -41,7 +40,7 @@ def settingspage():
             tmp='Unlimited'
         render('header')
         render('text', text=gamename + ' - Options', arg=(offset, forepallete))
-        setuplist=['FPS: '+tmp,'Fullscreen: '+str(settingskeystore[0]),'Effects: '+str(not settingskeystore[1]),'Allow Skins: '+str(settingskeystore[2]),'Hitsounds: '+str(settingskeystore[4]),'Debug Info','Crash Test']
+        setuplist=['FPS: '+tmp,'Fullscreen: '+str(settingskeystore[0]),'Effects: '+str(not settingskeystore[1]),'Allow Skins: '+str(settingskeystore[2]),'Hitsounds: '+str(settingskeystore[4]),'Leaderboards: '+str(settingskeystore[5]),'Debug Info','Crash Test']
         setuplistpos=[]
 #        for a in range(1,6):
 #            setuplist.append('Unknown')
@@ -60,3 +59,5 @@ def settingspage():
             msg='Allows Skinning'
         elif setbutton == 5:
             msg='Enable Hitsounds'
+        elif setbutton == 6:
+            msg='Enable Leaderboards'

@@ -170,20 +170,23 @@ def game():
                         health-=t1
             stripetime=[]
         
-        if modsen[5] and len(leaderboard)>0:
+        if settingskeystore[5] and len(leaderboard)>0:
             players=1
             t=1
-            current={'username': username,'score': score,'points': perf}
+            current={'username': username,'score': score,'points': perf,'current': True}
             tmpl = leaderboard + [current]
             ranking=51
             #playboard[len(playboard)-1]=(username,(255,255,0),int(end*1000000))
             for tmp in sorted(tmpl, key=lambda x: x['points'],reverse=True):
-                if tmp['username']==username:
-                    pcolor=(50,50,150)
-                    pcol=(255,255,0)
+                if tmp['username']==username and "current" in tmp:
+                    pcolor=blend(opacity,50)
+                    pcol=(252, 255, 166)
+                elif tmp['username']==username:
+                    pcolor=blend(opacity,20)
+                    pcol=(166, 207, 255)
                 else:
                     pcol=forepallete
-                    pcolor=(50,50,100)
+                    pcolor=blend(opacity,20)
                 if tmp['username']==username:
                     ranking=players
                 if players<4 or players==ranking:
