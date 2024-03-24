@@ -122,6 +122,44 @@ def beatmenu():
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],140+bgcolour,30), (beatcol[0]-20,beatcol[1]-20,beatcol[2]-20), False),borderradius=10)
             render('rect', arg=((diffpos[0],diffpos[1],140,30), beatcol, False),borderradius=10)
             render('text', text=beatname, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],140,30))
+            if len(leaderboard)>0:
+                c=0
+                render('rect', arg=((-10,(h//4),265,h//2), blend(opacity,25), False),borderradius=10)
+                render('rect', arg=((-10,(h//4),250,h//2), blend(opacity,0), False),borderradius=10)
+                for a in leaderboard[:5]:
+                    if a['username']==username:
+                        col=166, 207, 255
+                    else:
+                        col=forepallete
+                    leadpos=(10,(10+h//4)+(60*c),220,50)
+                    render('rect', arg=(leadpos, blend(opacity,50), False),borderradius=10)
+                    render('text', text=str('#'+str(c+1)+' '+a["username"]), arg=((17,leadpos[1]+5), col))
+                    render('text', text=str(format(int(a['score']),','))+' - '+str(int(a["points"]))+'pp ('+str(int(a['combo']))+'x) '+timeform(int(time.time()-a['time'])), arg=((17,leadpos[1]+28), col,'min'))
+#                    render('text', text=, arg=((17,leadpos[1]+28), col,'min'))
+                    #(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3)))*scoremult)-(hits[3]*(perfbom*2))
+                    c+=1
+def timeform(t):
+    if t==None:
+        return 'Never Played'
+    if t>=31536000:
+        x=int(t//31536000)
+        fix='yr'
+    elif t>=2630000:
+        fix='m'
+        x=int(t//2630000)
+    elif t>=86400:
+        x=int(t//86400)
+        fix='d'
+    elif t>=3600:
+        x=int(t//3600)
+        fix='h'
+    elif t>=60:
+        x=int(t//60)
+        fix='m'
+    elif t<60:
+        x=int(t)
+        fix='s'
+    return str(x)+fix
 def preparemap():
     global beatnowmusic
     beatnowmusic=1

@@ -1,3 +1,4 @@
+import requests
 def bpmparse(bpm):
     return bpm.split(',')[1]
 def reloadstats():
@@ -73,8 +74,9 @@ def reloadstats():
             scoremult-=inc
     maxperf=int(len(objects)*perfbom*scoremult)
 def getstat():
-    global ranktype,getpoints
+    global ranktype,getpoints,leaderboard
     #print('Loading...')
+    leaderboard=[]
     try:
             f = requests.get('https://api.chimu.moe/cheesegull/s/'+str(beatmapsetid),headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'},timeout=3)
             f=f.json()['RankedStatus']
@@ -83,6 +85,14 @@ def getstat():
     except Exception as error:
         print(error,'(Returning as Unranked)')
         ranktypetmp=-99
+    f=requests.get(apiurl+'api/getleaderboard?'+str(beatmapid))
+    leaderboard=f.json()
+#    if len(leaderboard)>0:
+#        print(f.json(),'> Leaderboard')
+#    else:
+#        print('No Leaderboard')
+#    for a in leaderboard:
+#        print(a)
     #ranktypetmp=1
     getpoints=0
     #if id!=None:
@@ -98,26 +108,15 @@ def getstat():
         ranktype=1
         getpoints=0
 def resetscore():
-    global score,barclicked,prevrank,timestep,unstablerate,timetaken,perf,scorew,kiai,bgcolour,objecon,combo,sre,health,healthtime,combotime,hits,last,stripetime,ppcounter,pptime,pptmp,modshow,ranking,playboard
+    global score,barclicked,prevrank,timestep,unstablerate,timetaken,perf,scorew,kiai,bgcolour,objecon,combo,sre,health,healthtime,combotime,hits,last,stripetime,ppcounter,pptime,pptmp,modshow,ranking
     last=0
     prevrank=totrank
     unstablerate=[]
-    playboard=[]
     timestep=0
     healthtime=time.time()
     timetaken=time.time()
     combo=0
     kiai=0
-    for players in range(1,maxplay+2):
-        if players==maxplay-1:
-                pass
-                #playboard.append((username,(255,255,0),int((perf/maxperf)*1000000)))
-                #print(players)
-#                   render('text',text='#'+str(players)+' '+username,arg=((20, 70+(50*(players-1))),(255,255,0)))
-#                   render('text',text=int((perf/maxperf)*1000000),arg=((20, 95+(50*(players-1))),(255,255,0),'min'))
-        else:
-            playboard.append(('DevUser #'+str(players),forepallete,(randint(1,1234567))))
-    ranking=51
     health=100
     stripetime=[]
     objecon=0

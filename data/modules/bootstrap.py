@@ -143,8 +143,15 @@ countersp=0
 #    logbox.append((txt,time.time()))
 drawtime=0.0000001
 kiai=0
+notemsg=['','']
+noteani=[Tween(begin=0, end=100,duration=150,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
+def notification(title,desc=''):
+    global noteani,notemsg
+    notemsg=[title,desc]
+    noteani=[Tween(begin=0, end=100,duration=150,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
+    noteani[0].start()
 def main():
-    global fps, activity,oneperf,voltime,delta,volvisual,volvismo,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
+    global fps, activity,oneperf,noteani,voltime,delta,volvisual,volvismo,notemsg,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
     if gameedition!=gameeditions[0]:
         gs='/'+gameedition
     else:
@@ -167,6 +174,7 @@ def main():
         sa=time.time()
         fps=int(clock.get_fps())
     allowed=[0,1,2,3,5,6,7,8,99,9]
+    upd=time.time()
     fullscreenchk()
     size=60
     scale=(w/400)
@@ -221,6 +229,22 @@ def main():
         raise TypeError
         crash(error)
         activity=1
+    if not notemsg[0]=='':
+        notepos=w//2-100,((noteani[0].value/100)*120)-100,200,100
+        render('rect', arg=(notepos, (60,60,60), False), borderradius=15)
+        render('text', arg=((0,0), forepallete, False,'center'),text=notemsg[0],relative=(notepos[0],notepos[1]+15,notepos[2],10))
+        render('text', arg=((0,0), forepallete, False,'center','min'),text=notemsg[1],relative=(notepos[0],notepos[1]+20,notepos[2],notepos[3]-20))
+        if noteani[0].value==100 and not noteani[1]:
+            if noteani[1]==0:
+                noteani[1]=time.time()
+            noteani[0].pause()
+        elif noteani[1]!=0 and time.time()-noteani[1]>3:
+            noteani[0].resume()
+            if noteani[0].value==0:
+                noteani[0].pause()
+                notemsg=['','']
+                noteani[1]=0
+    noteani[0].update()
     if msg!='':
         tmp=(posmouse[0]+15,posmouse[1]+15,25,25)
         render('text',text=msg,arg=((tmp[0],tmp[1]),forepallete,'min','tooltip'))
@@ -253,14 +277,14 @@ def main():
         render('rect', arg=((volpos[0],volpos[1]+1+volpos[3]-((volvisual*0.01)*volpos[3]),volpos[2],(volvisual*0.01)*volpos[3]), (168*(volvisual*0.01), 232*(volvisual*0.01), 255*(volvisual*0.01)), False), borderradius=15)
         render('text',text=str(int(volvisual))+'%',arg=((0,0),forepallete,'center'),relative=(volpos[0]+50,volpos[1],0,volpos[3]))
     if debugmode:
-        updatetime=float((delta)/0.001)
+        updatetime=(time.time()-upd)/0.001
         if updatetime>=10:
             fpscolour=(150,50,50)
         else:
             fpscolour=(50,150,50)
         render('rect', arg=((w-98, of+17, 110, 45), (fpscolour), False), borderradius=10)
         render('text', text=f'{fps} fps', arg=((w - 120, 23), forepallete, 'center'), relative=(w - 107, of + 20, 120, 20))
-        render('text', text=f'{str(updatetime)}ms', arg=((w - 120, 43), forepallete, 'center'), relative=(w - 107, of + 40, 120, 20))        #render('text',text='TICK:'+str(tick)+'/'+str(gametime//bpm)+'/'+str(gametime)+'/'+str(bpm),arg=((20, 43),forepallete))
+        render('text', text=f'{str(round(updatetime,2))}ms', arg=((w - 120, 43), forepallete, 'center'), relative=(w - 107, of + 40, 120, 20))        #render('text',text='TICK:'+str(tick)+'/'+str(gametime//bpm)+'/'+str(gametime)+'/'+str(bpm),arg=((20, 43),forepallete))
         #render('rect', arg=((5, 5, struct, 5), (0,255,0), False), borderradius=10)
 #    x=0
 #    for a in logbox[::-1][:10]:

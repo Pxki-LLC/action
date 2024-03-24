@@ -63,6 +63,7 @@ def game():
             t1=maxt1
         reall=int(gametime)
         ob=0
+        score=int(end*(1000000*scoremult))
         temp=h//2+reall
         render('rect', arg=((keymap[0][0],keymap[0][1]-10,keymap[0][2]*4,10), (100,140,220), False),borderradius=0)
         for a in keys:
@@ -169,22 +170,27 @@ def game():
                         health-=t1
             stripetime=[]
         
-        if modsen[5]:
+        if modsen[5] and len(leaderboard)>0:
             players=1
             t=1
-            playboard[len(playboard)-1]=(username,(255,255,0),int(end*1000000))
-            for tmp in sorted(playboard, key=lambda x: x[2],reverse=True):
-                if tmp[0]==username:
+            current={'username': username,'score': score,'points': perf}
+            tmpl = leaderboard + [current]
+            ranking=51
+            #playboard[len(playboard)-1]=(username,(255,255,0),int(end*1000000))
+            for tmp in sorted(tmpl, key=lambda x: x['points'],reverse=True):
+                if tmp['username']==username:
                     pcolor=(50,50,150)
+                    pcol=(255,255,0)
                 else:
+                    pcol=forepallete
                     pcolor=(50,50,100)
-                if tmp[0]==username:
+                if tmp['username']==username:
                     ranking=players
-                if ranking>=players-3 and ranking<=players+3:
-                    render('rect', arg=((-30,65+(50*(t)),225,50), pcolor, False),borderradius=20)
+                if players<4 or players==ranking:
+                    render('rect', arg=((-30,65+(50*(t)),225,50), pcolor, False),borderradius=10)
                     #render('text',text='#'+str(players),arg=((20, 80+(50*(t))),(pcolor[0]-20,pcolor[1]-20,pcolor[2]-20)))
-                    render('text',text=tmp[0],arg=((20, 70+(50*(t))),tmp[1])) #'#'+str(players)+' '+
-                    render('text',text='#'+str(players)+' '+str(tmp[2]),arg=((20, 95+(50*(t))),tmp[1],'min'))
+                    render('text',text=tmp['username'],arg=((20, 70+(50*(t))),pcol)) #'#'+str(players)+' '+
+                    render('text',text='#'+str(players)+' '+str(tmp['score']),arg=((20, 95+(50*(t))),pcol,'min'))
                     t+=1
                 players+=1
         if end*1000000<0:
@@ -193,7 +199,7 @@ def game():
             t=forepallete
         render('rect', arg=((0,-20,w,55), (50,50,60), False),borderradius=20)
         render('rect', arg=((w//2-200,19,401,61), (50,50,80), False),borderradius=20)
-        render('text',text=format(int(end*1000000),','),arg=((20, 20),t,'grade','center'),relative=(w//2-200,22,400,60))
+        render('text',text=format(score,','),arg=((20, 20),t,'grade','center'),relative=(w//2-200,22,400,60))
         render('text',text='Acc - '+str(accuracy)+'%',arg=((20, 170),forepallete,'center'),relative=(w//2-200,82,400,20))
         get_mods((20,20))
         if combo!=0:

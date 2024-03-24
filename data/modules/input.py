@@ -13,8 +13,6 @@ def get_input():
                     transitionprep(6)
                 elif menubutton  ==  4:
                     stopnow()
-                elif menubutton  ==  5:
-                    transitionprep(8)
                 elif topbutton  ==  1:
                     transitionprep(2)
                 elif topbutton  ==  2:

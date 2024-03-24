@@ -41,7 +41,6 @@ def beatmapload():
             beatani.start()
             diffani=Tween(begin=0, end=1,duration=1,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
             diffani.start()
-            print(fullbeatmapname[beatsel],p2[beatsel])
             gc=time.time()
             ranktype=3
             gametime=0
@@ -97,7 +96,6 @@ def beatmapload():
                         difficulty=difficulty[:difficulty.index('')]
                         metadata=beatmap[beatmap.index('[Metadata]')+1:beatmap.index('[Difficulty]')-1]
                         diffp.append((objects,difftmp))
-                        print(difftmp,objects)
                     diffp=sorted(diffp, key=lambda x: x[0])
                     diff=diffp
 #                    print(diffp)
