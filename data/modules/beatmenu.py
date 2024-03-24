@@ -122,10 +122,10 @@ def beatmenu():
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],140+bgcolour,30), (beatcol[0]-20,beatcol[1]-20,beatcol[2]-20), False),borderradius=10)
             render('rect', arg=((diffpos[0],diffpos[1],140,30), beatcol, False),borderradius=10)
             render('text', text=beatname, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],140,30))
-            if pygame.Rect(0,0,25,h).collidepoint(pygame.mouse.get_pos()):
+            if pygame.Rect(0,(h//4),45,h//2).collidepoint(pygame.mouse.get_pos()):
                 t=0
             else:
-                t=240
+                t=225
             if 1==1:
                 c=0
                 render('rect', arg=((220-t,(h//4),45,h//2), blend(opacity,25), False),borderradius=10)
