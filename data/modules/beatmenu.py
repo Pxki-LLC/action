@@ -122,19 +122,23 @@ def beatmenu():
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],140+bgcolour,30), (beatcol[0]-20,beatcol[1]-20,beatcol[2]-20), False),borderradius=10)
             render('rect', arg=((diffpos[0],diffpos[1],140,30), beatcol, False),borderradius=10)
             render('text', text=beatname, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],140,30))
-            if len(leaderboard)>0:
+            if pygame.Rect(0,0,25,h).collidepoint(pygame.mouse.get_pos()):
+                t=0
+            else:
+                t=240
+            if 1==1:
                 c=0
-                render('rect', arg=((-10,(h//4),265,h//2), blend(opacity,25), False),borderradius=10)
-                render('rect', arg=((-10,(h//4),250,h//2), blend(opacity,0), False),borderradius=10)
+                render('rect', arg=((220-t,(h//4),45,h//2), blend(opacity,25), False),borderradius=10)
+                render('rect', arg=((-10-t,(h//4),250,h//2), blend(opacity,0), False),borderradius=10)
                 for a in leaderboard[:5]:
                     if a['username']==username:
                         col=166, 207, 255
                     else:
                         col=forepallete
-                    leadpos=(10,(10+h//4)+(60*c),220,50)
+                    leadpos=(10-t,(10+h//4)+(60*c),220,50)
                     render('rect', arg=(leadpos, blend(opacity,50), False),borderradius=10)
-                    render('text', text=str('#'+str(c+1)+' '+a["username"]), arg=((17,leadpos[1]+5), col))
-                    render('text', text=str(format(int(a['score']),','))+' - '+str(int(a["points"]))+'pp ('+str(int(a['combo']))+'x) '+timeform(int(time.time()-a['time'])), arg=((17,leadpos[1]+28), col,'min'))
+                    render('text', text=str('#'+str(c+1)+' '+a["username"]), arg=((17-t,leadpos[1]+5), col))
+                    render('text', text=str(format(int(a['score']),','))+' - '+str(int(a["points"]))+'pp ('+str(int(a['combo']))+'x) '+timeform(int(time.time()-a['time'])), arg=((17-t,leadpos[1]+28), col,'min'))
 #                    render('text', text=, arg=((17,leadpos[1]+28), col,'min'))
                     #(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3)))*scoremult)-(hits[3]*(perfbom*2))
                     c+=1
