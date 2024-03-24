@@ -189,7 +189,7 @@ def game():
                     pcolor=blend(opacity,20)
                 if tmp['username']==username:
                     ranking=players
-                if players<4 or players==ranking:
+                if players<5 or players==ranking:
                     render('rect', arg=((-30,65+(50*(t)),225,50), pcolor, False),borderradius=10)
                     #render('text',text='#'+str(players),arg=((20, 80+(50*(t))),(pcolor[0]-20,pcolor[1]-20,pcolor[2]-20)))
                     render('text',text=tmp['username'],arg=((20, 70+(50*(t))),pcol)) #'#'+str(players)+' '+

@@ -128,15 +128,16 @@ def beatmenu():
             else:
                 t=225
             if 1==1:
+                s=310
                 c=0
-                render('rect', arg=((220-t,(h//4),45,h//2), blend(opacity,25), False),borderradius=10)
-                render('rect', arg=((-10-t,(h//4),250,h//2), blend(opacity,0), False),borderradius=10)
+                render('rect', arg=((220-t,(h//2)-(s//2),45,s), blend(opacity,25), False),borderradius=10)
+                render('rect', arg=((-10-t,(h//2)-(s//2),250,s), blend(opacity,0), False),borderradius=10)
                 for a in leaderboard[:5]:
                     if a['username']==username:
                         col=166, 207, 255
                     else:
                         col=forepallete
-                    leadpos=(10-t,(10+h//4)+(60*c),220,50)
+                    leadpos=(10-t,(10+((h//2)-(s//2)))+(60*c),220,50)
                     render('rect', arg=(leadpos, blend(opacity,50), False),borderradius=10)
                     render('text', text=str('#'+str(c+1)+' '+a["username"]), arg=((17-t,leadpos[1]+5), col))
                     render('text', text=str(format(int(a['score']),','))+' - '+str(int(a["points"]))+'pp ('+str(int(a['combo']))+'x) '+timeform(int(time.time()-a['time'])), arg=((17-t,leadpos[1]+28), col,'min'))
