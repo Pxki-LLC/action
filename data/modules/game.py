@@ -1,3 +1,9 @@
+
+def getpoint(perfect,good,meh,bad,multiplier,combo=1):
+    multiplier=multiplier
+    tmp=(((perfect*perfbom)+(good*(perfbom/2))+(meh*(perfbom/3))-(bad*(perfbom*2)))*multiplier)
+    tmp+=perfbom*combo
+    return int(tmp)
 def song_progress():
     slop=(gametime/lastms)
     if slop>1:
@@ -43,7 +49,7 @@ def game():
         #    pygame.mixer.music.play(-1,0)
 
         b=0
-        perf=(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3)))*scoremult)-(hits[3]*(perfbom*2))
+        perf=getpoint(hits[0],hits[1],hits[2],hits[3],scoremult,combo)
         accuracy=((maxperf-(hits[1]*(perfbom/2))-(hits[2]*(perfbom/3))-(hits[3]*(perfbom*2)))/maxperf)*100
         #accuracy=100
         if int(maxperf)!=0:
@@ -264,7 +270,7 @@ def game():
                              +str(hits[2])+';' # OK
                              +str(hits[3])+';' # BAD
                              +str(diffmode)+';' # Difficulty
-                             +str(scoremult)+';' # More Points yas
+                             +str(mods)+';' # Mods
                              +str(maxperf)+';' # Max Points
                              +str(int(time.time()-timetaken)))
             activity=5

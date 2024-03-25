@@ -145,10 +145,11 @@ drawtime=0.0000001
 kiai=0
 notemsg=['','']
 noteani=[Tween(begin=0, end=100,duration=150,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
+notemaxh=120
 def notification(title,desc=''):
     global noteani,notemsg
     notemsg=[title,desc]
-    noteani=[Tween(begin=0, end=100,duration=150,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
+    noteani=[Tween(begin=0, end=notemaxh,duration=500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
     noteani[0].start()
 def main():
     global fps, activity,oneperf,noteani,voltime,delta,volvisual,volvismo,notemsg,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
@@ -230,11 +231,11 @@ def main():
         crash(error)
         activity=1
     if not notemsg[0]=='':
-        notepos=w//2-100,((noteani[0].value/100)*120)-100,200,100
+        notepos=w//2-100,noteani[0].value-100,200,100
         render('rect', arg=(notepos, (60,60,60), False), borderradius=15)
         render('text', arg=((0,0), forepallete, False,'center'),text=notemsg[0],relative=(notepos[0],notepos[1]+15,notepos[2],10))
         render('text', arg=((0,0), forepallete, False,'center','min'),text=notemsg[1],relative=(notepos[0],notepos[1]+20,notepos[2],notepos[3]-20))
-        if noteani[0].value==100 and not noteani[1]:
+        if noteani[0].value==notemaxh and not noteani[1]:
             if noteani[1]==0:
                 noteani[1]=time.time()
             noteani[0].pause()

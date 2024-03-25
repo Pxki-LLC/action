@@ -1,4 +1,4 @@
-mtext='Play','Edit','Browse','Leave'
+mtext='Play','Edit','Browse','Leave'#,'TB'
 toptext='Settings','Account'
 menupos=[]
 opacity=10

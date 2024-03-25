@@ -1,14 +1,18 @@
 import pygame
 modsalias="Auto",'Blind','Slice','EZ','Random'
 modsaliasab='AT','BD','SL','EZ','RND'
+mods=''
 def get_mods(bpos):
+    global mods
     b=0
     tap=0
+    mods=''
     for a in modsaliasab:
         if modsen[b]:
             pos=(bpos[0]+(15*tap),bpos[1])
             rec=icons[1].get_rect()
             screen.blit(icons[1],pos)
+            mods+=a
             render('text', text=a, arg=((0,0), (0,0,0),'center'),relative=(pos[0],pos[1],rec[2],rec[3]))
             tap+=1
         b+=1
@@ -115,7 +119,7 @@ def beatmenu():
             render('text', text=beattitle, arg=(offset, forepallete))
             render('rect',arg=((popupw,40,hax*2,130),blend(opacity,0),False),borderradius=20)
             render('text', text=rankmodes[ranktype][0], arg=((popupw+20+hax,70), rankmodes[ranktype][1])) # Rank Type
-            render('text', text=str(int(int(diffp[0][0])*perfbom*scoremult))+'-'+str(int(int(diffp[-1][0])*perfbom*scoremult))+'pp', arg=((popupw+20+hax,100), forepallete))
+            render('text', text=str(int(int(getpoint(diffp[0][0],0,0,0,scoremult,diffp[0][0]))))+'-'+str(int(getpoint(diffp[-1][0],0,0,0,scoremult,diffp[-1][0])))+'pp', arg=((popupw+20+hax,100), forepallete))
             render('text', text='BPM - '+str(int(60000/bpm)+1), arg=((popupw+20,70), forepallete))
             render('text', text='Lv '+str(round(maxperf*0.123,2)), arg=((popupw+20,135), forepallete))
 #            render('text', text=str(beatmapsetid)+' / '+str(beatmapid), arg=((popupw+20,135), forepallete))
@@ -140,7 +144,7 @@ def beatmenu():
                     leadpos=(10-t,(10+((h//2)-(s//2)))+(60*c),220,50)
                     render('rect', arg=(leadpos, blend(opacity,50), False),borderradius=10)
                     render('text', text=str('#'+str(c+1)+' '+a["username"]), arg=((17-t,leadpos[1]+5), col))
-                    render('text', text=str(format(int(a['score']),','))+' - '+str(int(a["points"]))+'pp ('+str(int(a['combo']))+'x) '+timeform(int(time.time()-a['time'])), arg=((17-t,leadpos[1]+28), col,'min'))
+                    render('text', text=f'{format(int(a['score']),',')} - {str(int(a["points"]))}pp ({str(int(a['combo']))}x) {timeform(int(time.time()-a['time']))}', arg=((17-t,leadpos[1]+30), col,'min'))
 #                    render('text', text=, arg=((17,leadpos[1]+28), col,'min'))
                     #(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3)))*scoremult)-(hits[3]*(perfbom*2))
                     c+=1

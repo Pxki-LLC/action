@@ -72,7 +72,7 @@ def reloadstats():
             scoremult+=inc
         elif modsen[a-1] and a==4:
             scoremult-=inc
-    maxperf=int(len(objects)*perfbom*scoremult)
+    maxperf=getpoint(len(objects),0,0,0,scoremult,len(objects))
 def getstat():
     global ranktype,getpoints,leaderboard
     #print('Loading...')
@@ -177,11 +177,17 @@ def get_rank(num):
 def reloadprofile():
     global totperf,totscore,totrank
 #    for a in pend:
-    f=requests.get(apiurl+'api/getstat?'+str(username)+'?full',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
-    f=json.loads(f.text)
-    totrank=int(f['rank'])
-    totperf=int(f['points'])
-    totscore=int(f['score'])
+    try:
+        f=requests.get(apiurl+'api/getstat?'+str(username)+'?full',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
+        f=json.loads(f.text)
+        totrank=int(f['rank'])
+        totperf=int(f['points'])
+        totscore=int(f['score'])
+    except Exception:
+        totscore=0
+        totperf=0
+        totrank=0
+
 def ondemand():
     global totperf,totscore,totrank,nettick,issigned,qlutaerror,menunotice
     qlutaerror=True
@@ -205,7 +211,10 @@ def ondemand():
                     totscore=0
                     totrank=0
                     menunotice='Server is Busy'
-                    print(err)
+                    try:
+                        notification('Server Error',desc=str(err))
+                    except Exception:
+                        pass
                     #issigned=False
                     qlutaerror=True
             nettick=time.time()

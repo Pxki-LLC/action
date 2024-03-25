@@ -37,9 +37,9 @@ def beatmapload():
         #pygame.mixer.music.play(-1,(time.time()-gametime))
     try:
         if beatnowmusic:
-            beatani=Tween(begin=cross[0], end=beatsel,duration=1500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
+            beatani=Tween(begin=cross[0], end=beatsel,duration=350,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
             beatani.start()
-            diffani=Tween(begin=0, end=1,duration=1,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
+            diffani=Tween(begin=-1, end=0,duration=1,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
             diffani.start()
             gc=time.time()
             ranktype=3
