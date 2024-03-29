@@ -199,7 +199,7 @@ def game():
                     render('rect', arg=((-30,65+(50*(t)),225,50), pcolor, False),borderradius=10)
                     #render('text',text='#'+str(players),arg=((20, 80+(50*(t))),(pcolor[0]-20,pcolor[1]-20,pcolor[2]-20)))
                     render('text',text=tmp['username'],arg=((20, 70+(50*(t))),pcol)) #'#'+str(players)+' '+
-                    render('text',text='#'+str(players)+' '+str(tmp['score']),arg=((20, 95+(50*(t))),pcol,'min'))
+                    render('text',text='#'+str(players)+' '+format(tmp['score'],','),arg=((20, 95+(50*(t))),pcol,'min'))
                     t+=1
                 players+=1
         if end*1000000<0:
