@@ -32,7 +32,7 @@ def mainmenu():
             mmenu.append((bla+(w//2-(int(wid*(len(mtext)/2)))+(wid*(a-1))),h//2-75,wid,150))
         for a in range(1,len(toptext)+1):
             tmenu.append((w-((20*len(toptext[a-1]))*(a))+25,0,20*len(toptext[a-1]),wod))
-        drawRhomboid(screen,dcolour,bla-25,h//2-76,w+50,150,26)
+        drawRhomboid(screen,dcolour,bla-25,h//2-76,w+80,150,26)
         menubutton=menu_draw(mmenu, text=mtext,isblade=True,ishomemenu=True)
         render('text', text='Note: you can get songs from osu.ppy.sh.', arg=((20,anib*55), forepallete))
         render('rect',arg=((0,0,w,45),dcolour,False))#,surf=surface[0])
@@ -69,24 +69,6 @@ def mainmenu():
         #print_card(oneperf,oneperf*10*10*300,'Monstras',(340,60),t)
         rank=2
         b=1
-        if 0==1:
-            for a in os.listdir(propath):
-                if not username in a:
-                    if os.path.isfile(propath+a+'/score'):
-                        a1=int(open(propath+a+'/score').read().rstrip('\n'))
-                        print(a1)
-                    else:
-                        a1=0
-                    if os.path.isfile(propath+a+'/perf'):
-                        a2=int(float(open(propath+a+'/perf').read().rstrip('\n')))
-                    else:
-                        a2=0
-                    if rank==2:
-                        print_card(a2,a1,a,(20+(320*b),60),rank,isgrayed=1)
-                    else:
-                        print_card(a2,a1,a,(20+(320*b),60),rank,isgrayed=1)
-                    b+=1
-                    rank+=1
         #print_card(totperf//2,totscore//2,'MiXer',(340,60),2,isgrayed=1)
         render('text', text=gamename+'/'+gameedition+' ('+str(gamever)+')', arg=((0,0), forepallete,'center'),relative=(w//2,h-35,0,0))
         if menubutton == 1:

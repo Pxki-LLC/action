@@ -179,9 +179,9 @@ def fullscreenchk():
         firstcom=True
         logopos=Tween(begin=0, 
                end=100, #-100?
-               duration=1000,
+               duration=850,
                easing=Easing.CUBIC,
-               easing_mode=EasingMode.OUT)
+               easing_mode=EasingMode.OUT,boomerang=True)
         bladeani=[Tween(begin=0, end=101,duration=500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),0]
         transani=[Tween(begin=0, end=100,duration=150,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
         logopos.start()
