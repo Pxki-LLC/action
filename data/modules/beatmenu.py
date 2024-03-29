@@ -54,7 +54,7 @@ def beatmenu():
             render('rect', arg=((0,h-170,500,120), blend(opacity,0), False),borderradius=10)
             #(340,h-160,90,40) ~ Placeholder
             mod=menu_draw(((20,h-160,90,40),(20,h-110,90,40),(130,h-160,90,40),(130,h-110,90,40),(230,h-160,90,40)),(modsalias),enabled_button=modsen)
-            render('text', text=str(scoremult)+'x', arg=((20,h-195), forepallete))
+            render('text', text=str(scoremult)+'x', arg=((50,h-195), forepallete))
             if mod==1:
                 msg='view a "Perfect" play'
             elif mod==2:
@@ -109,7 +109,7 @@ def beatmenu():
             beatcol=rankdiffc[0]
         beatname=rankdiff[rankdiffc.index(beatcol)]
         render('header')
-        hax=300*(w//600)
+        hax=300
         popupw=w//2-hax
         if len(p2)==0:
             render('text', text='No Beatmap added :sad:', arg=(offset, forepallete))
