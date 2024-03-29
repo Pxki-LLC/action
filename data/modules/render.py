@@ -177,12 +177,12 @@ def fullscreenchk():
     h=screen.get_height()
     if not firstcom:
         firstcom=True
-        logopos=Tween(begin=h, 
-               end=-100, #-100?
+        logopos=Tween(begin=0, 
+               end=100, #-100?
                duration=1000,
                easing=Easing.CUBIC,
                easing_mode=EasingMode.OUT)
-        bladeani=[Tween(begin=w, end=0,duration=500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),0]
+        bladeani=[Tween(begin=0, end=101,duration=500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),0]
         transani=[Tween(begin=0, end=100,duration=150,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
         logopos.start()
         volani=Tween(begin=volvisual, end=vol,duration=250,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)

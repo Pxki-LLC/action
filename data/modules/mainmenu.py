@@ -25,12 +25,16 @@ def mainmenu():
         wod=45
         if wid>90*2:
             wid=90*2
+        ani=((100-bladeani[0].value)/100)
+        bla=(ani*w)
+        anib=bladeani[0].value/100
         for a in range(1,len(mtext)+1):
-            mmenu.append((bladeani[0].value+(w//2-(int(wid*(len(mtext)/2)))+(wid*(a-1))),h//2-75,wid,150))
+            mmenu.append((bla+(w//2-(int(wid*(len(mtext)/2)))+(wid*(a-1))),h//2-75,wid,150))
         for a in range(1,len(toptext)+1):
             tmenu.append((w-((20*len(toptext[a-1]))*(a))+25,0,20*len(toptext[a-1]),wod))
-        drawRhomboid(screen,dcolour,bladeani[0].value-25,h//2-76,w+50,150,26)
+        drawRhomboid(screen,dcolour,bla-25,h//2-76,w+50,150,26)
         menubutton=menu_draw(mmenu, text=mtext,isblade=True,ishomemenu=True)
+        render('text', text='Note: you can get songs from osu.ppy.sh.', arg=((20,anib*55), forepallete))
         render('rect',arg=((0,0,w,45),dcolour,False))#,surf=surface[0])
 #        for a in range(1,len(rankdiffc)+1):
 #            render('rect',arg=((0+(60*(a-1)),h-150,50,20),rankdiffc[a-1],False),borderradius=20)
@@ -53,7 +57,6 @@ def mainmenu():
         else:
             render('text', text='nothing...', arg=((20,10), (255,255,255)))
         topbutton=menu_draw(tmenu, text=toptext,isblade=True,ignoremove=True,ishomemenu=True)
-        render('text', text='Note: you can get songs from osu.ppy.sh.', arg=((20,55), forepallete))
         if not qlutaerror:
             print_card(totperf,totscore,username,(w//2-150,h//2+120),totrank,home=True)
         if menunotice!='':
