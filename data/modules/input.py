@@ -1,5 +1,5 @@
 def get_input():
-    global keys,activity,modshow,gobutton,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,activity,modshow,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -125,6 +125,8 @@ def get_input():
                 volchg(0)
             elif event.key  ==  pygame.K_EQUALS:
                 volchg(1)
+            elif event.key  ==  pygame.K_F9:
+                useroverlay=not useroverlay
             elif event.key  ==  pygame.K_q or event.key  ==  pygame.K_ESCAPE:
                 if activity==4:
                     transitionprep(3)           

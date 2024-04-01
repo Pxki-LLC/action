@@ -146,13 +146,14 @@ kiai=0
 notemsg=['','']
 noteani=[Tween(begin=0, end=100,duration=150,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
 notemaxh=120
+useroverlay=0
 def notification(title,desc=''):
     global noteani,notemsg
     notemsg=[title,desc]
     noteani=[Tween(begin=0, end=notemaxh,duration=500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
     noteani[0].start()
 def main():
-    global fps, activity,oneperf,noteani,voltime,delta,volvisual,volvismo,notemsg,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
+    global fps, activity,oneperf,noteani,voltime,delta,transi,volvisual,volvismo,notemsg,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
     if gameedition!=gameeditions[0]:
         gs='/'+gameedition
     else:
@@ -215,6 +216,7 @@ def main():
         print('Imported',a)
     if totrank<1:
         totrank=1
+    transi=((100-transani[0].value)/100)
     get_input()
     beatmapload()
     logo()
@@ -224,6 +226,14 @@ def main():
     beatmenu()
     shopdirect()
     debuginfo()
+    if useroverlay:
+        render('rect', arg=((0,-15,w,h//2), (60,60,60), False), borderradius=15)
+        posy=10
+        for a in range(1,25):
+            posx=10+(310*(a-1))
+            if posx>=w:
+                posy+=90
+            print_card(totperf,totscore,'aqua'+str(a),(posx,posy),a)
     try:
         game()
     except Exception as error:
@@ -305,6 +315,7 @@ def main():
     #print(drawtime)
 nettick=0
 timetaken=0
+welcometext='Welcome to '+str(gamename)
 logbox=[('Started Engine',time.time())]
 def loginwindow():
     def validate_login():
@@ -348,6 +359,8 @@ if __name__  ==  "__main__":
                         username=amp[1]
                     elif amp[0]=='vol':
                         vol=int(amp[1])
+                    elif amp[0]=='welcometext':
+                        welcometext=amp[1]
         if prestart:
             logotime=time.time()
         greph=[]
