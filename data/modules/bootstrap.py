@@ -15,7 +15,7 @@ axe=0
 gamename='Qlute'
 gameeditions='stable','beta','canary','dev'
 gameedition=gameeditions[-1]
-gamever='2023.03.29'
+gamever='2023.04.01'
 sylphenginever='2023.09.29'
 gameverspl=gamever.split('.')
 #gameminserve=int(gameverspl[0])+((1+float(gameverspl[1]))*float(gameverspl[2]))
@@ -213,7 +213,7 @@ def main():
             zip_ref.extractall(gamepath+a.replace('.osz','/'))
             reloaddatabase=1
         os.remove(downpath+a)
-        print('Imported',a)
+        notification('Beatmap Imported',desc=a)
     if totrank<1:
         totrank=1
     transi=((100-transani[0].value)/100)
