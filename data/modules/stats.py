@@ -68,10 +68,12 @@ def reloadstats():
     for a in range(2,len(modsen)+1):
         if modsen[a-1] and a==2:
             scoremult+=inc*3
-        elif modsen[a-1] and not a in (4,5):
+        elif modsen[a-1] and not a in (4,5,7,8):
             scoremult+=inc
-        elif modsen[a-1] and a==4:
-            scoremult-=inc
+        elif modsen[a-1] and (a in (4,7)):
+            scoremult/=inc*4
+        elif modsen[a-1] and a==8:
+            scoremult*=8
     maxperf=getpoint(len(objects),0,0,0,scoremult,len(objects))
 def getstat():
     global ranktype,getpoints,leaderboard
