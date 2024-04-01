@@ -1,6 +1,6 @@
 import pygame
-modsalias="Auto",'Blind','Slice','EZ','Random'
-modsaliasab='AT','BD','SL','EZ','RND'
+modsalias="Auto",'Blind','Slice','EZ','Random'#,'DT','HT'
+modsaliasab='AT','BD','SL','EZ','RND'#,'DT','HT'
 mods=''
 def get_mods(bpos):
     global mods
@@ -50,23 +50,43 @@ def beatmenu():
             crok=0
         sysbuttonpos=(-10,h-60,100+menuback,60),(140,h-50+crok,100,40),
         if modshow:
-            render('rect', arg=((0,h-200,500,43), blend(opacity,20), False),borderradius=10)
-            render('rect', arg=((0,h-170,500,120), blend(opacity,0), False),borderradius=10)
+            render('rect', arg=((0,h-200,w,43), blend(opacity,20), False),borderradius=10)
+            render('rect', arg=((0,h-170,w,120), blend(opacity,0), False),borderradius=10)
             #(340,h-160,90,40) ~ Placeholder
-            mod=menu_draw(((20,h-160,90,40),(20,h-110,90,40),(130,h-160,90,40),(130,h-110,90,40),(230,h-160,90,40)),(modsalias),enabled_button=modsen)
+            # This will be here for now, it WILL get better and more optimized over time
+            t=(20,20,120,120,220,320,420,480)
+            tm=[]
+            for b in range(1,len(t)+1): # Ewwwwwww
+                if (b == 2 and modsen[2]) or (b == 3 and modsen[1]):#modsen[3]
+                    tm.append(-999)
+                else:
+                    tm.append(t[b-1])
+
+            mod=menu_draw(((tm[0],h-160,90,40)
+                           ,(tm[1],h-110,90,40)
+                           ,(tm[2],h-160,90,40)
+                           ,(tm[3],h-110,90,40)
+                           ,(tm[4],h-160,90,40)
+#                           ,(tm[5],h-160,90,40)
+#                           ,(tm[6],h-160,90,40)
+#                           ,(tm[7],h-160,90,40)
+                           )
+                           ,(modsalias),enabled_button=modsen)
             render('text', text=str(scoremult)+'x', arg=((50,h-195), forepallete))
             if mod==1:
-                msg='view a "Perfect" play'
+                msg='view a "Perfect" play (0)'
             elif mod==2:
-                msg="i can't see anything"
+                msg="Beat to the rhythm (+1.5)"
             elif mod==3:
-                msg='Half blind'
+                msg='Half blind (+0.5)'
             elif mod==4:
-                msg="makes everything easy"
+                msg="makes everything easy (/0.5)"
             elif mod==5:
-                msg='Adds new fun!'
+                msg='Adds new fun! (0)'
             elif mod==6:
-                msg='Enable Leaderboard'
+                msg='Double the fun (+0.5)'
+            elif mod==7:
+                msg='We be easy on you (/0.5)'
         else:
             mod=0
             get_mods((150,h-110))
@@ -74,12 +94,16 @@ def beatmenu():
 #        for systrocity in sysbuttonpos:
 #            render('rect', arg=((systrocity), (100,100,150), True),bordercolor=(80,80,100),borderradius=10)
         gobutton=menu_draw(((w-125,h-80+crok,120,70),),("->",),bigmode=True,styleid=1)
-        sysbutton=menu_draw(sysbuttonpos,('Back','Mods'),styleid=1)
+        if scoremult==1:
+            m='Mods'
+        else:
+            m=str(scoremult)+'x'
+        sysbutton=menu_draw(sysbuttonpos,('Back',m),styleid=1)
         render('rect',arg=((0,h-5,w,5),blend(-opacity,0),False))
         if not qlutaerror:
-            render('rect',arg=((w//2-155,h-90,310,100),blend(-opacity,0),False),borderradius=10)
-            render('rect',arg=((w//2-150,h-75,300,75),blend(-opacity,0),False))
-            print_card(totperf,totscore,username,(w//2-150,h-85),totrank)
+            render('rect',arg=((w//2-155,(h-90),310,100),blend(-opacity,0),False),borderradius=10)
+            render('rect',arg=((w//2-150,(h-75),300,75),blend(-opacity,0),False))
+            print_card(totperf,totscore,username,(w//2-150,(h-85)),totrank)
 #        if ranktype and not ranktype==3:
 #            if not modshow:
 #                of=110
