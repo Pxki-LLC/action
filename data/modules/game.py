@@ -34,7 +34,7 @@ def iscatched(block,isauto,ob,fir,id):
     tim=block
     return (lastcall,tick,tim)
 def game():
-    global activity,timestep,debugmode,beatnowmusic,kiai,unstablerate,fpsmode,score,scorew,keyspeed,bgcolour,totperf,totscore,objecon,healthtime,health,ranking,oldupdatetime,t,tip,gametime,combo,sre,combotime,sre,hits,last,stripetime,tmp,pptime,pptmp,ppcounter,perf
+    global activity,timestep,debugmode,accuracy,beatnowmusic,kiai,unstablerate,fpsmode,score,scorew,keyspeed,bgcolour,totperf,totscore,objecon,healthtime,health,ranking,oldupdatetime,t,tip,gametime,combo,sre,combotime,sre,hits,last,stripetime,tmp,pptime,pptmp,ppcounter,perf
     if activity==4:
         if bgcolour>=1:
             bgcolour-=1
@@ -50,7 +50,11 @@ def game():
 
         b=0
         perf=getpoint(hits[0],hits[1],hits[2],hits[3],scoremult,combo)
-        accuracy=((maxperf-(hits[1]*(perfbom/2))-(hits[2]*(perfbom/3))-(hits[3]*(perfbom*2)))/maxperf)*100
+        maxc=hits[0]+hits[1]+hits[2]+hits[3]
+        if not maxc<1:
+            accuracy=round(((hits[0]-(hits[1]*2)-(hits[2]*3)-(hits[3]*4))/(maxc))*100,2)
+        else:
+            accuracy=100
         #accuracy=100
         if int(maxperf)!=0:
             end=(perf/maxperf)
@@ -87,6 +91,7 @@ def game():
         hidden=0
         b=0
         for a in unstablerate[::-1]:
+            break
             if time.time()-a[0]>0.5:
                 unstablerate.remove(a)
             if b>16:

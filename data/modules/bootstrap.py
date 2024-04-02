@@ -92,7 +92,7 @@ uptime=time.time()
 totperf=0
 totscore=0
 oldstats=[0,0]
-rankmodes=('Ranked',(100,200,100)),('Unranked',(200,100,100)),('In Review',(200,200,100)),('Loading...',(200,200,200)),
+rankmodes=('Ranked',(100,200,100)),('Unranked',(200,100,100)),('Special',(200,200,100)),('Loading...',(200,200,200)),
 
 pygame.init()
 fontname=resource_path(syspath+'font.ttf')

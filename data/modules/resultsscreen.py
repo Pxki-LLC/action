@@ -6,11 +6,11 @@ def beatres():
             title='Replay Screen'
         else:
             title='Results Screen'
-        grade=(perf/maxperf)*100
+        grade=accuracy
         if grade>=100:
             gradet='X'
             gc=gradecolour[0]
-        elif grade>95:
+        elif grade>95 and not hits[3]:
             gradet='S'
             gc=gradecolour[1]
         elif grade>90:
@@ -36,7 +36,7 @@ def beatres():
         render('rect',arg=(scrop,gc,False),borderradius=20)
         render('text', text=gradet, arg=((0,0), forepallete,'grade','center'),relative=scrop)
         render('text', text=str(format(int(perf/maxperf*1000000),',')), arg=((0,0), forepallete,'grade','center'),relative=(scrop[0],scrop[1]+80,scrop[2],scrop[3]))
-        render('text', text='pp - '+str(str(format(int(perf),',')))+'/'+str(str(str(format(maxperf,',')))), arg=((0,0), forepallete,'center'),relative=(w//2,h//2-30,0,0))
+        render('text', text='pp - '+str(str(format(int(perf),',')))+'/'+str(str(str(format(maxperf,','))))+' Acc - '+str(accuracy)+'%', arg=((0,0), forepallete,'center'),relative=(w//2,h//2-30,0,0))
         render('text', text='300 - '+str(pup[0]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2,0,0)))
         render('text', text='100 - '+str(pup[1]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2+25,0,0)))
         render('text', text='50 - '+str(pup[2]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2+50,0,0)))
