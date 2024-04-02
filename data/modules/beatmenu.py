@@ -139,20 +139,20 @@ def beatmenu():
         beatname=rankdiff[rankdiffc.index(beatcol)]
         render('header')
         hax=300//2
-        popupw=60
+        popupw=w//2-hax
         if len(p2)==0:
             render('text', text='No Beatmap added :sad:', arg=(offset, forepallete))
         else:
-            diffpos=(popupw+20+hax,130)
+            diffpos=(popupw+20+hax,140)
             #pass#int(len(objects)*perfbom*scoremult)
             render('text', text=beattitle, arg=(offset, forepallete))
-            render('rect',arg=((popupw,40,hax*2,130),blend(opacity,0),False),borderradius=20)
-            render('text', text=rankmodes[ranktype][0], arg=((popupw+20+hax,70), rankmodes[ranktype][1])) # Rank Type
+            render('rect',arg=((popupw,70,hax*2,110),blend(opacity,0),False),borderradius=20)
+            render('text', text=rankmodes[ranktype][0], arg=((popupw+20+hax,80), rankmodes[ranktype][1])) # Rank Type
             if pp[0]!=pp[1]:
-                render('text', text=str(pp[0])+'-'+str(pp[1])+'pp', arg=((popupw+20+hax,100), forepallete))
-            render('text', text='BPM - '+str(int(60000/bpm)+1), arg=((popupw+20,70), forepallete))
-            render('text', text='Lv '+str(round(maxperf*0.123,2)), arg=((popupw+20,135), forepallete))
-            render('text', text=f'+{format(maxperf,',')}pp', arg=((popupw+20,100), forepallete))
+                render('text', text=str(pp[0])+'-'+str(pp[1])+'pp', arg=((popupw+20+hax,110), forepallete))
+            render('text', text='BPM - '+str(int(60000/bpm)+1), arg=((popupw+20,80), forepallete))
+            render('text', text='Lv '+str(round(maxperf*0.123,2)), arg=((popupw+20,145), forepallete))
+            render('text', text=f'+{format(maxperf,',')}pp', arg=((popupw+20,110), forepallete))
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],100+bgcolour,30), (beatcol[0]-20,beatcol[1]-20,beatcol[2]-20), False),borderradius=10)
             render('rect', arg=((diffpos[0],diffpos[1],100,30), beatcol, False),borderradius=10)
             render('text', text=beatname, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],100,30))
