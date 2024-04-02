@@ -193,7 +193,7 @@ def fullscreenchk():
         fonts = pygame.font.Font(fontname,  int(f//1.2)),pygame.font.Font(fontname,  f//2),pygame.font.Font(fontname,  f*2),pygame.font.Font(fontname,  int(f))
         button_size_width=w//2
     tal=25*(w/25)//len(bars)
-    keysize=30
+    keysize=30*3
     scroll=h-30-keysize
     #scroll=h//2
     keymap=((w//2-(50*4),scroll,100,keysize),(w//2-(50*2),scroll,100,keysize),(w//2-(50*0),scroll,100,keysize),(w//2-(50*-2),scroll,100,keysize),)

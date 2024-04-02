@@ -29,6 +29,11 @@ def beatmenu():
             background=0
         a=0
         tmp=(h//60)//2
+        pp=int(int(getpoint(diffp[0][0],0,0,0,scoremult,diffp[0][0]))),int(getpoint(diffp[-1][0],0,0,0,scoremult,diffp[-1][0]))
+        if len(diffp)<2 or activity==7:
+            gotext='GO'
+        else:
+            gotext='>'
         if activity==7:
             soup=1
             sel=diffcon
@@ -93,7 +98,7 @@ def beatmenu():
         render('rect', arg=((0,h-60,w,60), blend(opacity,0), False))
 #        for systrocity in sysbuttonpos:
 #            render('rect', arg=((systrocity), (100,100,150), True),bordercolor=(80,80,100),borderradius=10)
-        gobutton=menu_draw(((w-125,h-80+crok,120,70),),("->",),bigmode=True,styleid=1)
+        gobutton=menu_draw(((w-125,h-80+crok,120,70),),(gotext,),bigmode=True,styleid=1)
         if scoremult==1:
             m='Mods'
         else:
@@ -133,8 +138,8 @@ def beatmenu():
             beatcol=rankdiffc[0]
         beatname=rankdiff[rankdiffc.index(beatcol)]
         render('header')
-        hax=300
-        popupw=w//2-hax
+        hax=300//2
+        popupw=60
         if len(p2)==0:
             render('text', text='No Beatmap added :sad:', arg=(offset, forepallete))
         else:
@@ -143,14 +148,14 @@ def beatmenu():
             render('text', text=beattitle, arg=(offset, forepallete))
             render('rect',arg=((popupw,40,hax*2,130),blend(opacity,0),False),borderradius=20)
             render('text', text=rankmodes[ranktype][0], arg=((popupw+20+hax,70), rankmodes[ranktype][1])) # Rank Type
-            render('text', text=str(int(int(getpoint(diffp[0][0],0,0,0,scoremult,diffp[0][0]))))+'-'+str(int(getpoint(diffp[-1][0],0,0,0,scoremult,diffp[-1][0])))+'pp', arg=((popupw+20+hax,100), forepallete))
+            if pp[0]!=pp[1]:
+                render('text', text=str(pp[0])+'-'+str(pp[1])+'pp', arg=((popupw+20+hax,100), forepallete))
             render('text', text='BPM - '+str(int(60000/bpm)+1), arg=((popupw+20,70), forepallete))
             render('text', text='Lv '+str(round(maxperf*0.123,2)), arg=((popupw+20,135), forepallete))
-#            render('text', text=str(beatmapsetid)+' / '+str(beatmapid), arg=((popupw+20,135), forepallete))
-            render('text', text='Max pp - '+str(format(maxperf,',')), arg=((popupw+20,100), forepallete))
-            render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],140+bgcolour,30), (beatcol[0]-20,beatcol[1]-20,beatcol[2]-20), False),borderradius=10)
-            render('rect', arg=((diffpos[0],diffpos[1],140,30), beatcol, False),borderradius=10)
-            render('text', text=beatname, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],140,30))
+            render('text', text=f'+{format(maxperf,',')}pp', arg=((popupw+20,100), forepallete))
+            render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],100+bgcolour,30), (beatcol[0]-20,beatcol[1]-20,beatcol[2]-20), False),borderradius=10)
+            render('rect', arg=((diffpos[0],diffpos[1],100,30), beatcol, False),borderradius=10)
+            render('text', text=beatname, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],100,30))
             if pygame.Rect(0,(h//4),45,h//2).collidepoint(pygame.mouse.get_pos()):
                 t=0
             else:

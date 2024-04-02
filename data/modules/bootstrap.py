@@ -33,7 +33,7 @@ if not "fpsmode" in globals():
     fpsmode=4
 button_size_height=33
 stop=0
-rankdiff='Easy','Normal','Hard','Extra','Expert','Impossible','WTF!'
+rankdiff='Easy','Normal','Hard','Extra','Expert','>n<','Devil'
 rankdiffc=(0,100,200),(0,200,50),(150,200,0),(200,50,0),(0,0,0),(150,0,150)
 sa=time.time()
 gametime=0
@@ -147,13 +147,14 @@ notemsg=['','']
 noteani=[Tween(begin=0, end=100,duration=150,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
 notemaxh=120
 useroverlay=0
+upd=0
 def notification(title,desc=''):
     global noteani,notemsg
     notemsg=[title,desc]
     noteani=[Tween(begin=0, end=notemaxh,duration=500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
     noteani[0].start()
 def main():
-    global fps, activity,oneperf,noteani,voltime,delta,transi,volvisual,volvismo,notemsg,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
+    global fps, activity,oneperf,upd,noteani,voltime,delta,transi,volvisual,volvismo,notemsg,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
     if gameedition!=gameeditions[0]:
         gs='/'+gameedition
     else:

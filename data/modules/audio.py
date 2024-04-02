@@ -4,6 +4,9 @@ def spectrum():
         ral=random.randint(1,100)
         bars[a-1]=ral
         render('rect', arg=(((tal)*(a-1),h-ral,(tal),ral), (255,255,255), False),borderradius=10)
+def get_creation_time(item):
+    item_path = os.path.join(gamepath, item)
+    return os.path.getctime(item_path)
 def beatmapload():
     global p2,p1,beatnowmusic,gc,gametime,beatani,diffani,beattitle,fullbeatmapname,objects,diffp,betaperf,reloaddatabase,maxperf,background,ranktype,diff,diffmode,pref,level,ismusic,bpm,realid,prestart,beatsel,tick,lastms,combotime,songoffset,metadata
     if reloaddatabase:
@@ -11,8 +14,7 @@ def beatmapload():
         p2=[]
         fullbeatmapname=[]
         reloaddatabase=0
-        for b in os.listdir(gamepath):
-#        tmp.append(str(b))
+        for b in sorted(os.listdir(gamepath), key=get_creation_time):
             try:
                 p1.append((((cardsize//2),(size),cardsize,size)))
                 p2.append(str(b)[str(b).index(' ')+1:])
@@ -25,7 +27,8 @@ def beatmapload():
         prestart=0
     if ismusic:
         #gametime=pygame.mixer.music.get_pos()
-        gametime=((time.time()-gc)/0.001)*1
+        up=((time.time()-upd)/0.001)*10
+        gametime=(((time.time()-gc)/0.001)-(up))*1
         pygame.mixer.music.set_volume((volvisual*0.01))
     else:
         background=pygame.Surface((0,0))

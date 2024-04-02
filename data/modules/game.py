@@ -131,7 +131,8 @@ def game():
 #                        if tip:
 #                            render('rect', arg=((keypos,block-30,100,30), (255,0,0), False),borderradius=0)
 #                        else:
-                    render('rect', arg=((keypos,block-30,100,30), (notecolour), False),borderradius=0)
+                    keyoffset=30
+                    render('rect', arg=((keypos,block-(keyoffset),100,30), (notecolour), False),borderradius=0)
                     #render('text',text=block,arg=((keypos,block-30),(255,255,255)))
                     tip=0
                 judge=iscatched(block,modsen[0],block,firstobject,ob)
