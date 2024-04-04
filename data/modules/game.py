@@ -45,7 +45,7 @@ def game():
         sre=(sretemplate)*20
         if sre<=0:
             sre=0
-        #if reall<0:
+        #if gametime<0:
         #    pygame.mixer.music.play(-1,0)
 
         b=0
@@ -73,7 +73,7 @@ def game():
             t1=maxt1
         ob=0
         score=int(end*(1000000*scoremult))
-        temp=h//2+gametime
+        temp=h//2+int(gametime)
         render('rect', arg=((keymap[0][0],keymap[0][1]-10,keymap[0][2]*4,10), (100,140,220), False),borderradius=0)
         for a in keys:
             mopa=(0.1-(time.time()-keyslight[b]))/0.1
@@ -224,7 +224,7 @@ def game():
                 render('text',text=comboo,arg=((0,0),(0,0,255),'grade','center'),relative=(kek[0]+sre,kek[1],kek[2],kek[3]))
                 render('text',text=comboo,arg=((0,0),(0,255,0),'grade','center'),relative=(kek[0],kek[1]+sre,kek[2],kek[3]))
             render('text',text=comboo,arg=((0,0, h-80-sre),forepallete,'grade','center'),relative=kek)
-        #render('text',text=h//2+reall-(int(objects[0].split(',')[2])),arg=((20, 80),forepallete))
+        #render('text',text=h//2+gametime-(int(objects[0].split(',')[2])),arg=((20, 80),forepallete))
         render('text',text=str(hits),arg=((20, 130),forepallete))
         render('line',arg=((0,h-miss),(255,255,255),(w,h-miss)))
         render('text',text=format(int(perf),',')+' PP',arg=((20, 150),forepallete))
@@ -240,8 +240,8 @@ def game():
         fon=0
         #for a in timings[timestep]: # 7 == Kiai
         tim=timings[timestep].split(',')
-#        print(tim,reall)
-        if reall>=int(float(tim[0])) and not fon:
+#        print(tim,gametime)
+        if gametime>=int(float(tim[0])) and not fon:
 #            print(timestep,a)
             if not timestep+1>len(timings)-1:
                 timestep+=1
