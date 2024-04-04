@@ -1,7 +1,7 @@
-import requests
+import requests,threading
 def bpmparse(bpm):
     return bpm.split(',')[1]
-def reloadstats():
+def reloadstats(reloadleaderboard=False):
     global objects,difficulty,background,metadata,timings,level,bpm,songoffset,maxperf,scoremult,ismulti,beattitle,perfect,great,ok,diffmode,beatmapid,beatmapsetid
     diffmode=diff[diffcon][1]
     beatmap=open(gamepath+fullbeatmapname[beatsel]+'/'+pref+'['+diffmode+']'+'.osu').read().rstrip('\n').split('\n')
@@ -48,6 +48,7 @@ def reloadstats():
             beatmapsetid=int(a.replace('BeatmapSetID:',''))
     beattitle=p2[beatsel].replace('\n','-')+' ['+str(diffmode)+']'
     threading.Thread(target=getstat).start()
+    threading.Thread(target=rleaderboard).start()
     timingst=beatmap[beatmap.index('[TimingPoints]')+1:]
     timings=[]
     for a in timingst:
@@ -75,10 +76,14 @@ def reloadstats():
         elif modsen[a-1] and a==8:
             scoremult*=8
     maxperf=getpoint(len(objects),0,0,0,scoremult,len(objects))
+def rleaderboard():
+    global leaderboard
+    leaderboard=[]
+    f=requests.get(apiurl+'api/getleaderboard?'+str(beatmapid))
+    leaderboard=f.json()
 def getstat():
     global ranktype,getpoints,leaderboard
     #print('Loading...')
-    leaderboard=[]
     try:
             f = requests.get('https://api.chimu.moe/cheesegull/s/'+str(beatmapsetid),headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'},timeout=3)
             f=f.json()['RankedStatus']
@@ -87,8 +92,6 @@ def getstat():
     except Exception as error:
         print(error,'(Returning as Unranked)')
         ranktypetmp=-99
-    f=requests.get(apiurl+'api/getleaderboard?'+str(beatmapid))
-    leaderboard=f.json()
 #    if len(leaderboard)>0:
 #        print(f.json(),'> Leaderboard')
 #    else:
