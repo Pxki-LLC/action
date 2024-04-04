@@ -55,7 +55,6 @@ def beatmenu():
             crok=0
         sysbuttonpos=(-10,h-60,100+menuback,60),(140,h-50+crok,100,40),
         if modshow:
-            render('rect', arg=((0,h-200,w,43), blend(opacity,20), False),borderradius=10)
             render('rect', arg=((0,h-170,w,120), blend(opacity,0), False),borderradius=10)
             #(340,h-160,90,40) ~ Placeholder
             # This will be here for now, it WILL get better and more optimized over time
@@ -77,7 +76,6 @@ def beatmenu():
 #                           ,(tm[7],h-160,90,40)
                            )
                            ,(modsalias),enabled_button=modsen)
-            render('text', text=str(scoremult)+'x', arg=((50,h-195), forepallete))
             if mod==1:
                 msg='view a "Perfect" play (0)'
             elif mod==2:
@@ -150,8 +148,8 @@ def beatmenu():
             render('text', text=rankmodes[ranktype][0], arg=((popupw+20+hax,80), rankmodes[ranktype][1])) # Rank Type
             if pp[0]!=pp[1]:
                 render('text', text=str(pp[0])+'-'+str(pp[1])+'pp', arg=((popupw+20+hax,110), forepallete))
-            render('text', text='BPM - '+str(int(60000/bpm)+1), arg=((popupw+20,80), forepallete))
-            render('text', text='Lv '+str(round(maxperf*0.123,2)), arg=((popupw+20,145), forepallete))
+            render('text', text='BPM: '+str(int(60000/bpm)+1), arg=((popupw+20,80), forepallete))
+            render('text', text='Lv. '+str(round(maxperf*0.123,2)), arg=((popupw+20,145), forepallete))
             render('text', text=f'+{format(maxperf,',')}pp', arg=((popupw+20,110), forepallete))
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],100+bgcolour,30), (beatcol[0]-20,beatcol[1]-20,beatcol[2]-20), False),borderradius=10)
             render('rect', arg=((diffpos[0],diffpos[1],100,30), beatcol, False),borderradius=10)
