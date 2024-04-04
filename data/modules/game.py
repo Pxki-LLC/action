@@ -71,10 +71,9 @@ def game():
             t1=t1*combo
         if t1>=maxt1:
             t1=maxt1
-        reall=int(gametime)
         ob=0
         score=int(end*(1000000*scoremult))
-        temp=h//2+reall
+        temp=h//2+gametime
         render('rect', arg=((keymap[0][0],keymap[0][1]-10,keymap[0][2]*4,10), (100,140,220), False),borderradius=0)
         for a in keys:
             mopa=(0.1-(time.time()-keyslight[b]))/0.1
