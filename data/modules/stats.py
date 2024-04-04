@@ -1,12 +1,14 @@
 import requests,threading
+lvrating=0
 def bpmparse(bpm):
     return bpm.split(',')[1]
 def reloadstats(reloadleaderboard=False):
-    global objects,difficulty,background,metadata,timings,level,bpm,songoffset,maxperf,scoremult,ismulti,beattitle,perfect,great,ok,diffmode,beatmapid,beatmapsetid
+    global objects,difficulty,background,metadata,timings,lvrating,levelrating,levelcol,bpm,songoffset,maxperf,scoremult,ismulti,beattitle,perfect,great,ok,diffmode,beatmapid,beatmapsetid
     diffmode=diff[diffcon][1]
     beatmap=open(gamepath+fullbeatmapname[beatsel]+'/'+pref+'['+diffmode+']'+'.osu').read().rstrip('\n').split('\n')
     objects=beatmap[beatmap.index('[HitObjects]')+1:]
     b=0
+    lvrating=0
     background=pygame.surface.Surface((0,0))
     if modsen[4]:
         print('RND MODE')
@@ -75,7 +77,32 @@ def reloadstats(reloadleaderboard=False):
             scoremult/=inc*4
         elif modsen[a-1] and a==8:
             scoremult*=8
-    maxperf=getpoint(len(objects),0,0,0,scoremult,len(objects))
+    lvt=0
+    lvy=0
+    for a in  objects:
+        tmp=a.split(',')
+        bartime=int(tmp[2])//100
+        print(bartime)
+        if bartime!=lvt:
+            lvt=bartime
+            lvy=0
+        else:
+            lvy+=1
+
+        lvrating+=0.01*lvy
+    lvrating=round(lvrating,2)*scoremult
+    if lvrating>=120:
+        levelcol=rankdiffc[-1]
+    elif lvrating>=15:
+        levelcol=rankdiffc[3]
+    elif lvrating>=9:
+        levelcol=rankdiffc[2]
+    elif lvrating>=6:
+        levelcol=rankdiffc[1]
+    elif lvrating<=5:
+        levelcol=rankdiffc[0]
+    levelrating=rankdiff[rankdiffc.index(levelcol)]
+    maxperf=getpoint(len(objects),0,0,0,scoremult,combo=len(objects))
 def rleaderboard():
     global leaderboard
     leaderboard=[]

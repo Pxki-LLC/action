@@ -29,7 +29,7 @@ def beatmenu():
             background=0
         a=0
         tmp=(h//60)//2
-        pp=int(int(getpoint(diffp[0][0],0,0,0,scoremult,diffp[0][0]))),int(getpoint(diffp[-1][0],0,0,0,scoremult,diffp[-1][0]))
+        pp=int(int(getpoint(diffp[0][0],0,0,0,scoremult,combo=diffp[0][0]))),int(getpoint(diffp[-1][0],0,0,0,scoremult,combo=diffp[-1][0]))
         if len(diffp)<2 or activity==7:
             gotext='GO'
         else:
@@ -124,17 +124,6 @@ def beatmenu():
                 menuback-=backspeed
         freeze=0
         tmp=0
-        if maxperf>=1000:
-            beatcol=rankdiffc[-1]
-        elif maxperf>=800:
-            beatcol=rankdiffc[3]
-        elif maxperf>=80:
-            beatcol=rankdiffc[2]
-        elif maxperf>=31:
-            beatcol=rankdiffc[1]
-        elif maxperf<=30:
-            beatcol=rankdiffc[0]
-        beatname=rankdiff[rankdiffc.index(beatcol)]
         render('header')
         hax=300//2
         popupw=w//2-hax
@@ -149,11 +138,11 @@ def beatmenu():
             if pp[0]!=pp[1]:
                 render('text', text=str(pp[0])+'-'+str(pp[1])+'pp', arg=((popupw+20+hax,110), forepallete))
             render('text', text='BPM: '+str(int(60000/bpm)+1), arg=((popupw+20,80), forepallete))
-            render('text', text='Lv. '+str(round(maxperf*0.123,2)), arg=((popupw+20,145), forepallete))
+            render('text', text='Lv. '+str(lvrating), arg=((popupw+20,145), forepallete))
             render('text', text=f'+{format(maxperf,',')}pp', arg=((popupw+20,110), forepallete))
-            render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],100+bgcolour,30), (beatcol[0]-20,beatcol[1]-20,beatcol[2]-20), False),borderradius=10)
-            render('rect', arg=((diffpos[0],diffpos[1],100,30), beatcol, False),borderradius=10)
-            render('text', text=beatname, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],100,30))
+            render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],100+bgcolour,30), (levelcol[0]-20,levelcol[1]-20,levelcol[2]-20), False),borderradius=10)
+            render('rect', arg=((diffpos[0],diffpos[1],100,30), levelcol, False),borderradius=10)
+            render('text', text=levelrating, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],100,30))
             if pygame.Rect(0,(h//4),45,h//2).collidepoint(pygame.mouse.get_pos()):
                 t=0
             else:
