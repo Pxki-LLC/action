@@ -37,13 +37,14 @@ def beatres():
         render('text', text=gradet, arg=((0,0), forepallete,'grade','center'),relative=scrop)
         render('text', text=str(format(int(perf/maxperf*1000000),',')), arg=((0,0), forepallete,'grade','center'),relative=(scrop[0],scrop[1]+80,scrop[2],scrop[3]))
         render('text', text='pp - '+str(str(format(int(perf),',')))+'/'+str(str(str(format(maxperf,','))))+' Acc - '+str(accuracy)+'%', arg=((0,0), forepallete,'center'),relative=(w//2,h//2-30,0,0))
-        render('text', text='300 - '+str(pup[0]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2,0,0)))
-        render('text', text='100 - '+str(pup[1]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2+25,0,0)))
-        render('text', text='50 - '+str(pup[2]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2+50,0,0)))
-        render('text', text='Miss - '+str(pup[3]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2+75,0,0)))
+        render('text', text='MAX - '+str(pup[0]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2,0,0)))
+        render('text', text='GREAT - '+str(pup[1]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2+25,0,0)))
+        render('text', text='MEH - '+str(pup[2]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2+50,0,0)))
+        render('text', text='BAD - '+str(pup[3]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2+75,0,0)))
         if not username=='Guest':
             render('text', text='Overall Rank - #'+str(format(totrank,',')), arg=((0,0), forepallete,'center'),relative=(w//2+160,h//2+95,0,0))
             render('text', text='Overall Points - '+str(format(totperf,',')), arg=((0,0), forepallete,'center'),relative=(w//2-150,h//2+95,0,0))
+            render('text', text='Overall Accuracy - '+str(round(totacc,2))+'%', arg=((0,0), forepallete,'center'),relative=(w//2-150,h//2+125,0,0))
            # render('text', text='Ranked Score - '+str(format(totscore,',')), arg=((0,0), forepallete,'center'),relative=(scrop[0],scrop[1]+300,scrop[2],scrop[3]))
             changed=[totrank-prevrank,totperf-oldstats[0],totrank,totperf]
             klap=(w//2+195,h//2+105),(w//2-100,h//2+105)

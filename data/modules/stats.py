@@ -82,7 +82,6 @@ def reloadstats(reloadleaderboard=False):
     for a in  objects:
         tmp=a.split(',')
         bartime=int(tmp[2])//100
-        print(bartime)
         if bartime!=lvt:
             lvt=bartime
             lvy=0
@@ -207,7 +206,7 @@ def get_rank(num):
     totrank=(crok+1)-int((num/oneperf)*crok)
     return int(totrank)
 def reloadprofile():
-    global totperf,totscore,totrank
+    global totperf,totscore,totrank,totacc
 #    for a in pend:
     try:
         f=requests.get(apiurl+'api/getstat?'+str(username)+'?full',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
@@ -215,9 +214,11 @@ def reloadprofile():
         totrank=int(f['rank'])
         totperf=int(f['points'])
         totscore=int(f['score'])
+        totacc=float(f['accuracy'])
     except Exception:
         totscore=0
         totperf=0
+        totacc=0
         totrank=0
 
 def ondemand():
@@ -241,6 +242,7 @@ def ondemand():
                 except Exception as err:
                     totperf=0
                     totscore=0
+                    totacc=0
                     totrank=0
                     menunotice='Server is Busy'
                     try:

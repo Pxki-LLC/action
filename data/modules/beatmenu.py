@@ -106,7 +106,7 @@ def beatmenu():
         if not qlutaerror:
             render('rect',arg=((w//2-155,(h-90),310,100),blend(-opacity,0),False),borderradius=10)
             render('rect',arg=((w//2-150,(h-75),300,75),blend(-opacity,0),False))
-            print_card(totperf,totscore,username,(w//2-150,(h-85)),totrank)
+            print_card(totperf,totacc,username,(w//2-150,(h-85)),totrank)
 #        if ranktype and not ranktype==3:
 #            if not modshow:
 #                of=110

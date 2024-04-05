@@ -91,6 +91,7 @@ prevrank=0
 uptime=time.time()
 totperf=0
 totscore=0
+totacc=0
 oldstats=[0,0]
 rankmodes=('Ranked',(100,200,100)),('Unranked',(200,100,100)),('Special',(200,200,100)),('Loading...',(200,200,200)),
 
