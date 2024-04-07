@@ -28,7 +28,7 @@ def beatmapload():
     if ismusic:
         #gametime=pygame.mixer.music.get_pos()
         up=((time.time()-upd)/0.001)
-        gametime=(((time.time()-gc)/0.001)-(up))*1
+        gametime=(((time.time()-gc)/0.001)-(up))*3
         pygame.mixer.music.set_volume((volvisual*0.01))
     else:
         background=pygame.Surface((0,0))

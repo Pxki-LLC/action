@@ -138,7 +138,7 @@ def beatmenu():
             if pp[0]!=pp[1]:
                 render('text', text=str(pp[0])+'-'+str(pp[1])+'pp', arg=((popupw+20+hax,110), forepallete))
             render('text', text='BPM: '+str(int(60000/bpm)+1), arg=((popupw+20,80), forepallete))
-            render('text', text='Lv. '+str(lvrating), arg=((popupw+20,145), forepallete))
+            render('text', text='Lv. '+str(round(lvrating,2)), arg=((popupw+20,145), forepallete))
             render('text', text='+'+format(maxperf,',')+'pp', arg=((popupw+20,110), forepallete))
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],100+bgcolour,30), (levelcol[0]-20,levelcol[1]-20,levelcol[2]-20), False),borderradius=10)
             render('rect', arg=((diffpos[0],diffpos[1],100,30), levelcol, False),borderradius=10)
