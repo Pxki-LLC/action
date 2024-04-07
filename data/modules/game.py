@@ -220,10 +220,14 @@ def game():
             kek=(keymap[0][0],100,400,100)
             comboo=str(format(int(combo),','))
             if sre:
+                try:
+                    judgewindow=judge[1]
+                except Exception:
+                    judgewindow=0
                 render('text',text=comboo,arg=((0,0),(255,0,0),'grade','center'),relative=(kek[0]-sre,kek[1],kek[2],kek[3]))
                 render('text',text=comboo,arg=((0,0),(0,0,255),'grade','center'),relative=(kek[0]+sre,kek[1],kek[2],kek[3]))
                 render('text',text=comboo,arg=((0,0),(0,255,0),'grade','center'),relative=(kek[0],kek[1]+sre,kek[2],kek[3]))
-                render('text',text=hittext[judge[1]],arg=((0,0, h-80-sre),hitcolour[judge[1]],'grade','center'),relative=(kek[0],kek[1]+60,kek[2],kek[3]))
+                render('text',text=hittext[judgewindow],arg=((0,0, h-80-sre),hitcolour[judgewindow],'grade','center'),relative=(kek[0],kek[1]+60,kek[2],kek[3]))
             render('text',text=comboo,arg=((0,0, h-80-sre),forepallete,'grade','center'),relative=kek)
         #render('text',text=h//2+gametime-(int(objects[0].split(',')[2])),arg=((20, 80),forepallete))
         render('text',text=str(hits),arg=((20, 130),forepallete))
