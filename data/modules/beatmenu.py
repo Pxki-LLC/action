@@ -139,7 +139,7 @@ def beatmenu():
                 render('text', text=str(pp[0])+'-'+str(pp[1])+'pp', arg=((popupw+20+hax,110), forepallete))
             render('text', text='BPM: '+str(int(60000/bpm)+1), arg=((popupw+20,80), forepallete))
             render('text', text='Lv. '+str(lvrating), arg=((popupw+20,145), forepallete))
-            render('text', text=f'+{format(maxperf,',')}pp', arg=((popupw+20,110), forepallete))
+            render('text', text='+'+format(maxperf,',')+'pp', arg=((popupw+20,110), forepallete))
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],100+bgcolour,30), (levelcol[0]-20,levelcol[1]-20,levelcol[2]-20), False),borderradius=10)
             render('rect', arg=((diffpos[0],diffpos[1],100,30), levelcol, False),borderradius=10)
             render('text', text=levelrating, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],100,30))
@@ -160,7 +160,7 @@ def beatmenu():
                     leadpos=(10-t,(10+((h//2)-(s//2)))+(60*c),220,50)
                     render('rect', arg=(leadpos, blend(opacity,50), False),borderradius=10)
                     render('text', text=str('#'+str(c+1)+' '+a["username"]), arg=((17-t,leadpos[1]+5), col))
-                    render('text', text=f'{format(int(a['score']),',')} - {str(int(a["points"]))}pp ({str(int(a['combo']))}x) {timeform(int(time.time()-a['time']))}', arg=((17-t,leadpos[1]+30), col,'min'))
+                    render('text', text=format(int(a['score']),',')+' - '+str(int(a["points"]))+'pp ('+str(int(a['combo']))+'x) '+timeform(int(time.time()-a['time'])), arg=((17-t,leadpos[1]+30), col,'min'))
 #                    render('text', text=, arg=((17,leadpos[1]+28), col,'min'))
                     #(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3)))*scoremult)-(hits[3]*(perfbom*2))
                     c+=1
