@@ -149,6 +149,8 @@ noteani=[Tween(begin=0, end=100,duration=150,easing=Easing.CUBIC,easing_mode=Eas
 notemaxh=120
 useroverlay=0
 upd=0
+hittext='PERFECT!','GREAT','MEH','MISS'
+hitcolour=(100, 120, 200),(100, 200, 100),(200, 200, 100),(200, 100, 100)
 def notification(title,desc=''):
     global noteani,notemsg
     notemsg=[title,desc]
