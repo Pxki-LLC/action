@@ -132,12 +132,16 @@ def menu_draw(instruction, text=None,showicon=False,beatmenu=0,ishomemenu=False,
                         for b in icon:
                             screen.blit(b, (instruction[a-1][0], instruction[a-1][1]))
                     if not showicon:
-#                        s=text[a-1].split('\n')
-#                        d=instruction[a-1][3]//len(s)
-#                        f=0
-#                        for e in s[::-1]:
-                        render('text', text=text[a-1], arg=((0,0), tcol,'center'),relative=(tmp[0],tmp[1]-home,tmp[2],tmp[3]))
-#                            f+=1
+                        s=text[a-1].split(' - ')
+                        d=instruction[a-1][3]//len(s)
+                        f=0
+                        for e in s[::-1]:
+                            if ishomemenu:
+                                sd=0
+                            else:
+                                sd=(d*f)
+                            render('text', text=e.replace('[no video]','').rstrip(' '), arg=((0,0), tcol,'center'),relative=(tmp[0],tmp[1]-home+sd,tmp[2],d))
+                            f+=1
     return button
 def clear(color):screen.fill(color)
 def blend(opacity,bgcolour):
