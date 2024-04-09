@@ -103,6 +103,8 @@ def menu_draw(instruction, text=None,showicon=False,beatmenu=0,ishomemenu=False,
             else:
                 if a==1:
                     buttcolour=mainmenucolor[0]
+                elif text[a-1]=='Leave':
+                    buttcolour=mainmenucolor[2]
                 else:
                     buttcolour=mainmenucolor[1][0]-(10*(a-2)),mainmenucolor[1][1]-(10*(a-2)),mainmenucolor[1][2]-(10*(a-2))
                 if ishomemenu:
