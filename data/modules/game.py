@@ -4,10 +4,19 @@ def getpoint(perfect,good,meh,bad,multiplier,combo=1):
     tmp=(((perfect*perfbom)+(good*(perfbom/2))+(meh*(perfbom/3))-(bad*(perfbom*2)))*multiplier)
     tmp+=perfbom*combo
     return int(tmp)
+def clockify(clo):
+    minraw=int(clo/60)
+    if minraw>98:
+        minraw=99
+    min="{:02d}".format(minraw)
+    sec="{:02d}".format(clo-(60*minraw))
+    return str(min)+':'+str(sec)
 def song_progress():
     slop=(gametime/lastms)
     if slop>1:
         slop=1
+    render('text',text=clockify(int(gametime//1000)),arg=((15,h-45),forepallete))
+    render('text',text='-'+clockify(int((lastms-gametime)//1000)),arg=((w-75,h-45),forepallete))
     render('rect', arg=((10,h-20,w-20,10), (50,50,50), False),borderradius=10)
     render('rect', arg=((10,h-20,slop*(w-20),10), (255,255,255), False),borderradius=10)
 def iscatched(block,isauto,ob,fir,id):
