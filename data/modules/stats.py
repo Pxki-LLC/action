@@ -215,7 +215,8 @@ def reloadprofile():
         totperf=int(f['points'])
         totscore=int(f['score'])
         totacc=float(f['accuracy'])
-    except Exception:
+    except Exception as err:
+        print(err,time.time())
         totscore=0
         totperf=0
         totacc=0

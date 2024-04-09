@@ -214,7 +214,7 @@ def game():
         render('rect', arg=((0,-20,w,55), (50,50,60), False),borderradius=20)
         render('rect', arg=((w//2-200,19,401,61), (50,50,80), False),borderradius=20)
         render('text',text=format(score,','),arg=((20, 20),t,'grade','center'),relative=(w//2-200,22,400,60))
-        render('text',text=str(accuracy)+'%',arg=((20, 170),forepallete,'center'),relative=(w//2-200,82,400,20))
+        render('text',text=str(accuracy)+'% '+format(int(perf),',')+' PP',arg=((20, 170),forepallete,'center'),relative=(w//2-200,82,400,20))
         get_mods((20,20))
         if combo!=0:
             kek=(keymap[0][0],100,400,100)
@@ -230,9 +230,7 @@ def game():
                 render('text',text=hittext[judgewindow],arg=((0,0, h-80-sre),hitcolour[judgewindow],'grade','center'),relative=(kek[0],kek[1]+60,kek[2],kek[3]))
             render('text',text=comboo,arg=((0,0, h-80-sre),forepallete,'grade','center'),relative=kek)
         #render('text',text=h//2+gametime-(int(objects[0].split(',')[2])),arg=((20, 80),forepallete))
-        render('text',text=str(hits),arg=((20, 130),forepallete))
         render('line',arg=((0,h-miss),(255,255,255),(w,h-miss)))
-        render('text',text=format(int(perf),',')+' PP',arg=((20, 150),forepallete))
 #        render('text',text='Key Speed: '+str(keyspeed)+' ('+str(0)+'ms)',arg=((20, 70),forepallete))
         render('rect', arg=((w//2-200,5,400,10), (20,20,20), False),borderradius=10)
         #render('rect', arg=((w//2-200,50,((maxscore-score)/maxscore)*400,20), (255,0,0), True),borderradius=10)
