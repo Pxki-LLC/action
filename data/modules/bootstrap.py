@@ -157,7 +157,7 @@ def notification(title,desc=''):
     noteani=[Tween(begin=0, end=notemaxh,duration=500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
     noteani[0].start()
 def main():
-    global fps, activity,oneperf,upd,noteani,voltime,delta,transi,volvisual,volvismo,notemsg,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
+    global fps, activity,oneperf,upd,noteani,voltime,delta,transi,volvisual,volvismo,notemsg,flashylights,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
     if gameedition!=gameeditions[0]:
         gs='/'+gameedition
     else:
@@ -198,15 +198,15 @@ def main():
                 clear((maxt(bgdefaultcolour[0],bgcolour),maxt(bgdefaultcolour[1],bgcolour),maxt(bgdefaultcolour[2],bgcolour)))
             else:
                 clear(bgdefaultcolour)
-            tok=(1-((gametime/bpm)-tick))
-            if tok<0:
-                tok=0
-            elif tok>1:
-                tok=1
+            flashylights=(1-((gametime/bpm)-tick))
+            if flashylights<0:
+                flashylights=0
+            elif flashylights>1:
+                flashylights=1
             elif gametime<=-1:
-                tok=0
+                flashylights=0
             if not settingskeystore[1]:
-                bgcolour=30*tok
+                bgcolour=30*flashylights
             else:
                 bgcolour=0
         if gametime//bpm>tick:

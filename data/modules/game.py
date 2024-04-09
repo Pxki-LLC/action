@@ -136,6 +136,8 @@ def game():
 #                            render('rect', arg=((keypos,block-30,100,30), (255,0,0), False),borderradius=0)
 #                        else:
                     keyoffset=30
+                    if kiai:
+                        render('rect', arg=((keypos,block-(keyoffset)-(60*flashylights),100,30), (255,0,0), False),borderradius=0)
                     render('rect', arg=((keypos,block-(keyoffset),100,30), (notecolour), False),borderradius=0)
                     #render('text',text=block,arg=((keypos,block-30),(255,255,255)))
                     tip=0
