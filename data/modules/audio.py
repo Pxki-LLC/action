@@ -88,7 +88,7 @@ def beatmapload():
                             pref=pref[:pref.index('[')]
                     diffp=[]
                     for difftmp in diff:
-                        beatmap=open(gamepath+fullbeatmapname[beatsel]+'/'+pref+'['+difftmp+']'+'.osu',encoding='utf-8', errors='replace')).read().rstrip('\n').split('\n')
+                        beatmap=open(gamepath+fullbeatmapname[beatsel]+'/'+pref+'['+difftmp+']'+'.osu',encoding='utf-8', errors='replace').read().rstrip('\n').split('\n')
                         general=beatmap[beatmap.index('[General]')+1:]
                         general=general[:general.index("")]
                         for a in general:
