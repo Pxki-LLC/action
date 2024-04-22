@@ -8,7 +8,7 @@ def get_creation_time(item):
     item_path = os.path.join(gamepath, item)
     return os.path.getctime(item_path)
 def beatmapload():
-    global p2,p1,beatnowmusic,gc,gametime,beatani,diffani,beattitle,fullbeatmapname,objects,diffp,betaperf,reloaddatabase,maxperf,background,ranktype,diff,diffmode,pref,level,ismusic,bpm,realid,prestart,beatsel,tick,lastms,combotime,songoffset,metadata
+    global p2,p1,beatnowmusic,gc,speed,gametime,beatani,diffani,beattitle,fullbeatmapname,objects,diffp,betaperf,reloaddatabase,maxperf,background,ranktype,diff,diffmode,pref,level,ismusic,bpm,realid,prestart,beatsel,tick,lastms,combotime,songoffset,metadata
     if reloaddatabase:
         p1=[]
         p2=[]
@@ -27,8 +27,15 @@ def beatmapload():
         prestart=0
     if ismusic:
         #gametime=pygame.mixer.music.get_pos()
-        up=((time.time()-upd)/0.001)
-        gametime=(((time.time()-gc)/0.001)-(up))*1
+        speed=1
+        gametime=(((time.time()-gc)/0.001))*speed
+        if 0==1: #DISABLEEEEE
+            if modsen[5]:
+                speed=1.5
+            elif modsen[6]:
+                speed=0.5
+            if not (gametime*0.001)*speed> lastms-1000:
+                pygame.mixer.music.set_pos((gametime*0.001)*speed)
         pygame.mixer.music.set_volume((volvisual*0.01))
     else:
         background=pygame.Surface((0,0))
@@ -105,7 +112,6 @@ def beatmapload():
                     pygame.mixer.music.load(gamepath+fullbeatmapname[beatsel]+'/'+music)
                     pygame.mixer.music.play(-1)
                     #print(ids)
-                    gametime=pygame.mixer.music.get_pos()
                     reloadstats()
                     betaperf=0
                     ptick=0

@@ -8,15 +8,15 @@ def clockify(clo):
     minraw=int(clo/60)
     if minraw>98:
         minraw=99
-    min="{:02d}".format(minraw)
-    sec="{:02d}".format(clo-(60*minraw))
+    min="{:02d}".format(int(minraw))
+    sec="{:02d}".format(int(clo-(60*minraw)))
     return str(min)+':'+str(sec)
 def song_progress():
     slop=(gametime/lastms)
     if slop>1:
         slop=1
-    render('text',text=clockify(int(gametime//1000)),arg=((15,h-45),forepallete))
-    render('text',text='-'+clockify(int((lastms-gametime)//1000)),arg=((w-75,h-45),forepallete))
+    render('text',text=clockify(int(gametime//1000)/speed),arg=((15,h-45),forepallete))
+    render('text',text='-'+clockify(int((lastms-gametime)//1000)/speed),arg=((w-75,h-45),forepallete))
     render('rect', arg=((10,h-20,w-20,10), (50,50,50), False),borderradius=10)
     render('rect', arg=((10,h-20,slop*(w-20),10), (255,255,255), False),borderradius=10)
 def iscatched(block,isauto,ob,fir,id):
@@ -61,7 +61,7 @@ def game():
         perf=getpoint(hits[0],hits[1],hits[2],hits[3],scoremult,combo)
         maxc=hits[0]+hits[1]+hits[2]+hits[3]
         if not maxc<1:
-            accuracy=round(((hits[0]-(hits[1]*2)-(hits[2]*3)-(hits[3]*4))/(maxc))*100,2)
+            accuracy=round(((hits[0]-(hits[1]/2)-(hits[2]/3)-(hits[3]/4))/(maxc))*100,2)
         else:
             accuracy=100
         #accuracy=100
@@ -225,7 +225,7 @@ def game():
         render('rect', arg=((0,-20,w,55), (50,50,60), False),borderradius=20)
         render('rect', arg=((w//2-200,19,401,61), (50,50,80), False),borderradius=20)
         render('text',text=format(score,','),arg=((20, 20),t,'grade','center'),relative=(w//2-200,22,400,60))
-        render('text',text=str(accuracy)+'% '+format(int(perf),',')+' PP',arg=((20, 170),forepallete,'center'),relative=(w//2-200,82,400,20))
+        render('text',text=str(accuracy)+'% '+format(int(perf),',')+' ('+format(int(perf*(accuracy*0.01)),',')+'pp) PP',arg=((20, 170),forepallete,'center'),relative=(w//2-200,82,400,20))
         get_mods((20,20))
         if combo!=0:
             kek=(keymap[0][0],100,400,100)
