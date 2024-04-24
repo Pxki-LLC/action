@@ -25,6 +25,8 @@ def render(type, arg=(0, 0) ,  text='N/A', bordercolor=forepallete, borderradius
                 out = tmp.get_rect(center=relative.center)
             else:
                 out=arg[0]
+                if "rtl" in arg:
+                    out=out[0]-txtrect[2],out[1]
             if "tooltip" in arg:
                 render('rect', arg=((out[0]-2,out[1]-2,txtrect[2]+4,txtrect[3]+4), (50,50,50), False),borderradius=5)
             surf.blit(tmp,  out)
