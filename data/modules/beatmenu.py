@@ -33,7 +33,7 @@ def beatmenu():
         if len(diffp)<2 or activity==7:
             gotext='GO'
         else:
-            gotext='>'
+            gotext='->'
         if activity==7:
             soup=1
             sel=diffcon
@@ -53,9 +53,9 @@ def beatmenu():
             crok=999
         else:
             crok=0
-        sysbuttonpos=(-10,h-60,100+menuback,60),(140,h-50+crok,100,40),
+        sysbuttonpos=(-10,h-60,100,60),(90,h-60+crok,100,60),
         if modshow:
-            render('rect', arg=((0,h-170,w,120), blend(opacity,0), False),borderradius=10)
+            render('rect', arg=((0,h-170,w,120), (hcol[0]), False),borderradius=10)
             #(340,h-160,90,40) ~ Placeholder
             # This will be here for now, it WILL get better and more optimized over time
             t=(20,20,120,120,220,320,420,480)
@@ -75,7 +75,7 @@ def beatmenu():
 #                           ,(tm[6],h-160,90,40)
 #                           ,(tm[7],h-160,90,40)
                            )
-                           ,(modsalias),enabled_button=modsen)
+                           ,(modsalias),enabled_button=modsen,styleid=3)
             if mod==1:
                 msg='view a "Perfect" play (0)'
             elif mod==2:
@@ -92,21 +92,21 @@ def beatmenu():
                 msg='We be easy on you (/0.5)'
         else:
             mod=0
-            get_mods((150,h-110))
-        render('rect', arg=((0,h-60,w,60), blend(opacity,0), False))
+            get_mods((100,h-110))
+        render('rect', arg=((0,h-60,w,60), hcol[0], False))
 #        for systrocity in sysbuttonpos:
 #            render('rect', arg=((systrocity), (100,100,150), True),bordercolor=(80,80,100),borderradius=10)
-        gobutton=menu_draw(((w-125,h-80+crok,120,70),),(gotext,),bigmode=True,styleid=1)
+        gobutton=menu_draw(((w-120,h-60,120,60),),(gotext,),bigmode=True,styleid=3,bradius=0)
         if scoremult==1:
             m='Mods'
         else:
             m=str(scoremult)+'x'
-        sysbutton=menu_draw(sysbuttonpos,('Back',m),styleid=1)
-        render('rect',arg=((0,h-5,w,5),blend(-opacity,0),False))
+        sysbutton=menu_draw(sysbuttonpos,('Back',m),styleid=3,bradius=0)
+        render('rect',arg=((0,h-5,w,5),hcol[1],False))
         if not qlutaerror:
-            render('rect',arg=((w//2-155,(h-90),310,100),blend(-opacity,0),False),borderradius=10)
-            render('rect',arg=((w//2-150,(h-75),300,75),blend(-opacity,0),False))
-            print_card(totperf,totacc,username,(w//2-150,(h-85)),totrank)
+            render('rect',arg=((w//2-155,(h-90),310,100),hcol[1],False),borderradius=10)
+            render('rect',arg=((w//2-150,(h-75),300,75),hcol[1],False))
+            print_card(totperf,totacc,settingskeystore['username'],(w//2-150,(h-85)),totrank)
 #        if ranktype and not ranktype==3:
 #            if not modshow:
 #                of=110
@@ -153,7 +153,7 @@ def beatmenu():
                 render('rect', arg=((220-t,(h//2)-(s//2),45,s), blend(opacity,25), False),borderradius=10)
                 render('rect', arg=((-10-t,(h//2)-(s//2),250,s), blend(opacity,0), False),borderradius=10)
                 for a in leaderboard[:5]:
-                    if a['username']==username:
+                    if a['username']==settingskeystore['username']:
                         col=166, 207, 255
                     else:
                         col=forepallete

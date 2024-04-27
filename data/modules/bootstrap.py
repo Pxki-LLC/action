@@ -15,7 +15,7 @@ axe=0
 gamename='Qlute'
 gameeditions='stable','beta','canary','dev'
 gameedition=gameeditions[-1]
-gamever='2023.04.09'
+gamever='2023.04.27'
 sylphenginever='2023.09.29'
 gameverspl=gamever.split('.')
 #gameminserve=int(gameverspl[0])+((1+float(gameverspl[1]))*float(gameverspl[2]))
@@ -29,8 +29,6 @@ profilepath=propath+username+'/'
 gameupdateurl='https://github.com/pxkidoescoding/Qlute/'
 gameauthor='Pxki Games'
 print('Starting Game...')
-if not "fpsmode" in globals():
-    fpsmode=4
 button_size_height=33
 stop=0
 rankdiff='Easy','Normal','Hard','Extra','Expert','>n<','Devil'
@@ -205,7 +203,7 @@ def main():
                 flashylights=1
             elif gametime<=-1:
                 flashylights=0
-            if not settingskeystore[1]:
+            if settingskeystore['effects']:
                 bgcolour=30*flashylights
             else:
                 bgcolour=0
@@ -229,7 +227,6 @@ def main():
     settingspage()
     beatmenu()
     shopdirect()
-    debuginfo()
     if useroverlay:
         render('rect', arg=((0,-15,w,h//2), (60,60,60), False), borderradius=15)
         posy=10

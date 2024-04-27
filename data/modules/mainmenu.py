@@ -58,7 +58,7 @@ def mainmenu():
             render('text', text='nothing...', arg=((20,10), (255,255,255)))
         topbutton=menu_draw(tmenu, text=toptext,isblade=True,ignoremove=True,ishomemenu=True)
         if not qlutaerror:
-            print_card(totperf,totacc,username,(w//2-150,h//2+120),totrank,home=True)
+            print_card(totperf,totacc,settingskeystore['username'],(w//2-150,h//2+120),totrank,home=True)
         if menunotice!='':
             render('rect',arg=((w//2-150,h//2-170,300,50),(bgdefaultcolour[0]+25,bgdefaultcolour[1]+25,bgdefaultcolour[2]+25),False),borderradius=10)
             render('text',text=menunotice,arg=((20, 20),(255,255,255),'center'),relative=(w//2-150,h//2-170,300,50))
@@ -82,7 +82,10 @@ def mainmenu():
         if accounts:
             render('rect', arg=((tmenu[1][0]-(350//2),tmenu[1][1]+55,350,230), dcolour, False),borderradius=10)
             render('text', text='Username', arg=((tmenu[1][0]+25-(350//2),tmenu[1][1]+65), (255,255,255)))
-            render('text', text=username, arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+55,350,230//2))
+            if not settingskeystore['username']:
+                render('text', text='Guest Mode', arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+55,350,230//2))
+            else:
+                render('text', text=settingskeystore['username'], arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+55,350,230//2))
             render('text', text='Password', arg=((tmenu[1][0]+25-(350//2),tmenu[1][1]+135), (255,255,255)))
             render('text', text='Password', arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+125,350,230//2))
             menu_draw(((tmenu[1][0]-(350//2)+20,tmenu[1][1]+225,140,50),(tmenu[1][0]-(350//2)+5+185,tmenu[1][1]+225,140,50)),text=['Sign in','Register'])

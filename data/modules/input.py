@@ -1,5 +1,5 @@
 def get_input():
-    global keys,activity,modshow,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,activity,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -29,33 +29,26 @@ def get_input():
                     else:
                         transitionprep(3)
             elif activity==2:
+                if catbutton:
+                    setupid=catbutton
                 if setbutton:
                     change=True
-                if setbutton  ==  1:
+                if setbutton  ==  1 and setupid==4:
                     change=True
                     if fpsmode<1:
                         fpsmode=len(fpsmodes)-1
                     else:
                         fpsmode-=1
-                    settingskeystore[3]=fpsmode
-                elif setbutton == 2:
-                  settingskeystore[0] = not settingskeystore[0]
+                    settingskeystore['fps']=fpsmodes[fpsmode]
+                elif setbutton == 2 and setupid==4:
+                  settingskeystore['fullscreen'] = not settingskeystore['fullscreen']
                   firstcom=False
-                elif setbutton == 3:
-                  settingskeystore[1] = not settingskeystore[1]
-                elif setbutton == 4:
-                  settingskeystore[2] = not settingskeystore[2]
-                elif setbutton == 5:
-                  settingskeystore[4] = not settingskeystore[4]
-                elif setbutton == 6:
-                  settingskeystore[5] = not settingskeystore[5]
-                elif setbutton == 7:
-                  transitionprep(99)
-                elif setbutton == 8:
-                  crash('This is a test')
-                elif setbutton == 9:
-                    transitionprep(0)
-                    logotime=time.time()
+                elif setbutton == 1 and setupid==3:
+                  settingskeystore['hitsound'] = not settingskeystore['hitsound']
+                elif setbutton == 1 and setupid==1:
+                  settingskeystore['leaderboard'] = not settingskeystore['leaderboard']
+                elif setbutton == 2 and setupid==1:
+                  settingskeystore['effects'] = not settingskeystore['effects']
                 elif sysbutton:
                     transitionprep(1)
 

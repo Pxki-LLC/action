@@ -48,7 +48,6 @@ syspath='./data/'
 modulepath='./data/modules/'
 forepallete=(255,255,255)
 moduletime=time.time()
-apiurl='https://qlute.pxki.us.to/'
 if not "-devmode" in sys.argv:
     devmode=True # Bypasses the sha256sum Checks and open as Normal. Which would make players able to run the game with modified code that I didn't Verify yet.
 else:

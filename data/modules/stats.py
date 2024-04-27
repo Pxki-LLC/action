@@ -105,7 +105,7 @@ def reloadstats(reloadleaderboard=False):
 def rleaderboard():
     global leaderboard
     leaderboard=[]
-    f=requests.get(apiurl+'api/getleaderboard?'+str(beatmapid))
+    f=requests.get(settingskeystore['apiurl']+'api/getleaderboard?'+str(beatmapid))
     leaderboard=f.json()
 def getstat():
     global ranktype,getpoints,leaderboard
@@ -209,7 +209,7 @@ def reloadprofile():
     global totperf,totscore,totrank,totacc
 #    for a in pend:
     try:
-        f=requests.get(apiurl+'api/getstat?'+str(username)+'?full',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
+        f=requests.get(settingskeystore['apiurl']+'api/getstat?'+str(settingskeystore['username'])+'?full',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
         f=json.loads(f.text)
         totrank=int(f['rank'])
         totperf=int(f['points'])
@@ -223,8 +223,9 @@ def reloadprofile():
         totrank=0
 
 def ondemand():
-    global totperf,totscore,totrank,nettick,issigned,qlutaerror,menunotice
+    global totperf,totscore,totrank,nettick,issigned,qlutaerror,menunotice,pingspeed
     qlutaerror=True
+    pingspeed=0
     while True:
         if stop:
             exit()
@@ -236,14 +237,17 @@ def ondemand():
                         pre='Playing '
                     else:
                         pre='Listening to '
-                    f=requests.get(apiurl+'api/setstatus?'+str(username)+'?playing?'+str(pre+str(beattitle)),headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
+                    ps=time.time()
+                    f=requests.get(settingskeystore['apiurl']+'api/setstatus?'+str(settingskeystore['username'])+'?playing?'+str(pre+str(beattitle)),headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
                     f=f.text
-                    menunotice=requests.get(apiurl+'api/menunotice',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5).text
+                    menunotice=requests.get(settingskeystore['apiurl']+'api/menunotice',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5).text
                     qlutaerror=False
+                    pingspeed=int((time.time()-ps)/0.001)
                 except Exception as err:
                     totperf=0
                     totscore=0
                     totacc=0
+                    pingspeed=0
                     totrank=0
                     menunotice='Server is Busy'
                     try:

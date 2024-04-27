@@ -1,3 +1,4 @@
+hcol=(62,60,115),(42,40,95)
 def render(type, arg=(0, 0) ,  text='N/A', bordercolor=forepallete, borderradius=0,relative=(0,0,0,0),surf=''):
     off=0
     grad2=False
@@ -43,15 +44,15 @@ def render(type, arg=(0, 0) ,  text='N/A', bordercolor=forepallete, borderradius
             ## This was for a "Wireframe" Like Square
 #            pygame.draw.rect(screen, (0, 255, 0), (arg[0][0], arg[0][1], arg[0][2], arg[0][3]), 1)
         elif type == 'header':
-            render('rect', arg=((0, -40, w, 100), blend(opacity,0), False), borderradius=20)
-            render('rect',arg=((0,0,w,5),blend(-opacity,0),False))
+            render('rect', arg=((0, -40, w, 100), hcol[0], False), borderradius=20)
+            render('rect',arg=((0,0,w,5),hcol[1],False))
         else:
             crash('Render unsupported Type')
     except Exception as error:
         print(error)
         exit()
         crash(str(error)+' (renderer)')
-def menu_draw(instruction, text=None,showicon=False,beatmenu=0,ishomemenu=False,ignoremove=False, istextbox=False, selected_button=0,enabled_button=[],enable_border=False, hidebutton=False,bigmode=False,startlimit=1,endlimit=None,styleid=1,isblade=False,icon=0):
+def menu_draw(instruction, text=None,showicon=False,bradius=10,settings=False,beatmenu=0,ishomemenu=False,ignoremove=False, istextbox=False, selected_button=0,enabled_button=[],enable_border=False, hidebutton=False,bigmode=False,startlimit=1,endlimit=None,styleid=1,isblade=False,icon=0):
     global osam
     if endlimit==None:
         endlimit=len(instruction)
@@ -63,7 +64,10 @@ def menu_draw(instruction, text=None,showicon=False,beatmenu=0,ishomemenu=False,
     if istextbox:
         button=0, 0, 0
     else:
-        if styleid==0:
+        if settings or styleid==3:
+            buttonc=82,80,135
+            tcol=forepallete
+        elif styleid==0:
             buttonc=30, 100, 120
             tcol=255,255,255
         elif styleid==1:
@@ -101,7 +105,10 @@ def menu_draw(instruction, text=None,showicon=False,beatmenu=0,ishomemenu=False,
 #                    enable_border=True
 #                else:
 #                    enable_border=False
-                render('rect', arg=((tmp), buttcolour, False),borderradius=10)
+                if settings:
+                    render('rect', arg=(tmp, buttcolour, False))
+                else:
+                    render('rect', arg=((tmp), buttcolour, False),borderradius=bradius)
             else:
                 if a==1:
                     buttcolour=mainmenucolor[0]
@@ -136,16 +143,19 @@ def menu_draw(instruction, text=None,showicon=False,beatmenu=0,ishomemenu=False,
                         for b in icon:
                             screen.blit(b, (instruction[a-1][0], instruction[a-1][1]))
                     if not showicon:
-                        s=text[a-1].split(' - ')
-                        d=instruction[a-1][3]//len(s)
-                        f=0
-                        for e in s[::-1]:
-                            if ishomemenu:
-                                sd=0
-                            else:
-                                sd=(d*f)
-                            render('text', text=e.replace('[no video]','').rstrip(' '), arg=((0,0), tcol,'center'),relative=(tmp[0],tmp[1]-home+sd,tmp[2],d))
-                            f+=1
+                        if not settings:
+                            s=text[a-1].split(' - ')
+                            d=instruction[a-1][3]//len(s)
+                            f=0
+                            for e in s[::-1]:
+                                if ishomemenu:
+                                    sd=0
+                                else:
+                                    sd=(d*f)
+                                render('text', text=e.replace('[no video]','').rstrip(' '), arg=((0,0), tcol,'center'),relative=(tmp[0],tmp[1]-home+sd,tmp[2],d))
+                                f+=1
+                        else:
+                            render('text', text=text[a-1], arg=((0,0), forepallete,'center','min'),relative=tmp)
     return button
 def clear(color):screen.fill(color)
 def blend(opacity,bgcolour):
@@ -161,7 +171,7 @@ def drawRhomboid(surf, color, x, y, width, height, offset, thickness=0):
 def fullscreenchk():
     global w, h, w, h, screen,transani, button_size_width, firstcom,tal,keymap,fonts,volani,keysize,logopos,bladeani
     reload=False
-    if not settingskeystore[0]:
+    if not settingskeystore['fullscreen']:
         if not firstcom:
             w=800
             h=600
@@ -173,7 +183,7 @@ def fullscreenchk():
 
     flags=pygame.RESIZABLE
     bit=24
-    if settingskeystore[0]:
+    if settingskeystore['fullscreen']:
         if not firstcom:
             screen=pygame.display.set_mode((0, 0), pygame.FULLSCREEN|flags, bit)
             reload=True

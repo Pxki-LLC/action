@@ -69,6 +69,9 @@ def game():
             end=(perf/maxperf)
         else:
             end=0
+        end=(300*hits[0])+(100*hits[1])+(50*hits[2])
+        end*=scoremult
+        end*=combo//2
         if health<0:
             health=100
             transitionprep(3)
@@ -82,6 +85,7 @@ def game():
             t1=maxt1
         ob=0
         score=int(end*(1000000*scoremult))
+        score=int(end)
         temp=h//2+int(gametime)
         render('rect', arg=((keymap[0][0],keymap[0][1]-10,keymap[0][2]*4,10), (100,140,220), False),borderradius=0)
         for a in keys:
@@ -192,18 +196,18 @@ def game():
                         health-=t1
             stripetime=[]
         
-        if settingskeystore[5] and len(leaderboard)>0:
+        if settingskeystore['leaderboard'] and len(leaderboard)>0:
             players=1
             t=1
-            current={'username': username,'score': score,'points': perf,'current': True}
+            current={'username': settingskeystore['username'],'score': score,'points': perf,'current': True}
             tmpl = leaderboard + [current]
             ranking=51
             #playboard[len(playboard)-1]=(username,(255,255,0),int(end*1000000))
             for tmp in sorted(tmpl, key=lambda x: x['points'],reverse=True):
-                if tmp['username']==username and "current" in tmp:
+                if tmp['username']==settingskeystore['username'] and "current" in tmp:
                     pcolor=blend(opacity,50)
                     pcol=(252, 255, 166)
-                elif tmp['username']==username:
+                elif tmp['username']==settingskeystore['username']:
                     pcolor=blend(opacity,20)
                     pcol=(166, 207, 255)
                 else:
@@ -218,7 +222,7 @@ def game():
                     render('text',text='#'+str(players)+' '+format(tmp['score'],','),arg=((20, 95+(50*(t))),pcol,'min'))
                     t+=1
                 players+=1
-        if end*1000000<0:
+        if score<0:
             t=(255,0,0)
         else:        
             t=forepallete
