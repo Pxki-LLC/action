@@ -168,7 +168,10 @@ def main():
     pygame.display.set_caption(gamename+gs+' '+str(gamever)+' '+alttitle)
     if not firstcom:
         pygame.display.set_icon(programIcon)
-    pygame.mouse.set_visible(False)
+    if activity==9:
+        pygame.mouse.set_visible(True)
+    else:
+        pygame.mouse.set_visible(False)
     update=time.time()
     posmouse=pygame.mouse.get_pos()
 #    if modsen[0]:
@@ -177,7 +180,7 @@ def main():
     if time.time()-sa>0.1:
         sa=time.time()
         fps=int(clock.get_fps())
-    allowed=[0,1,2,3,5,6,7,8,99,9]
+    allowed=[0,1,2,3,5,6,7,8,99]
     upd=time.time()
     fullscreenchk()
     size=60
@@ -227,6 +230,7 @@ def main():
     settingspage()
     beatmenu()
     shopdirect()
+    gameedit()
     if useroverlay:
         render('rect', arg=((0,-15,w,h//2), (60,60,60), False), borderradius=15)
         posy=10

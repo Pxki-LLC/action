@@ -9,6 +9,8 @@ def get_input():
             if activity==1:
                 if menubutton  ==  1:
                     transitionprep(3)
+                elif menubutton  ==  2:
+                    transitionprep(9)
                 elif menubutton  ==  3:
                     transitionprep(6)
                 elif menubutton  ==  4:
@@ -17,10 +19,15 @@ def get_input():
                     notification('S-Ranker',desc='Like to show off. huh?')
                 elif topbutton  ==  1:
                     transitionprep(2)
+                    setupid=1
                 elif topbutton  ==  2:
-                    accounts=not accounts
+                    transitionprep(2)
+                    setupid=6
             elif activity==0:
                 transitionprep(1)
+            elif activity==9:
+                if sysbutton:
+                    transitionprep(1)
             elif activity==5:
                 if butt:
                     if replaymen:

@@ -57,12 +57,14 @@ def settingspage():
             user='Guest'
         else:
             user=settingskeystore['username']
-        setuplist={'general': {'Leaderboards':settingskeystore['leaderboard'],'Effects':settingskeystore['effects']},'skinning':{},'audio':{'Hitsounds':settingskeystore['hitsound']},'graphics':{'FPS':tmp,'Fullscreen':settingskeystore['fullscreen']},'debug':{},'account':{'Username':user}}
+        setuplist={'general': {'Leaderboards':settingskeystore['leaderboard'],'Effects':settingskeystore['effects']},'skinning':{'Note Width':'->','Note Height':'->','Note Colour':'->','Background Colour':'->','Insanity Level':'->',},'audio':{'Hitsounds':settingskeystore['hitsound']},'graphics':{'FPS':tmp,'Fullscreen':settingskeystore['fullscreen']},'debug':{},'account':{'Username':user}}
         #setuplist=['FPS: '+tmp,'Fullscreen: '+str(settingskeystore['fullscreen']),'Effects: '+str(settingskeystore['effects']),'Allow Skins: '+str(settingskeystore['skinning']),'Hitsounds: '+str(settingskeystore['hitsound']),'Leaderboards: '+str(settingskeystore['leaderboard']),'Debug Info','Crash Test']
         setuplistpos=[]
 #        for a in range(1,6):
 #            setuplist.append('Unknown')
         b=0
+        if setupid==2:
+            render('rect', arg=((w//2,100,w//2,h-100), (20,20,20), False))
         if setupid==5:
             render('text',text='Game Name - '+str(gamename),arg=((20,120+(23*0)),forepallete))
             render('text',text='Game Version - '+str(gamever),arg=((20,120+(23*1)),forepallete))
@@ -74,7 +76,11 @@ def settingspage():
             for a in setuplist[setupcatagory[setupid-1].lower()]:
                 b+=1
                 poof=offset[1]+40
-                setuplistpos.append((w//2-110,  poof+(50*b),  220,  button_size_height))
+                if setupid==2:
+                    posw=20
+                else:
+                    posw=w//2-110
+                setuplistpos.append((posw,  poof+(50*b),  220,  button_size_height))
                 setuptxt.append(a+' : '+str(setuplist[setupcatagory[setupid-1].lower()][a]))
             if len(setuptxt)<1:
                 setbutton=0
