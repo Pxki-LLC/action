@@ -42,7 +42,7 @@ def beatres():
         render('text', text='GREAT - '+str(pup[1]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2+25,0,0)))
         render('text', text='MEH - '+str(pup[2]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2+50,0,0)))
         render('text', text='BAD - '+str(pup[3]), arg=((0,0), forepallete,'center'),relative=((w//2,h//2+75,0,0)))
-        if not settingskeystore['username']:
+        if settingskeystore['username']:
             render('text', text='Overall Rank - #'+str(format(totrank,',')), arg=((0,0), forepallete,'center'),relative=(w//2+160,h//2+95,0,0))
             render('text', text='Overall Points - '+str(format(totperf,',')), arg=((0,0), forepallete,'center'),relative=(w//2-150,h//2+95,0,0))
             render('text', text='Overall Accuracy - '+str(round(totacc,2))+'%', arg=((0,0), forepallete,'center'),relative=(w//2-150,h//2+135,0,0))
