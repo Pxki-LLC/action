@@ -1,9 +1,9 @@
 
-def getpoint(perfect,good,meh,bad,multiplier,combo=1):
+def getpoint(perfect,good,meh,bad,multiplier,combo=1,type=int):
     multiplier=multiplier
     tmp=(((perfect*perfbom)+(good*(perfbom/2))+(meh*(perfbom/3))-(bad*(perfbom*2)))*multiplier)
     tmp+=perfbom*combo
-    return int(tmp)
+    return type(tmp)
 def clockify(clo):
     minraw=int(clo/60)
     if minraw>98:
@@ -58,7 +58,9 @@ def game():
         #    pygame.mixer.music.play(-1,0)
 
         b=0
-        perf=getpoint(hits[0],hits[1],hits[2],hits[3],scoremult,combo)
+        perf=getpoint(hits[0],hits[1],hits[2],hits[3],scoremult,combo,type=float)
+        if perf>maxperf:
+            perf=maxperf
         maxc=hits[0]+hits[1]+hits[2]+hits[3]
         if not maxc<1:
             accuracy=round(((hits[0]-(hits[1]/2)-(hits[2]/3)-(hits[3]/4))/(maxc))*100,2)
@@ -66,7 +68,7 @@ def game():
             accuracy=100
         #accuracy=100
         if int(maxperf)!=0:
-            end=(perf/maxperf)
+            end=(perf/maxperf)*(scoremult*1000000)
         else:
             end=0
 #        end=(300*hits[0])+(100*hits[1])+(50*hits[2])
@@ -187,7 +189,7 @@ def game():
                         combo+=1
                         combotime=time.time()
                         t=a.split(':')[-1]
-                        if not t=='' and settingskeystore[4]:
+                        if not t=='' and settingskeystore['hitsound']:
                             pygame.mixer.Sound(gamepath+realid+'/'+str(t)).play()
                             print('Played',t)
                     else:
