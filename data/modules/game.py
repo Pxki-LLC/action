@@ -69,9 +69,9 @@ def game():
             end=(perf/maxperf)
         else:
             end=0
-        end=(300*hits[0])+(100*hits[1])+(50*hits[2])
-        end*=scoremult
-        end*=combo//2
+#        end=(300*hits[0])+(100*hits[1])+(50*hits[2])
+#        end*=scoremult
+#        end*=combo//2
         if health<0:
             health=100
             transitionprep(3)
