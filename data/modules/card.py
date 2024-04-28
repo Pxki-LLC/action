@@ -13,7 +13,8 @@ def print_card(pp,score,name,pos,rank,isgrayed=False,home=False):
         dim=35
         render('rect',arg=((pos[0],pos[1],300,80),(tmp),False),borderradius=10)
         if rank:
-            render('text', text='#'+str(format(rank,',')), arg=((pos[0]+290,pos[1]+30), (tmp[0]+dim,tmp[1]+dim,tmp[2]+dim),'grade','rtl'))
+            if not pp<1:
+                render('text', text='#'+str(format(rank,',')), arg=((pos[0]+290,pos[1]+30), (tmp[0]+dim,tmp[1]+dim,tmp[2]+dim),'grade','rtl'))
             render('text', text='Accuracy - '+str(round(score,2))+'%', arg=((pos[0]+10,pos[1]+60), tmpt,'min'))
             render('text', text=str(format(int(pp),','))+'pp (Lv. '+str(format(int(int(pp)*0.0727),','))+')', arg=((pos[0]+10,pos[1]+40), tmpt,'min'))
         else:

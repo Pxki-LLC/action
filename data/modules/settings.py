@@ -57,7 +57,7 @@ def settingspage():
             user='Guest'
         else:
             user=settingskeystore['username']
-        setuplist={'general': {'Leaderboards':settingskeystore['leaderboard'],'Effects':settingskeystore['effects']},'skinning':{'Note Width':'->','Note Height':'->','Note Colour':'->','Background Colour':'->','Insanity Level':'->',},'audio':{'Hitsounds':settingskeystore['hitsound']},'graphics':{'FPS':tmp,'Fullscreen':settingskeystore['fullscreen']},'debug':{},'account':{'Username':user}}
+        setuplist={'general': {'Leaderboards':settingskeystore['leaderboard'],'Effects':settingskeystore['effects'],'Save Replays':'True'},'skinning':{'Note Width':'->','Note Height':'->','Note Colour':'->','Background Colour':'->','Insanity Level':'->',},'audio':{'Hitsounds':settingskeystore['hitsound']},'graphics':{'FPS':tmp,'Fullscreen':settingskeystore['fullscreen']},'debug':{},'account':{'Username':user}}
         #setuplist=['FPS: '+tmp,'Fullscreen: '+str(settingskeystore['fullscreen']),'Effects: '+str(settingskeystore['effects']),'Allow Skins: '+str(settingskeystore['skinning']),'Hitsounds: '+str(settingskeystore['hitsound']),'Leaderboards: '+str(settingskeystore['leaderboard']),'Debug Info','Crash Test']
         setuplistpos=[]
 #        for a in range(1,6):
@@ -68,7 +68,7 @@ def settingspage():
         if setupid==5:
             render('text',text='Game Name - '+str(gamename),arg=((20,120+(23*0)),forepallete))
             render('text',text='Game Version - '+str(gamever),arg=((20,120+(23*1)),forepallete))
-            render('text',text='Slyph Engine Version - '+str(sylphenginever),arg=((20,120+(23*2)),forepallete))
+            render('text',text='Slyph Engine Version - '+str(sylphenginever)+' (will now be the same version as game)',arg=((20,120+(23*2)),forepallete))
             render('text',text='Module Initial Time - '+str(moduletime),arg=((20,120+(23*3)),forepallete))
             render('text',text='Ping Speed - '+str(pingspeed)+'ms',arg=((20,120+(23*4)),forepallete))
         else:
@@ -80,8 +80,13 @@ def settingspage():
                     posw=20
                 else:
                     posw=w//2-110
+                text=str(setuplist[setupcatagory[setupid-1].lower()][a])
+                if '->' in text:
+                    sp=' '
+                else:
+                    sp=' : ' 
                 setuplistpos.append((posw,  poof+(50*b),  220,  button_size_height))
-                setuptxt.append(a+' : '+str(setuplist[setupcatagory[setupid-1].lower()][a]))
+                setuptxt.append(a+sp+text)
             if len(setuptxt)<1:
                 setbutton=0
             else:
@@ -96,4 +101,6 @@ def settingspage():
                 msg='Enable Hitsounds'
             elif setbutton == 1 and setupid==1:
                 msg='Enable Leaderboards'
+            elif setbutton == 3 and setupid==1:
+                msg='Auto Save Replays'
         sysbutton=menu_draw(((-10,h-60,100,60),),('Back',),bradius=0,styleid=3)
