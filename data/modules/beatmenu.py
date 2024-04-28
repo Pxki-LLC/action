@@ -121,7 +121,6 @@ def beatmenu():
 #            render('rect', arg=((40,h-200+of,250,25), blend(opacity//2,0), False),borderradius=5)
 #            render('text', text='You will not earn Points', arg=((0,0), forepallete,"center"),relative=(40,h-200+of,250,25))
         if not beatani[1] or not diffani[1]:
-            print('!!')
             cross[0]=beatani[0].value
             cross[1]=diffani[0].value
         if sysbutton==1:

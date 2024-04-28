@@ -7,7 +7,7 @@
 #
 import random,re,json,zipfile,os
 from random import randint
-import pygame, time, sys, threading, requests, socket
+import pygame, time, sys, threading, requests, socket,hashlib
 import tkinter as tk
 from tweener import *
 nline='\n'
@@ -137,7 +137,6 @@ sre=0
 crox=[]
 delta=0
 beattitle=None
-issigned=True
 countersp=0
 #def print(txt):
 #    logbox.append((txt,time.time()))
@@ -156,7 +155,12 @@ def notification(title,desc=''):
     noteani=[Tween(begin=0, end=notemaxh,duration=500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
     noteani[0].start()
 def main():
-    global fps, activity,oneperf,upd,noteani,voltime,delta,transi,volvisual,volvismo,notemsg,flashylights,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
+    global fps, activity,oneperf,change,upd,noteani,voltime,delta,transi,volvisual,volvismo,notemsg,flashylights,logopos,oneperfk,mtext, ingame, screen, settingskeystore,reloaddatabase,totrank, debugmode,sa,bgcolour,tick,scale,size,cardsize,bgtime,replaymen,allowed,posmouse,drawtime,scoremult,msg
+    if change:
+        tmp=open(datapath+'settings', 'w')
+        tmp.write(json.dumps(settingskeystore))
+        tmp.close()
+        change=False
     if gameedition!=gameeditions[0]:
         gs='/'+gameedition
     else:
@@ -169,7 +173,7 @@ def main():
     pygame.display.set_caption(gamename+gs+' '+str(gamever)+' '+alttitle)
     if not firstcom:
         pygame.display.set_icon(programIcon)
-    if activity==9:
+    if activity in (9,10):
         pygame.mouse.set_visible(True)
     else:
         pygame.mouse.set_visible(False)
@@ -232,6 +236,7 @@ def main():
     beatmenu()
     shopdirect()
     gameedit()
+    loginscreen()
     if useroverlay:
         render('rect', arg=((0,-15,w,h//2), (60,60,60), False), borderradius=15)
         posy=10
@@ -323,35 +328,9 @@ nettick=0
 timetaken=0
 welcometext='Welcome to '+str(gamename)
 logbox=[('Started Engine',time.time())]
-def loginwindow():
-    def validate_login():
-        global username
-        username = username_entry.get()
-        password = password_entry.get()
-        print(username,password,' Entising Login info...')
-        reloadprofile()
-    parent = tk.Tk()
-    parent.title("Login")
-    parent.resizable(False,False)
-    username_label = tk.Label(parent, text="Username:")
-    username_label.pack()
-
-    username_entry = tk.Entry(parent)
-    username_entry.pack()
-
-# Create and place the password label and entry
-    password_label = tk.Label(parent, text="Password:")
-    password_label.pack()
-
-    password_entry = tk.Entry(parent, show="*")  # Show asterisks for password
-    password_entry.pack()
-
-# Create and place the login button
-    login_button = tk.Button(parent, text="Login", command=validate_login)
-    login_button.pack()
-
-# Start the Tkinter event loop
-    parent.mainloop()
+def gamesession():
+    while True:
+        main()
 if __name__  ==  "__main__":
     try:
         if os.path.isfile(datapath+'devsettings'):
@@ -378,6 +357,8 @@ if __name__  ==  "__main__":
         programIcon = pygame.image.load(resource_path(syspath+'icon.png'))
         threading.Thread(target=ondemand).start()
         #threading.Thread(target=loginwindow).start()
+        #for a in range(1,3):
+            #threading.Thread(target=gamesession).start()
         while True:
             if stop:
                 sys.exit()

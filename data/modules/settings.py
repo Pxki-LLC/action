@@ -29,21 +29,20 @@ for a in setupcatagory:
     setupcatpos.append((0+(100*b),80,100,20))
     b+=1
 #                            render('rect', arg=(pos, (43, 163, 237), False))
-
+if settingskeystore['username'] and settingskeystore['password']:
+    issigned=1
+else:
+    issigned=0
 def settingspage():
     global settingskeystore, activity,catbutton, screen, firstcom, change, fpsmode,totperf,totscore,msg,logotime,setbutton,sysbutton
     if activity==2:
-        if change:
-            tmp=open(datapath+'settings', 'w')
-            tmp.write(json.dumps(settingskeystore))
-            tmp.close()
-            change=False
         #settingskeystore[2], settingskeystore[1], fullscreen
         if str(fpsmodes[fpsmode])!='1000':
             tmp=str(fpsmodes[fpsmode])
         else:
             tmp='Unlimited'
         render('rect', arg=((0,0,w,h), (42,40,95), False))
+        render('rect', arg=((0,h-60,w,60), hcol[0], False))
         render('rect', arg=((0,0,w,100), (62,60,115), False))
 #        b=0
         catbutton=menu_draw((setupcatpos), (setupcatagory),settings=True,selected_button=setupid)

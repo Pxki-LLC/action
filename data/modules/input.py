@@ -1,5 +1,5 @@
 def get_input():
-    global keys,activity,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,logintext,textboxid,activity,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -21,11 +21,33 @@ def get_input():
                     transitionprep(2)
                     setupid=1
                 elif topbutton  ==  2:
-                    transitionprep(2)
-                    setupid=6
+                    transitionprep(10)
             elif activity==0:
                 transitionprep(1)
             elif activity==9:
+                if sysbutton:
+                    transitionprep(1)
+            elif activity==10:
+                if pygame.Rect(w//2-300,h//2-50,600,30).collidepoint(pygame.mouse.get_pos()):
+                    textboxid=0
+                elif pygame.Rect(w//2-300,h//2+30,600,30).collidepoint(pygame.mouse.get_pos()):
+                    textboxid=1
+                if logbutton==1:
+                        if issigned:
+                            settingskeystore['username']=None
+                            settingskeystore['password']=None
+                            logintext[1]=''
+                            issigned=0
+                            notification('Qluta',desc='You are offline')
+                        else:
+                            if logintext[0]!='' or logintext[1]!='':
+                                settingskeystore['username']=logintext[0]
+                                settingskeystore['password']=hashlib.sha256(bytes(logintext[1],'utf-8')).hexdigest()
+                            else:
+                                notification('Qluta',desc='what u doin >:^')
+                        threading.Thread(target=reloadprofile).start()
+                        change=True
+
                 if sysbutton:
                     transitionprep(1)
             elif activity==5:
@@ -103,31 +125,43 @@ def get_input():
                                     else:
                                         if button-1!=diffcon:
                                             diffcon=button-1
-                                            diffani=Tween(begin=cross[1], end=diffcon,duration=1500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
-                                            diffani.start()
+                                            diffani=[Tween(begin=cross[1], end=diffcon,duration=1500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),0]
+                                            diffani[0].start()
                                             reloadstats()
                                         else:
                                             preparemap()
                 elif event.button==4:
                         if not activity==7:
-                            song_change(0)
+                            cross[0]-=1
                         else:
-                            diff_change(0)
+                            cross[1]-=1
                 elif event.button==5:
                         if not activity==7:
-                            song_change(1)
+                            cross[0]+=1
                         else:
-                            diff_change(1)
+                            cross[1]+=1
 
 
         if event.type  ==  pygame.KEYDOWN:
-            if event.key  ==  pygame.K_MINUS:
+            if event.key  ==  pygame.K_MINUS and not activity==10:
                 volchg(0)
-            elif event.key  ==  pygame.K_EQUALS:
+            elif event.key  ==  pygame.K_EQUALS and not activity==10:
                 volchg(1)
-            elif event.key  ==  pygame.K_F9:
+            elif event.key  ==  pygame.K_F9 and not activity==10:
                 useroverlay=not useroverlay
-            elif event.key  ==  pygame.K_q or event.key  ==  pygame.K_ESCAPE:
+            elif event.key == pygame.K_BACKSPACE: 
+                if activity==10:
+                    logintext[textboxid] = logintext[textboxid][:-1]
+            elif event.key == pygame.K_TAB: 
+                if activity==10:
+                    textboxid=not textboxid
+            elif event.key  ==  pygame.K_RETURN:
+                if activity==10:
+                    pass # Bypass repeated sequence
+
+            # Unicode standard is used for string 
+            # formation 
+            elif event.key  ==  pygame.K_q and not activity==10 or event.key  ==  pygame.K_ESCAPE :
                 if activity==4:
                     transitionprep(3)           
                 elif not activity==7:
@@ -136,6 +170,9 @@ def get_input():
                     activity=3
                 elif not activity==1:
                     stopnow()
+            else: 
+                if activity==10:
+                    logintext[textboxid] += event.unicode
             if activity==7 or activity==3:
                 if event.key  ==  pygame.K_RETURN:
                     if not activity==7:
