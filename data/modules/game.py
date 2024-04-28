@@ -284,6 +284,8 @@ def game():
 #            if keys[a-1]:
 #                keys[a-1]=0
         song_progress()
+        if "tornney" in settingskeystore:
+            render('text',text=settingskeystore['username'],arg=((w-20, h-120),forepallete,'grade','rtl'))
         if  gametime>=lastms+1000:# or combo>49:
             render('rect', arg=((0,h//2-50,w,100), (255,255,255), False))
             render('text',text='Loading...',arg=((20, 20),(0,0,0),'grade','center'),relative=(w//2-100,h//2-50,200,100))
