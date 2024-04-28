@@ -8,7 +8,10 @@ def logo():
         tmp=(delta/0.01)
         #print(tmp)
         if toka<=-64:
-            transitionprep(1)
+            if issigned:
+                transitionprep(1)
+            else:
+                transitionprep(10)
         else:
             logopos.update()
         titlelogo=(255*(logopos.value/100),255*(logopos.value/100),255*(logopos.value/100))
