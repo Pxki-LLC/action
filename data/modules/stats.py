@@ -198,15 +198,15 @@ def diff_change(switch):
         else:
             diffcon=0
     reloadstats()
-    diffani=Tween(begin=cross[1], end=diffcon,duration=1500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT)
-    diffani.start()
+    diffani=[Tween(begin=cross[1], end=diffcon,duration=1500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),0]
+    diffani[0].start()
 def get_rank(num):
     #crok=256*oneperf
     crok=oneperf/2
     totrank=(crok+1)-int((num/oneperf)*crok)
     return int(totrank)
 def reloadprofile():
-    global totperf,totscore,totrank,totacc
+    global totperf,totscore,totrank,totacc,issigned
 #    for a in pend:
     try:
         f=requests.get(settingskeystore['apiurl']+'api/getstat?'+str(settingskeystore['username'])+'?full',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
@@ -215,6 +215,7 @@ def reloadprofile():
         totperf=int(f['points'])
         totscore=int(f['score'])
         totacc=float(f['accuracy'])
+        issigned=1
     except Exception as err:
         print(err,time.time())
         totscore=0
@@ -242,7 +243,7 @@ def ondemand():
                     f=f.text
                     menunotice=requests.get(settingskeystore['apiurl']+'api/menunotice',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5).text
                     qlutaerror=False
-                    pingspeed=int((time.time()-ps)/0.001)
+                    pingspeed=int((time.time()-ps)/0.01)
                 except Exception as err:
                     totperf=0
                     totscore=0
@@ -254,7 +255,6 @@ def ondemand():
                         notification('Server Error',desc=str(err))
                     except Exception:
                         pass
-                    #issigned=False
                     qlutaerror=True
             nettick=time.time()
         time.sleep(1/5)
