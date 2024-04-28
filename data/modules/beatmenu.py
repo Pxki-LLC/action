@@ -20,8 +20,14 @@ def beatmenu():
     global activity,beatsel,beatnowmusic,background,menuback,cross,diffcon,hits,modshow,mod,modsen,button,beatsel,speedvel,scoremult,msg,sysbutton,gobutton,go
     go=False
     if activity==3 or activity==7:
-        beatani.update()
-        diffani.update()
+        if beatani[0].value==beatsel:
+            beatani[1]=1
+        else:
+            beatani[0].update()
+        if diffani[0].value==diffcon:
+            diffani[1]=1
+        else:
+            diffani[0].update()
         try:
             if background:
                 screen.blit(background, (0, 0))
@@ -114,8 +120,10 @@ def beatmenu():
 #                of=0
 #            render('rect', arg=((40,h-200+of,250,25), blend(opacity//2,0), False),borderradius=5)
 #            render('text', text='You will not earn Points', arg=((0,0), forepallete,"center"),relative=(40,h-200+of,250,25))
-        cross[0]=beatani.value
-        cross[1]=diffani.value
+        if not beatani[1] or not diffani[1]:
+            print('!!')
+            cross[0]=beatani[0].value
+            cross[1]=diffani[0].value
         if sysbutton==1:
             if not menuback>=30:
                 menuback+=backspeed
@@ -150,20 +158,21 @@ def beatmenu():
             if 1==1:
                 s=310
                 c=0
-                render('rect', arg=((220-t,(h//2)-(s//2),45,s), blend(opacity,25), False),borderradius=10)
-                render('rect', arg=((-10-t,(h//2)-(s//2),250,s), blend(opacity,0), False),borderradius=10)
-                for a in leaderboard[:5]:
-                    if a['username']==settingskeystore['username']:
-                        col=166, 207, 255
-                    else:
-                        col=forepallete
-                    leadpos=(10-t,(10+((h//2)-(s//2)))+(60*c),220,50)
-                    render('rect', arg=(leadpos, blend(opacity,50), False),borderradius=10)
-                    render('text', text=str('#'+str(c+1)+' '+a["username"]), arg=((17-t,leadpos[1]+5), col))
-                    render('text', text=format(int(a['score']),',')+' - '+str(int(a["points"]))+'pp ('+str(int(a['combo']))+'x) '+timeform(int(time.time()-a['time'])), arg=((17-t,leadpos[1]+30), col,'min'))
-#                    render('text', text=, arg=((17,leadpos[1]+28), col,'min'))
-                    #(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3)))*scoremult)-(hits[3]*(perfbom*2))
-                    c+=1
+                if issigned:
+                    render('rect', arg=((220-t,(h//2)-(s//2),45,s), blend(opacity,25), False),borderradius=10)
+                    render('rect', arg=((-10-t,(h//2)-(s//2),250,s), blend(opacity,0), False),borderradius=10)
+                    for a in leaderboard[:5]:
+                        if a['username']==settingskeystore['username']:
+                            col=166, 207, 255
+                        else:
+                            col=forepallete
+                        leadpos=(10-t,(10+((h//2)-(s//2)))+(60*c),220,50)
+                        render('rect', arg=(leadpos, blend(opacity,50), False),borderradius=10)
+                        render('text', text=str('#'+str(c+1)+' '+a["username"]), arg=((17-t,leadpos[1]+5), col))
+                        render('text', text=format(int(a['score']),',')+' - '+str(int(a["points"]))+'pp ('+str(int(a['combo']))+'x) '+timeform(int(time.time()-a['time'])), arg=((17-t,leadpos[1]+30), col,'min'))
+    #                    render('text', text=, arg=((17,leadpos[1]+28), col,'min'))
+                        #(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3)))*scoremult)-(hits[3]*(perfbom*2))
+                        c+=1
 def timeform(t):
     if t==None:
         return 'Never Played'
