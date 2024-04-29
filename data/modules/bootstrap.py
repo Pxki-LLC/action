@@ -45,6 +45,7 @@ volvismo=0
 volvisual=0
 isonline=False
 menunotice=''
+speed=1
 hitcolour=((100,120,200),(100,200,100),(200,200,100),(200,100,100))
 for a in paths:
     if not os.path.isdir(a):
