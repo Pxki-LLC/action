@@ -16,9 +16,6 @@ else:
         'apiurl' : 'https://qlute.pxki.us.to/',
         'fps' : 480
     }
-    tmp=open(datapath+'settings', 'w')
-    tmp.write(json.dumps(settingskeystore))
-    tmp.close()
 fpsmode=fpsmodes.index(settingskeystore['fps'])
 print(fpsmode,settingskeystore['fps'])
 setupid=1
