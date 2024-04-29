@@ -35,11 +35,12 @@ def beatmenu():
             background=0
         a=0
         tmp=(h//60)//2
-        pp=int(int(getpoint(diffp[0][0],0,0,0,scoremult,combo=diffp[0][0]))),int(getpoint(diffp[-1][0],0,0,0,scoremult,combo=diffp[-1][0]))
-        if len(diffp)<2 or activity==7:
-            gotext='GO'
-        else:
-            gotext='->'
+        if len(p2)>0:
+            pp=int(int(getpoint(diffp[0][0],0,0,0,scoremult,combo=diffp[0][0]))),int(getpoint(diffp[-1][0],0,0,0,scoremult,combo=diffp[-1][0]))
+            if len(diffp)<2 or activity==7:
+                gotext='GO'
+            else:
+                gotext='->'
         if activity==7:
             soup=1
             sel=diffcon
