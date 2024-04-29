@@ -1,23 +1,9 @@
 def shopdirect():
     global activity
-    if activity==8:
-        shoplist=[]
-        sdol=18
-        for a in range(1,6):
-            dol=int(sdol**a)
-            shoplist.append(('Shop Entry #'+str(a),dol))
-        b=0
-        render('rect', arg=((20,40,w-300,h-80), (50,50,50), False),borderradius=10)
-        for a in shoplist:
-            render('rect', arg=((40,60+(100*b),w-330,80), (50,50,80), False),borderradius=10)
-            render('text', text=a[0], arg=((50,70+(100*b)), forepallete))
-            render('text', text=format(a[1],',')+'$', arg=((50,90+(100*b)), forepallete))
-            b+=1
-
-        for event in pygame.event.get():
-            if event.type  ==  pygame.QUIT:
-                stopnow()
-
-            if event.type  ==  pygame.KEYDOWN:
-                if event.key  ==  pygame.K_q or event.key  ==  pygame.K_ESCAPE:
-                    transitionprep(1)
+    if activity==6:
+        render('rect', arg=((0,100,w,h-160), hcol[2], False))
+        render('rect', arg=((0,h-60,w,60), hcol[0], False))
+        render('rect', arg=((0,0,w,100), hcol[0], False))
+        render('rect', arg=((w//2,100,w//2,h-160), hcol[1], False))
+        render('text', text='Browse', arg=((20,20), forepallete,'grade'))
+        sysbutton=menu_draw(((-10,h-60,100,60),),('Back',),bradius=0,styleid=3)

@@ -1,4 +1,4 @@
-hcol=(62,60,115),(42,40,95)
+hcol=(62,60,115),(42,40,95),(22,20,75),(82,80,135)
 def render(type, arg=(0, 0) ,  text='N/A', bordercolor=forepallete, borderradius=0,relative=(0,0,0,0),surf=''):
     off=0
     grad2=False
