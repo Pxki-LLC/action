@@ -43,7 +43,7 @@ def iscatched(block,isauto,ob,fir,id):
     tim=block
     return (lastcall,tick,tim)
 def game():
-    global activity,timestep,debugmode,accuracy,beatnowmusic,kiai,unstablerate,fpsmode,score,scorew,keyspeed,bgcolour,totperf,totscore,objecon,healthtime,health,ranking,oldupdatetime,t,tip,gametime,combo,sre,combotime,sre,hits,last,stripetime,tmp,pptime,pptmp,ppcounter,perf
+    global activity,timestep,debugmode,ncombo,accuracy,beatnowmusic,kiai,unstablerate,fpsmode,score,scorew,keyspeed,bgcolour,totperf,totscore,objecon,healthtime,health,ranking,oldupdatetime,t,tip,gametime,combo,sre,combotime,sre,hits,last,stripetime,tmp,pptime,pptmp,ppcounter,perf
     if activity==4:
         if bgcolour>=1:
             bgcolour-=1
@@ -81,8 +81,7 @@ def game():
             health=110
         t1=0.01
         maxt1=0.15
-        if combo!=0:
-            t1=t1*combo
+        t1=t1*(combo+ncombo+0.01)
         if t1>=maxt1:
             t1=maxt1
         ob=0
@@ -187,12 +186,15 @@ def game():
                     unstablerate.append(ton)
                     if not hit==3:
                         combo+=1
+                        if ncombo>0:
+                            ncombo-=1
                         combotime=time.time()
                         t=a.split(':')[-1]
                         if not t=='' and settingskeystore['hitsound']:
                             pygame.mixer.Sound(gamepath+realid+'/'+str(t)).play()
                             print('Played',t)
                     else:
+                        ncombo+=1
                         combotime=time.time()
                         combo=0
                         health-=t1
