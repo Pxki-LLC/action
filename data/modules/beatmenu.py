@@ -103,7 +103,10 @@ def beatmenu():
         render('rect', arg=((0,h-60,w,60), hcol[0], False))
 #        for systrocity in sysbuttonpos:
 #            render('rect', arg=((systrocity), (100,100,150), True),bordercolor=(80,80,100),borderradius=10)
-        gobutton=menu_draw(((w-120,h-60,120,60),),(gotext,),bigmode=True,styleid=3,bradius=0)
+        if len(p2):
+            gobutton=menu_draw(((w-120,h-60,120,60),),(gotext,),bigmode=True,styleid=3,bradius=0)
+        else:
+            gobutton=0
         if scoremult==1:
             m='Mods'
         else:

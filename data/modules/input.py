@@ -175,13 +175,14 @@ def get_input():
                     logintext[textboxid] += event.unicode
             if activity==7 or activity==3:
                 if event.key  ==  pygame.K_RETURN:
-                    if not activity==7:
-                        if len(diff)>1:
-                            activity=7
+                    if len(p2):
+                        if not activity==7:
+                            if len(diff)>1:
+                                activity=7
+                            else:
+                                preparemap()
                         else:
                             preparemap()
-                    else:
-                        preparemap()
                 if activity==3:
                     if event.key == pygame.K_F2:
                         if len(fullbeatmapname)!=0:
