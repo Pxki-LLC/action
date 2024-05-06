@@ -30,7 +30,7 @@ def beatmenu():
             diffani[0].update()
         try:
             if background:
-                screen.blit(background, (0, 0))
+                screen.blit(background, (0,0))
         except Exception:
             background=0
         a=0

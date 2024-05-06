@@ -10,7 +10,7 @@ osam=0
 for a in range(1,len(mtext)+1):
     menupos.extend([0])
 def mainmenu():
-    global debugmode, activity,beatnowmusic, totperf,totscore,msg,menubutton,topbutton,accounts,bladeani
+    global debugmode, activity,beatnowmusic, totperf,totscore,msg,menubutton,topbutton,accounts,bladeani,background
     if not bladeani[1] and activity==1:
         bladeani[1]=1
         bladeani[0].start()
@@ -18,6 +18,12 @@ def mainmenu():
         bladeani[1]=0
     if activity==1:
         bladeani[0].update()
+        try:
+            if background:
+                screen.blit(background, (0,0))
+        except Exception as err:
+            print(err)
+            background=0
         mmenu=[]
         tmenu=[]
         #wid=90*(w//640)

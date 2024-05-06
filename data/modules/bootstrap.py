@@ -203,7 +203,10 @@ def main():
     if "bpm" in globals():
         if activity in allowed or kiai:
             if len(p2)!=0:
-                clear((maxt(bgdefaultcolour[0],bgcolour),maxt(bgdefaultcolour[1],bgcolour),maxt(bgdefaultcolour[2],bgcolour)))
+                if not activity in (3,7):
+                    clear((maxt(bgdefaultcolour[0],bgcolour),maxt(bgdefaultcolour[1],bgcolour),maxt(bgdefaultcolour[2],bgcolour)))
+                else:
+                    clear((maxt(20,bgcolour),maxt(20,bgcolour),maxt(20,bgcolour)))
             else:
                 clear(bgdefaultcolour)
             flashylights=(1-((gametime/bpm)-tick))

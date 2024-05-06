@@ -3,6 +3,10 @@ fpsmodes=[30,60,120,240,480,1000]
 if os.path.isfile(datapath+'settings'):
     print('Using SettingsV2...')
     settingskeystore=json.load(open(datapath+'settings'))
+    try:
+        settingskeystore['bgmm']
+    except Exception as err:
+        settingskeystore['bgmm']=True
     print('Completed')
 else:
     settingskeystore={
@@ -14,6 +18,7 @@ else:
         'username' : None,
         'password' : None,
         'apiurl' : 'https://qlute.pxki.us.to/',
+        'bgmm' : True,
         'fps' : 480
     }
 fpsmode=fpsmodes.index(settingskeystore['fps'])
@@ -53,7 +58,7 @@ def settingspage():
             user='Guest'
         else:
             user=settingskeystore['username']
-        setuplist={'general': {'Leaderboards':settingskeystore['leaderboard'],'Effects':settingskeystore['effects'],'Save Replays':'True'},'skinning':{'Note Width':'->','Note Height':'->','Note Colour':'->','Background Colour':'->','Insanity Level':'->',},'audio':{'Hitsounds':settingskeystore['hitsound']},'graphics':{'FPS':tmp,'Fullscreen':settingskeystore['fullscreen']},'debug':{},'account':{'Username':user}}
+        setuplist={'general': {'Leaderboards':settingskeystore['leaderboard'],'Effects':settingskeystore['effects'],'Save Replays':'True','Enable BG':settingskeystore['bgmm']},'skinning':{'Note Width':'->','Note Height':'->','Note Colour':'->','Background Colour':'->','Insanity Level':'->',},'audio':{'Hitsounds':settingskeystore['hitsound']},'graphics':{'FPS':tmp,'Fullscreen':settingskeystore['fullscreen']},'debug':{},'account':{'Username':user}}
         #setuplist=['FPS: '+tmp,'Fullscreen: '+str(settingskeystore['fullscreen']),'Effects: '+str(settingskeystore['effects']),'Allow Skins: '+str(settingskeystore['skinning']),'Hitsounds: '+str(settingskeystore['hitsound']),'Leaderboards: '+str(settingskeystore['leaderboard']),'Debug Info','Crash Test']
         setuplistpos=[]
 #        for a in range(1,6):
@@ -99,4 +104,6 @@ def settingspage():
                 msg='Enable Leaderboards'
             elif setbutton == 3 and setupid==1:
                 msg='Auto Save Replays'
+            elif setbutton == 4 and setupid==1:
+                msg="Show song's Background at the main menu"
         sysbutton=menu_draw(((-10,h-60,100,60),),('Back',),bradius=0,styleid=3)

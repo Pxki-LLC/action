@@ -170,7 +170,7 @@ def drawRhomboid(surf, color, x, y, width, height, offset, thickness=0):
         (x-offset, y + height)]
     pygame.draw.polygon(surf, color, points, thickness)
 def fullscreenchk():
-    global w, h, w, h, screen,transani, button_size_width, firstcom,tal,keymap,fonts,volani,keysize,logopos,bladeani
+    global w, h, w, h,background, screen,reload,transani, button_size_width, firstcom,tal,keymap,fonts,volani,keysize,logopos,bladeani
     reload=False
     if not settingskeystore['fullscreen']:
         if not firstcom:
@@ -178,9 +178,6 @@ def fullscreenchk():
             h=600
             screenw=w
             screenh=h
-        else:
-            w=screen.get_width()
-            h=screen.get_height()
 
     flags=pygame.RESIZABLE
     bit=24
@@ -192,8 +189,10 @@ def fullscreenchk():
         if not firstcom:
             screen=pygame.display.set_mode((w, h), flags, bit)
             reload=True
-    w=screen.get_width()
-    h=screen.get_height()
+    if screen.get_size()[0]!=w:
+        reload=True
+    elif screen.get_size()[1]!=h:
+        reload=True
     if not firstcom:
         firstcom=True
         logopos=Tween(begin=0, 
@@ -208,9 +207,13 @@ def fullscreenchk():
         volani.start()
     ins=1
     if reload:
+        w=screen.get_width()
+        h=screen.get_height()
         f=24
         fonts = pygame.font.Font(fontname,  int(f//1.2)),pygame.font.Font(fontname,  f//2),pygame.font.Font(fontname,  f*2),pygame.font.Font(fontname,  int(f))
         button_size_width=w//2
+        print(time.time(),screen.get_size())
+        reloadbg()
     tal=25*(w/25)//len(bars)
     keysize=30*3
     scroll=h-30-keysize

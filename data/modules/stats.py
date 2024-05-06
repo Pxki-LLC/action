@@ -2,8 +2,18 @@ import requests,threading
 lvrating=0
 def bpmparse(bpm):
     return bpm.split(',')[1]
+def reloadbg():
+    global background,bump,sc
+    try:
+        b=0.50
+        background=pygame.image.load(gamepath+fullbeatmapname[beatsel]+'/'+backgroundev).convert_alpha()
+        sc=background.get_rect()[2],background.get_rect()[3]
+        background=pygame.transform.scale(background, (w,h))
+        background.fill((255*b, 255*b, 255*b,128), special_flags=pygame.BLEND_RGBA_MULT)
+    except Exception:
+        pass
 def reloadstats(reloadleaderboard=False):
-    global objects,difficulty,background,metadata,timings,lvrating,levelrating,levelcol,bpm,songoffset,maxperf,scoremult,ismulti,beattitle,perfect,great,ok,diffmode,beatmapid,beatmapsetid
+    global objects,difficulty,background,backgroundev,metadata,timings,lvrating,levelrating,levelcol,bpm,songoffset,maxperf,scoremult,ismulti,beattitle,perfect,great,ok,diffmode,beatmapid,beatmapsetid
     diffmode=diff[diffcon][1]
     beatmap=open(gamepath+fullbeatmapname[beatsel]+'/'+pref+'['+diffmode+']'+'.osu').read().rstrip('\n').split('\n')
     objects=beatmap[beatmap.index('[HitObjects]')+1:]
@@ -24,13 +34,10 @@ def reloadstats(reloadleaderboard=False):
             lol+=1
     events=beatmap[beatmap.index('[Events]')+1:]
     events=events[:events.index("")]
-    background=events[events.index('//Background and Video events')+1]
-    if background[:3]=='0,0':
-        background=background.split(',')[2].rstrip('"')[1:]
-        b=0.50
-        background=pygame.image.load(gamepath+fullbeatmapname[beatsel]+'/'+background).convert_alpha()
-        background=pygame.transform.scale(background, (w, h))
-        background.fill((255*b, 255*b, 255*b,128), special_flags=pygame.BLEND_RGBA_MULT)
+    backgroundev=events[events.index('//Background and Video events')+1]
+    if backgroundev[:3]=='0,0':
+        backgroundev=backgroundev.split(',')[2].rstrip('"')[1:]
+    reloadbg()
     difficulty=beatmap[beatmap.index('[Difficulty]')+1:]
     keycheck=int(float(difficulty[1].replace('CircleSize:','')))
 #    if keycheck!=4:

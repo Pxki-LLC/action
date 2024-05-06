@@ -78,6 +78,8 @@ def get_input():
                   settingskeystore['leaderboard'] = not settingskeystore['leaderboard']
                 elif setbutton == 2 and setupid==1:
                   settingskeystore['effects'] = not settingskeystore['effects']
+                elif setbutton == 4 and setupid==1:
+                  settingskeystore['bgmm'] = not settingskeystore['bgmm']
                 elif sysbutton:
                     transitionprep(1)
 
