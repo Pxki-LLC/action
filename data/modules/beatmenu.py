@@ -100,6 +100,7 @@ def beatmenu():
         else:
             mod=0
             get_mods((100,h-110))
+        render('rect',arg=((0,h-65,w,5),hcol[1],False))
         render('rect', arg=((0,h-60,w,60), hcol[0], False))
 #        for systrocity in sysbuttonpos:
 #            render('rect', arg=((systrocity), (100,100,150), True),bordercolor=(80,80,100),borderradius=10)

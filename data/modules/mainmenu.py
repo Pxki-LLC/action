@@ -42,18 +42,9 @@ def mainmenu():
         #print(1-((gametime/(lastms+1000))))
         if gametime>=lastms+1000 or gametime<=-1:
             song_change(1)
-        if gametime<=1000:
-            tmp=(gametime/1000)*1
- #       elif gametime>=lastms-1000:
- #           tmp=1-((gametime/(lastms)))
- #           if tmp<=0:
- #               tmp=0
-        else:
-            tmp=1
-        tmp2=tmp
-        tmp=(255*tmp,255*tmp,255*tmp)
+        tmp=(255*anib,255*anib,255*anib)
         if len(p2)!=0:
-            render('text', text=beattitle, arg=((20*(tmp2),10), tmp))
+            render('text', text=beattitle, arg=((20*(anib),10), tmp))
         else:
             render('text', text='nothing...', arg=((20,10), (255,255,255)))
         topbutton=menu_draw(tmenu, text=toptext,isblade=True,ignoremove=True,ishomemenu=True)

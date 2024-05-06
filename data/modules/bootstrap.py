@@ -15,7 +15,7 @@ axe=0
 gamename='Qlute'
 gameeditions='stable','beta','canary','dev'
 gameedition=gameeditions[-1]
-gamever='2023.04.28'
+gamever='2023.05.06'
 sylphenginever=gamever
 gameverspl=gamever.split('.')
 #gameminserve=int(gameverspl[0])+((1+float(gameverspl[1]))*float(gameverspl[2]))
@@ -360,7 +360,7 @@ if __name__  ==  "__main__":
         threading.Thread(target=ondemand).start()
         #threading.Thread(target=loginwindow).start()
         #for a in range(1,3):
-            #threading.Thread(target=gamesession).start()
+            #threading.Thread(target=gamesession).start(
         while True:
             if stop:
                 sys.exit()

@@ -1,4 +1,4 @@
-
+fieldpos=(0,0)
 def getpoint(perfect,good,meh,bad,multiplier,combo=1,type=int):
     multiplier=multiplier
     tmp=(((perfect*perfbom)+(good*(perfbom/2))+(meh*(perfbom/3))-(bad*(perfbom*2)))*multiplier)
@@ -42,6 +42,19 @@ def iscatched(block,isauto,ob,fir,id):
         lastcall=False
     tim=block
     return (lastcall,tick,tim)
+def showplayfield(pos):
+    for a in range(1,5):
+        b=a-1
+        mopa=(0.1-(time.time()-keyslight[b]))/0.1
+        if mopa<0:
+            mopa=0
+        co=(100,int(100+(20*mopa)),int(100+(120*mopa)))
+        render('rect', arg=(((keymap[b][0]+pos[0],keymap[b][1]-10+pos[1],keymap[b][2],keymap[b][3])), co, False),borderradius=0) # Judgement Block
+        if a==4:
+            render('line',arg=((keymap[-1][0]+pos[0]+100,0+pos[1]),(255,255,255),(keymap[-1][0]+pos[0]+100,keymap[-1][1]+pos[1]+keysize)))    
+        render('line',arg=((keymap[b][0]+pos[0],0+pos[1]),(255,255,255),(keymap[b][0]+pos[0],keymap[b][1]+pos[1]+keysize)))
+    render('rect', arg=((keymap[0][0]+pos[0],keymap[0][1]-10+pos[1],keymap[0][2]*4,10), (100,140,220), False),borderradius=0) # Judgement Line
+
 def game():
     global activity,timestep,debugmode,ncombo,accuracy,beatnowmusic,kiai,unstablerate,fpsmode,score,scorew,keyspeed,bgcolour,totperf,totscore,objecon,healthtime,health,ranking,oldupdatetime,t,tip,gametime,combo,sre,combotime,sre,hits,last,stripetime,tmp,pptime,pptmp,ppcounter,perf
     if activity==4:
@@ -88,16 +101,7 @@ def game():
         score=int(end*(1000000*scoremult))
         score=int(end)
         temp=h//2+int(gametime)
-        render('rect', arg=((keymap[0][0],keymap[0][1]-10,keymap[0][2]*4,10), (100,140,220), False),borderradius=0)
-        for a in keys:
-            mopa=(0.1-(time.time()-keyslight[b]))/0.1
-            if mopa<0:
-                mopa=0
-            co=(100,int(100+(20*mopa)),int(100+(120*mopa)))
-            render('rect', arg=(keymap[b], co, False),borderradius=0)
-            render('line',arg=((keymap[b][0],0),(255,255,255),(keymap[b][0],keymap[b][1]+keysize)))
-            b+=1
-        render('line',arg=((keymap[3][0]+100,0),(255,255,255),(keymap[3][0]+100,keymap[3][1]+keysize)))
+        showplayfield(fieldpos)
         clicked=0
         hit=-1
         tip=1
@@ -151,9 +155,9 @@ def game():
 #                        else:
                     keyoffset=30
                     if kiai:
-                        render('rect', arg=((keypos,block-(keyoffset)-(60*flashylights),100,30), (255,0,0), False),borderradius=0)
+                        render('rect', arg=((keypos+fieldpos[0],block-(keyoffset)-(60*flashylights)+fieldpos[1],100,30), (255,0,0), False),borderradius=0)
                     if not modsen[1]:
-                        render('rect', arg=((keypos,block-(keyoffset),100,30), (notecolour), False),borderradius=0)
+                        render('rect', arg=((keypos+fieldpos[0],block-(keyoffset)+fieldpos[1],100,30), (notecolour), False),borderradius=0)
                     #render('text',text=block,arg=((keypos,block-30),(255,255,255)))
                     tip=0
                 judge=iscatched(block,modsen[0],block,firstobject,ob)

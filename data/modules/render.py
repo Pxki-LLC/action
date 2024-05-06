@@ -44,6 +44,7 @@ def render(type, arg=(0, 0) ,  text='N/A', bordercolor=forepallete, borderradius
             ## This was for a "Wireframe" Like Square
 #            pygame.draw.rect(screen, (0, 255, 0), (arg[0][0], arg[0][1], arg[0][2], arg[0][3]), 1)
         elif type == 'header':
+            render('rect', arg=((0, -40, w, 105), hcol[1], False), borderradius=20)
             render('rect', arg=((0, -40, w, 100), hcol[0], False), borderradius=20)
             render('rect',arg=((0,0,w,5),hcol[1],False))
         else:
