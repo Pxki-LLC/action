@@ -115,9 +115,10 @@ def beatmenu():
         sysbutton=menu_draw(sysbuttonpos,('Back',m),styleid=3,bradius=0)
         render('rect',arg=((0,h-5,w,5),hcol[1],False))
         if not qlutaerror:
-            render('rect',arg=((w//2-155,(h-90),310,100),hcol[1],False),borderradius=10)
-            render('rect',arg=((w//2-150,(h-75),300,75),hcol[1],False))
-            print_card(totperf,totacc,settingskeystore['username'],(w//2-150,(h-85)),totrank)
+            coff=80
+            render('rect',arg=((w//2-coff-5,(h-90),310,100),hcol[1],False),borderradius=10)
+            render('rect',arg=((w//2-coff,(h-75),300,75),hcol[1],False))
+            print_card(totperf,totacc,settingskeystore['username'],(w//2-coff,(h-85)),totrank)
 #        if ranktype and not ranktype==3:
 #            if not modshow:
 #                of=110
