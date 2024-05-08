@@ -15,8 +15,8 @@ def song_progress():
     slop=(gametime/lastms)
     if slop>1:
         slop=1
-    render('text',text=clockify(int(gametime//1000)/speed),arg=((15,h-45),forepallete))
-    render('text',text='-'+clockify(int((lastms-gametime)//1000)/speed),arg=((w-75,h-45),forepallete))
+    render('text',text=clockify(int(gametime//1000)/speed),arg=((25,h-50),forepallete))
+    render('text',text='-'+clockify(int((lastms-gametime)//1000)/speed),arg=((w-25,h-50),forepallete,'rtl'))
     render('rect', arg=((10,h-20,w-20,10), (50,50,50), False),borderradius=10)
     render('rect', arg=((10,h-20,slop*(w-20),10), (255,255,255), False),borderradius=10)
 def iscatched(block,isauto,ob,fir,id):
@@ -154,9 +154,9 @@ def game():
 #                            render('rect', arg=((keypos,block-30,100,30), (255,0,0), False),borderradius=0)
 #                        else:
                     keyoffset=30
-                    if kiai:
-                        render('rect', arg=((keypos+fieldpos[0],block-(keyoffset)-(60*flashylights)+fieldpos[1],100,30), (255,0,0), False),borderradius=0)
-                    if not modsen[1]:
+                    if not modsen[1] or modsen[1] and block<=h//2:
+                        if kiai:
+                            render('rect', arg=((keypos+fieldpos[0],block-(keyoffset)-(60*flashylights)+fieldpos[1],100,30), (255,0,0), False),borderradius=0)
                         render('rect', arg=((keypos+fieldpos[0],block-(keyoffset)+fieldpos[1],100,30), (notecolour), False),borderradius=0)
                     #render('text',text=block,arg=((keypos,block-30),(255,255,255)))
                     tip=0
