@@ -189,9 +189,9 @@ def fullscreenchk():
         if not firstcom:
             screen=pygame.display.set_mode((w, h), flags, bit)
             reload=True
-    if screen.get_size()[0]!=w:
+    if screen.get_size()[0]!=w and screen.get_size()[0]>=800:
         reload=True
-    elif screen.get_size()[1]!=h:
+    elif screen.get_size()[1]!=h and screen.get_size()[1]>=600:
         reload=True
     if not firstcom:
         firstcom=True
