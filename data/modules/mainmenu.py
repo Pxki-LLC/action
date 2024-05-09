@@ -19,7 +19,7 @@ def mainmenu():
     if activity==1:
         bladeani[0].update()
         try:
-            if background:
+            if background and settingskeystore['bgmm']:
                 screen.blit(background, (0,0))
         except Exception as err:
             print(err)

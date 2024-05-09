@@ -58,7 +58,7 @@ def settingspage():
             user='Guest'
         else:
             user=settingskeystore['username']
-        setuplist={'general': {'Leaderboards':settingskeystore['leaderboard'],'Effects':settingskeystore['effects'],'Save Replays':'True','Enable BG':settingskeystore['bgmm']},'skinning':{'Note Width':'->','Note Height':'->','Note Colour':'->','Background Colour':'->','Insanity Level':'->',},'audio':{'Hitsounds':settingskeystore['hitsound']},'graphics':{'FPS':tmp,'Fullscreen':settingskeystore['fullscreen']},'debug':{},'account':{'Username':user}}
+        setuplist={'general': {'Leaderboards':settingskeystore['leaderboard'],'Effects':settingskeystore['effects'],'Save Replays':'True','Enable BG':settingskeystore['bgmm']},'skinning':{'Change Skins':'->','Note Width':'->','Note Height':'->','Note Colour':'->','Background Colour':'->','HealthBar Colour':'->','Insanity Level':'->',},'audio':{'Hitsounds':settingskeystore['hitsound']},'graphics':{'FPS':tmp,'Fullscreen':settingskeystore['fullscreen']},'debug':{},'account':{'Username':user}}
         #setuplist=['FPS: '+tmp,'Fullscreen: '+str(settingskeystore['fullscreen']),'Effects: '+str(settingskeystore['effects']),'Allow Skins: '+str(settingskeystore['skinning']),'Hitsounds: '+str(settingskeystore['hitsound']),'Leaderboards: '+str(settingskeystore['leaderboard']),'Debug Info','Crash Test']
         setuplistpos=[]
 #        for a in range(1,6):
