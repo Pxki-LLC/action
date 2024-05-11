@@ -207,8 +207,14 @@ def fullscreenchk():
         volani.start()
     ins=1
     if reload:
-        w=screen.get_width()
-        h=screen.get_height()
+        if screen.get_width()<800:
+            w=800
+        else: 
+            w=screen.get_width()
+        if screen.get_height()<600:
+            h=600
+        else: 
+            h=screen.get_height()
         f=24
         fonts = pygame.font.Font(fontname,  int(f//1.2)),pygame.font.Font(fontname,  f//2),pygame.font.Font(fontname,  f*2),pygame.font.Font(fontname,  int(f))
         button_size_width=w//2

@@ -60,7 +60,7 @@ def beatmenu():
             crok=999
         else:
             crok=0
-        sysbuttonpos=(-10,h-60,100,60),(90,h-60+crok,100,60),
+        sysbuttonpos=(0,h-60,100,60),(100,h-60+crok,100,60),(200,h-60+crok,100,60),
         if modshow:
             render('rect', arg=((0,h-170,w,120), (hcol[0]), False),borderradius=10)
             #(340,h-160,90,40) ~ Placeholder
@@ -112,7 +112,7 @@ def beatmenu():
             m='Mods'
         else:
             m=str(scoremult)+'x'
-        sysbutton=menu_draw(sysbuttonpos,('Back',m),styleid=3,bradius=0)
+        sysbutton=menu_draw(sysbuttonpos,('Back',m,'??'),styleid=3,bradius=0)
         render('rect',arg=((0,h-5,w,5),hcol[1],False))
         if not qlutaerror:
             coff=80
@@ -139,20 +139,24 @@ def beatmenu():
         tmp=0
         render('header')
         hax=300//2
-        popupw=w//2-hax
+        if w <= 820 and h<=620:
+            popupw=w//2-hax
+        else:
+            popupw=50
         if len(p2)==0:
             render('text', text='No Beatmap added :sad:', arg=(offset, forepallete))
         else:
-            diffpos=(popupw+20+hax,140)
+            diffpos=(popupw+20+hax,150)
             #pass#int(len(objects)*perfbom*scoremult)
             render('text', text=beattitle, arg=(offset, forepallete))
-            render('rect',arg=((popupw,70,hax*2,110),blend(opacity,0),False),borderradius=20)
-            render('text', text=rankmodes[ranktype][0], arg=((popupw+20+hax,80), rankmodes[ranktype][1])) # Rank Type
+            render('rect',arg=((popupw-4,76,hax*2,110),blend(opacity,20),False),borderradius=20)
+            render('rect',arg=((popupw,80,hax*2,110),blend(opacity,0),False),borderradius=20)
+            render('text', text=rankmodes[ranktype][0], arg=((popupw+20+hax,90), rankmodes[ranktype][1])) # Rank Type
             if pp[0]!=pp[1]:
-                render('text', text=str(pp[0])+'-'+str(pp[1])+'pp', arg=((popupw+20+hax,110), forepallete))
-            render('text', text='BPM: '+str(int(60000/bpm)+1), arg=((popupw+20,80), forepallete))
-            render('text', text='Lv. '+str(round(lvrating,2)), arg=((popupw+20,145), forepallete))
-            render('text', text='+'+format(maxperf,',')+'pp', arg=((popupw+20,110), forepallete))
+                render('text', text=str(pp[0])+'-'+str(pp[1])+'pp', arg=((popupw+20+hax,120), forepallete))
+            render('text', text='BPM: '+str(int(60000/bpm)+1), arg=((popupw+20,90), forepallete))
+            render('text', text='Lv. '+str(round(lvrating,2)), arg=((popupw+20,155), forepallete))
+            render('text', text='+'+format(maxperf,',')+'pp', arg=((popupw+20,120), forepallete))
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],100+bgcolour,30), (levelcol[0]-20,levelcol[1]-20,levelcol[2]-20), False),borderradius=10)
             render('rect', arg=((diffpos[0],diffpos[1],100,30), levelcol, False),borderradius=10)
             render('text', text=levelrating, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],100,30))
