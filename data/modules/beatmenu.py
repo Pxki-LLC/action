@@ -112,7 +112,7 @@ def beatmenu():
             m='Mods'
         else:
             m=str(scoremult)+'x'
-        sysbutton=menu_draw(sysbuttonpos,('Back',m,'??'),styleid=3,bradius=0)
+        sysbutton=menu_draw(sysbuttonpos,('Back',m,'Quest'),styleid=3,bradius=0)
         render('rect',arg=((0,h-5,w,5),hcol[1],False))
         if not qlutaerror:
             coff=80
