@@ -188,7 +188,7 @@ def main():
     if time.time()-sa>0.1:
         sa=time.time()
         fps=int(clock.get_fps())
-    allowed=[0,1,2,3,5,6,7,8,99]
+    allowed=[0,1,2,3,5,6,7,8,11,99]
     upd=time.time()
     fullscreenchk()
     size=60
@@ -240,6 +240,7 @@ def main():
     beatres()
     settingspage()
     beatmenu()
+    customization()
     shopdirect()
     gameedit()
     loginscreen()

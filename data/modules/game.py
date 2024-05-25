@@ -1,4 +1,4 @@
-fieldpos=(0,0)
+notecolour=(48, 183, 255)
 def getpoint(perfect,good,meh,bad,multiplier,combo=1,type=int):
     multiplier=multiplier
     tmp=(((perfect*perfbom)+(good*(perfbom/2))+(meh*(perfbom/3))-(bad*(perfbom*2)))*multiplier)
@@ -22,10 +22,11 @@ def song_progress():
 def iscatched(block,isauto,ob,fir,id):
     lean=(perfect,great,ok,miss,20) # Last one is for Auto
     tick=0
-    if ob==fir:
-        agree=True
-    else:
-        agree=False
+    agree=1
+#    if ob==fir:
+#        agree=True
+#    else:
+#        agree=False
     if block>=h-lean[3]:
         lastcall=True
         tick=3
@@ -42,17 +43,17 @@ def iscatched(block,isauto,ob,fir,id):
         lastcall=False
     tim=block
     return (lastcall,tick,tim)
-def showplayfield(pos):
+def showplayfield(pos,bypass=False):
     for a in range(1,5):
         b=a-1
         mopa=(0.1-(time.time()-keyslight[b]))/0.1
         if mopa<0:
             mopa=0
         co=(100,int(100+(20*mopa)),int(100+(120*mopa)))
-        render('rect', arg=(((keymap[b][0]+pos[0],keymap[b][1]-10+pos[1],keymap[b][2],keymap[b][3])), co, False),borderradius=0) # Judgement Block
+        render('rect', arg=(((keymap[b][0]+pos[0],keymap[b][1]+pos[1],keymap[b][2],keymap[b][3])), co, False),borderradius=0) # Judgement Block
         if a==4:
-            render('line',arg=((keymap[-1][0]+pos[0]+100,0+pos[1]),(255,255,255),(keymap[-1][0]+pos[0]+100,keymap[-1][1]+pos[1]+keysize)))    
-        render('line',arg=((keymap[b][0]+pos[0],0+pos[1]),(255,255,255),(keymap[b][0]+pos[0],keymap[b][1]+pos[1]+keysize)))
+            render('line',arg=((keymap[-1][0]+pos[0]+100,0+pos[1]),(255,255,255),(keymap[-1][0]+pos[0]+100,keymap[-1][1]+pos[1]+noteheight)))    
+        render('line',arg=((keymap[b][0]+pos[0],0+pos[1]),(255,255,255),(keymap[b][0]+pos[0],keymap[b][1]+pos[1]+noteheight)))
     render('rect', arg=((keymap[0][0]+pos[0],keymap[0][1]-10+pos[1],keymap[0][2]*4,10), (100,140,220), False),borderradius=0) # Judgement Line
 
 def game():
@@ -115,7 +116,7 @@ def game():
                 break
             else:
                 render('rect', arg=((keymap[3][0]+110,keymap[0][1]-50-(25*b),20*(1+b),20), hitcolour[a[1]], False))
-                render('rect', arg=((keymap[0][0]-30-(20*(b)),keymap[0][1]-50-(25*b),20*(b+1),20), hitcolour[a[1]], False))
+                render('rect', arg=(((fieldpos[0]//2)-30-(20*(b)),keymap[0][1]-50-(25*b),20*(b+1),20), hitcolour[a[1]], False))
                 b+=1
         for a in objects[objecon:maxobjec+objecon]:
             tok=a.split(',')
@@ -147,7 +148,6 @@ def game():
 #                if modsen[1]:
 #                    notecolour=(mint(int(playfield[0]),int((500/block)*48)), mint(int(playfield[1]),int((500/block)*183)), mint(int(playfield[2]),int((500/block)*255)))
 #                else:
-                notecolour=(48, 183, 255)
                 if not (keypos,int(tok[2])) in barclicked:
 #                    if not modsen[1]:
 #                        if tip:
@@ -156,8 +156,8 @@ def game():
                     keyoffset=30
                     if not modsen[1] or modsen[1] and block<=h//2:
                         if kiai:
-                            render('rect', arg=((keypos+fieldpos[0],block-(keyoffset)-(60*flashylights)+fieldpos[1],100,30), (255,0,0), False),borderradius=0)
-                        render('rect', arg=((keypos+fieldpos[0],block-(keyoffset)+fieldpos[1],100,30), (notecolour), False),borderradius=0)
+                            render('rect', arg=((keypos+fieldpos[0],block-(keyoffset)-(60*flashylights)+fieldpos[1],notewidth,noteheight), (255,0,0), False),borderradius=0)
+                        render('rect', arg=((keypos+fieldpos[0],block-(keyoffset)+fieldpos[1],notewidth,noteheight), (notecolour), False),borderradius=0)
                     #render('text',text=block,arg=((keypos,block-30),(255,255,255)))
                     tip=0
                 judge=iscatched(block,modsen[0],block,firstobject,ob)
@@ -241,7 +241,7 @@ def game():
         render('text',text=str(accuracy)+'% '+format(int(perf),',')+' ('+format(int(perf*(accuracy*0.01)),',')+'pp) PP',arg=((20, 170),forepallete,'center'),relative=(w//2-200,82,400,20))
         get_mods((20,20))
         if combo!=0:
-            kek=(keymap[0][0],100,400,100)
+            kek=(w//2-(notewidth*2),100,400,100)
             comboo=str(format(int(combo),','))
             if sre:
                 try:
@@ -279,7 +279,7 @@ def game():
             fon=1
         tim=temp-(int(float(tim[0])))+(h//2)
         if tim <=h+100 and tim>=-40:
-            render('rect', arg=((keymap[0][0]-keymap[0][2],tim,keymap[0][2]*6,5), (255,255,255), False),borderradius=20)
+            render('rect', arg=(((fieldpos[0]//2)-keymap[0][2],tim,keymap[0][2]*6,5), (255,255,255), False),borderradius=20)
             
 #        tmp=end*400
 #        if tmp<0:

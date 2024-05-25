@@ -1,4 +1,6 @@
 hcol=(62,60,115),(42,40,95),(22,20,75),(82,80,135)
+notewidth=100
+noteheight=30
 def render(type, arg=(0, 0) ,  text='N/A', bordercolor=forepallete, borderradius=0,relative=(0,0,0,0),surf=''):
     off=0
     grad2=False
@@ -170,7 +172,7 @@ def drawRhomboid(surf, color, x, y, width, height, offset, thickness=0):
         (x-offset, y + height)]
     pygame.draw.polygon(surf, color, points, thickness)
 def fullscreenchk():
-    global w, h, w, h,background, screen,reload,transani, button_size_width, firstcom,tal,keymap,fonts,volani,keysize,logopos,bladeani
+    global w, h, w, h,background,fieldpos, screen,reload,transani, button_size_width, firstcom,tal,keymap,fonts,volani,noteheight,logopos,bladeani
     reload=False
     if not settingskeystore['fullscreen']:
         if not firstcom:
@@ -221,7 +223,8 @@ def fullscreenchk():
         print(time.time(),screen.get_size())
         reloadbg()
     tal=25*(w/25)//len(bars)
-    keysize=30*3
-    scroll=h-30-keysize
+    scroll=h-30-noteheight
+    fieldpos=(w//2,0)
     #scroll=h//2
-    keymap=((w//2-(50*4),scroll,100,keysize),(w//2-(50*2),scroll,100,keysize),(w//2-(50*0),scroll,100,keysize),(w//2-(50*-2),scroll,100,keysize),)
+    #keymap=((w//2-(50*4),scroll,100,noteheight),(w//2-(50*2),scroll,100,noteheight),(w//2-(50*0),scroll,100,noteheight),(w//2-(50*-2),scroll,100,noteheight),)
+    keymap=((-(50*4),scroll,100,noteheight),(-(50*2),scroll,100,noteheight),(-(50*0),scroll,100,noteheight),(-(50*-2),scroll,100,noteheight),)

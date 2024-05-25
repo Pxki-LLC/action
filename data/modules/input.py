@@ -1,5 +1,5 @@
 def get_input():
-    global keys,logintext,textboxid,activity,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,logintext,textboxid,activity,notewidth,noteheight,customid,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -20,11 +20,15 @@ def get_input():
                 elif topbutton  ==  1:
                     transitionprep(2)
                     setupid=1
+                    customid=0
                 elif topbutton  ==  2:
                     transitionprep(10)
             elif activity==0:
                 transitionprep(1)
             elif activity==9:
+                if sysbutton:
+                    transitionprep(1)
+            elif activity==11:
                 if sysbutton:
                     transitionprep(1)
             elif activity==10:
@@ -69,6 +73,12 @@ def get_input():
                     else:
                         fpsmode-=1
                     settingskeystore['fps']=fpsmodes[fpsmode]
+                elif setbutton == 2 and setupid==2:
+                    transitionprep(11)
+                    customid=1
+                elif setbutton == 3 and setupid==2:
+                    transitionprep(11)
+                    customid=2
                 elif setbutton == 2 and setupid==4:
                   settingskeystore['fullscreen'] = not settingskeystore['fullscreen']
                   firstcom=False
@@ -175,6 +185,17 @@ def get_input():
             else: 
                 if activity==10:
                     logintext[textboxid] += event.unicode
+            if activity==11:
+                if customid==1:
+                    if event.key  ==  pygame.K_LEFT:
+                        notewidth-=1
+                    elif event.key  ==  pygame.K_RIGHT:
+                        notewidth+=1
+                elif customid==2:
+                    if event.key  ==  pygame.K_UP:
+                        noteheight+=1
+                    elif event.key  ==  pygame.K_DOWN:
+                        noteheight-=1
             if activity==7 or activity==3:
                 if event.key  ==  pygame.K_RETURN:
                     if len(p2):
