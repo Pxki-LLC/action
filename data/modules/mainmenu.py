@@ -28,6 +28,8 @@ def mainmenu():
         tmenu=[]
         #wid=90*(w//640)
         wid=90*2
+        hei=150
+        scale=0.9
         wod=45
         if wid>90*2:
             wid=90*2
@@ -35,10 +37,10 @@ def mainmenu():
         bla=(ani*w)
         anib=bladeani[0].value/100
         for a in range(1,len(mtext)+1):
-            mmenu.append((bla+(w//2-(int(wid*(len(mtext)/2)))+(wid*(a-1))),h//2-75,wid,150))
+            mmenu.append((bla+(w//2-(int((wid*scale)*(len(mtext)/2)))+((wid*scale)*(a-1))),h//2-(75*scale),wid*scale,hei*scale))
         for a in range(1,len(toptext)+1):
             tmenu.append((w-((20*len(toptext[a-1]))*(a))+25,0,20*len(toptext[a-1]),wod))
-        drawRhomboid(screen,dcolour,bla-25,h//2-76,w+80,150,26)
+        drawRhomboid(screen,dcolour,bla-25,h//2-(76*scale),w+80,hei*scale,26)
         menubutton=menu_draw(mmenu, text=mtext,isblade=True,ishomemenu=True)
         render('text', text='Note: you can get songs from osu.ppy.sh.', arg=((20,anib*55), forepallete))
         render('rect',arg=((0,0,w,45),dcolour,False))#,surf=surface[0])

@@ -218,7 +218,7 @@ def fullscreenchk():
         else: 
             h=screen.get_height()
         f=24
-        fonts = pygame.font.Font(fontname,  int(f//1.2)),pygame.font.Font(fontname,  f//2),pygame.font.Font(fontname,  f*2),pygame.font.Font(fontname,  int(f))
+        fonts = pygame.font.Font(fontname,  int(f//1.2)),pygame.font.Font(fontname,  f//2),pygame.font.Font(fontname,  f*2),pygame.font.Font(fontname,  int(f)),pygame.font.Font(fontname,  int(f/1.1))
         button_size_width=w//2
         print(time.time(),screen.get_size())
         reloadbg()
