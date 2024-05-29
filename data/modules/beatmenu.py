@@ -17,9 +17,12 @@ def get_mods(bpos):
             tap+=1
         b+=1
 def beatmenu():
-    global activity,beatsel,beatnowmusic,background,menuback,cross,diffcon,hits,modshow,mod,modsen,button,beatsel,speedvel,scoremult,msg,sysbutton,gobutton,go
+    global activity,beatsel,modsani,beatnowmusic,background,menuback,cross,diffcon,hits,modshow,mod,modsen,button,beatsel,speedvel,scoremult,msg,sysbutton,gobutton,go
     go=False
     if activity==3 or activity==7:
+        modsani[0].update()
+        if modsani[0].value==100 or not modshow:
+            modsani[1]=0
         if beatani[0].value==beatsel:
             beatani[1]=1
         else:
@@ -38,7 +41,7 @@ def beatmenu():
         if len(p2)>0:
             pp=int(int(getpoint(diffp[0][0],0,0,0,scoremult,combo=diffp[0][0]))),int(getpoint(diffp[-1][0],0,0,0,scoremult,combo=diffp[-1][0]))
             if len(diffp)<2 or activity==7:
-                gotext='GO'
+                gotext='Q'
             else:
                 gotext='->'
         if activity==7:
@@ -60,46 +63,71 @@ def beatmenu():
             crok=999
         else:
             crok=0
+        if pygame.Rect(0,(h//4),45,h//2).collidepoint(pygame.mouse.get_pos()):
+            t=0
+        else:
+            t=225
+        if 1==1: # Leaderboard idk why this is here lol
+            s=310
+            c=0
+            if issigned:
+                render('rect', arg=((220-t,(h//2)-(s//2),45,s), blend(opacity,25), False),borderradius=10)
+                render('rect', arg=((-10-t,(h//2)-(s//2),250,s), blend(opacity,0), False),borderradius=10)
+                for a in leaderboard[:5]:
+                    if a['username']==settingskeystore['username']:
+                        col=166, 207, 255
+                    else:
+                        col=forepallete
+                    leadpos=(10-t,(10+((h//2)-(s//2)))+(60*c),220,50)
+                    render('rect', arg=(leadpos, blend(opacity,50), False),borderradius=10)
+                    render('text', text=str('#'+str(c+1)+' '+a["username"]), arg=((17-t,leadpos[1]+5), col))
+                    render('text', text=format(int(a['score']),',')+' - '+str(int(a["points"]))+'pp ('+str(int(a['combo']))+'x) '+timeform(int(time.time()-a['time'])), arg=((17-t,leadpos[1]+30), col,'min'))
+    #                   render('text', text=, arg=((17,leadpos[1]+28), col,'min'))
+                     #(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3)))*scoremult)-(hits[3]*(perfbom*2))
+                    c+=1
         sysbuttonpos=(0,h-60,100,60),(100,h-60+crok,100,60),(200,h-60+crok,100,60),
-        if modshow:
-            render('rect', arg=((0,h-170,w,120), (hcol[0]), False),borderradius=10)
-            #(340,h-160,90,40) ~ Placeholder
-            # This will be here for now, it WILL get better and more optimized over time
-            t=(20,20,120,120,220,320,420,480)
-            tm=[]
-            for b in range(1,len(t)+1): # Ewwwwwww
-                if (b == 2 and modsen[2]) or (b == 3 and modsen[1]):#modsen[3]
-                    tm.append(-999)
-                else:
-                    tm.append(t[b-1])
-
-            mod=menu_draw(((tm[0],h-160,90,40)
-                           ,(tm[1],h-110,90,40)
-                           ,(tm[2],h-160,90,40)
-                           ,(tm[3],h-110,90,40)
-                           ,(tm[4],h-160,90,40)
+        if modsani[1]: # Animation for Mod Select :3
+            pop=modsani[0].value
+        else:
+            pop=1-modsani[0].value
+        if not modsani[1]:
+            mod=0
+        get_mods((100,h-(110*(1-pop))))
+        render('rect', arg=((0,h-(180*pop),w,120), (hcol[1]), False),borderradius=10)
+        render('rect', arg=((0,h-(170*pop),w,120), (hcol[0]), False),borderradius=10)
+        #(340,h-160,90,40) ~ Placeholder
+        # This will be here for now, it WILL get better and more optimized over time
+        t=(20,20,120,120,220,320,420,480)
+        tm=[]
+        for b in range(1,len(t)+1): # Ewwwwwww
+            if (b == 2 and modsen[2]) or (b == 3 and modsen[1]):#modsen[3]
+                tm.append(-999)
+            else:
+                tm.append(t[b-1])
+        mod=menu_draw(((tm[0],h-(160*pop),90,40)
+                           ,(tm[1],h-(110*pop),90,40)
+                           ,(tm[2],h-(160*pop),90,40)
+                           ,(tm[3],h-(110*pop),90,40)
+                           ,(tm[4],h-(160*pop),90,40)
 #                           ,(tm[5],h-160,90,40)
 #                           ,(tm[6],h-160,90,40)
 #                           ,(tm[7],h-160,90,40)
-                           )
-                           ,(modsalias),enabled_button=modsen,styleid=3)
-            if mod==1:
-                msg='view a "Perfect" play (0)'
-            elif mod==2:
-                msg="Beat to the rhythm (+1.5)"
-            elif mod==3:
-                msg='Half blind (+0.5)'
-            elif mod==4:
-                msg="makes everything easy (/0.5)"
-            elif mod==5:
-                msg='Adds new fun! (0)'
-            elif mod==6:
-                msg='Double the fun (+0.5)'
-            elif mod==7:
-                msg='We be easy on you (/0.5)'
-        else:
-            mod=0
-            get_mods((100,h-110))
+                       )
+                       ,(modsalias),enabled_button=modsen,styleid=3)
+        if mod==1:
+            msg='View a perfect play (0)'
+        elif mod==2:
+            msg="Beat to the rhythm (+1.5)"
+        elif mod==3:
+            msg='Half blind (+0.5)'
+        elif mod==4:
+            msg="makes everything easy (/0.5)"
+        elif mod==5:
+            msg='Adds new fun! (0)'
+        elif mod==6:
+            msg='Double the fun (+0.5)'
+        elif mod==7:
+            msg='We be easy on you (/0.5)'
         render('rect',arg=((0,h-65,w,5),hcol[1],False))
         render('rect', arg=((0,h-60,w,60), hcol[0], False))
 #        for systrocity in sysbuttonpos:
@@ -160,28 +188,6 @@ def beatmenu():
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],100+bgcolour,30), (levelcol[0]-20,levelcol[1]-20,levelcol[2]-20), False),borderradius=10)
             render('rect', arg=((diffpos[0],diffpos[1],100,30), levelcol, False),borderradius=10)
             render('text', text=levelrating, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],100,30))
-            if pygame.Rect(0,(h//4),45,h//2).collidepoint(pygame.mouse.get_pos()):
-                t=0
-            else:
-                t=225
-            if 1==1:
-                s=310
-                c=0
-                if issigned:
-                    render('rect', arg=((220-t,(h//2)-(s//2),45,s), blend(opacity,25), False),borderradius=10)
-                    render('rect', arg=((-10-t,(h//2)-(s//2),250,s), blend(opacity,0), False),borderradius=10)
-                    for a in leaderboard[:5]:
-                        if a['username']==settingskeystore['username']:
-                            col=166, 207, 255
-                        else:
-                            col=forepallete
-                        leadpos=(10-t,(10+((h//2)-(s//2)))+(60*c),220,50)
-                        render('rect', arg=(leadpos, blend(opacity,50), False),borderradius=10)
-                        render('text', text=str('#'+str(c+1)+' '+a["username"]), arg=((17-t,leadpos[1]+5), col))
-                        render('text', text=format(int(a['score']),',')+' - '+str(int(a["points"]))+'pp ('+str(int(a['combo']))+'x) '+timeform(int(time.time()-a['time'])), arg=((17-t,leadpos[1]+30), col,'min'))
-    #                    render('text', text=, arg=((17,leadpos[1]+28), col,'min'))
-                        #(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3)))*scoremult)-(hits[3]*(perfbom*2))
-                        c+=1
 def timeform(t):
     if t==None:
         return 'Never Played'
