@@ -238,7 +238,7 @@ def game():
         render('rect', arg=((0,-20,w,55), (50,50,60), False),borderradius=20)
         render('rect', arg=((w//2-200,19,401,61), (50,50,80), False),borderradius=20)
         render('text',text=format(score,','),arg=((20, 20),t,'grade','center'),relative=(w//2-200,22,400,60))
-        render('text',text=str(accuracy)+'% '+format(int(perf),',')+' ('+format(int(perf*(accuracy*0.01)),',')+'pp) PP',arg=((20, 170),forepallete,'center'),relative=(w//2-200,82,400,20))
+        render('text',text=str(accuracy)+'% '+format(int(perf*(accuracy*0.01)),',')+'pp',arg=((20, 170),forepallete,'center'),relative=(w//2-200,82,400,20))
         get_mods((20,20))
         if combo!=0:
             kek=(w//2-(notewidth*2),100,400,100)
