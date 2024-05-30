@@ -164,7 +164,7 @@ def game():
                 if modsen[0]:
                     if judge[0]:
                         keys[kik-1]=1
-                        replaystore.append(str(time.time())+';'+str(keys[0])+';'+str(keys[1])+';'+str(keys[2])+';'+str(keys[3]))
+                        replaystore.append(str(gametime)+';'+str(keys[0])+';'+str(keys[1])+';'+str(keys[2])+';'+str(keys[3]))
                         keyslight[kik-1]=time.time()
                     else:
                         keys[kik-1]=0
