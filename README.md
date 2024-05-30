@@ -2,7 +2,7 @@
   <img width="500" alt="Qlute Logo" src="https://github.com/Jinkkuu/Qlute/raw/preview/assets/iconhd.png">
 </p>
 
-# Qlute (Legacy Version)
+# Qlute
 ~ Your Keys/Your Rhythm ~
 
 ## Licence
