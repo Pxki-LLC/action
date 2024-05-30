@@ -139,6 +139,7 @@ tip=0
 sre=0
 crox=[]
 delta=0
+beatmapapi='https://dev.catboy.best/api/v2/'
 beattitle=None
 countersp=0
 #def print(txt):
