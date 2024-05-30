@@ -32,6 +32,7 @@ for a in setupcatagory:
     setupcatpos.append((0+(100*b),80,100,20))
     b+=1
 #                            render('rect', arg=(pos, (43, 163, 237), False))
+successfulsignin=0
 if settingskeystore['username'] and settingskeystore['password']:
     issigned=1
 else:

@@ -42,7 +42,7 @@ def get_input():
                             settingskeystore['password']=None
                             logintext[1]=''
                             issigned=0
-                            notification('Qluta',desc='You are offline')
+                            notification('QlutaBot',desc='You are offline')
                         else:
                             if logintext[0]!='' or logintext[1]!='':
                                 settingskeystore['username']=logintext[0]

@@ -147,7 +147,7 @@ drawtime=0.0000001
 kiai=0
 notemsg=['','']
 noteani=[Tween(begin=0, end=100,duration=150,easing=Easing.CUBIC,easing_mode=EasingMode.OUT,boomerang=True),0]
-notemaxh=120
+notemaxh=1
 useroverlay=0
 upd=0
 hittext='PERFECT!','GREAT','MEH','MISS'
@@ -259,10 +259,19 @@ def main():
         crash(error)
         activity=1
     if not notemsg[0]=='':
-        notepos=w//2-100,noteani[0].value-100,200,100
-        render('rect', arg=(notepos, (60,60,60), False), borderradius=15)
-        render('text', arg=((0,0), forepallete, False,'center'),text=notemsg[0],relative=(notepos[0],notepos[1]+15,notepos[2],10))
-        render('text', arg=((0,0), forepallete, False,'center','min'),text=notemsg[1],relative=(notepos[0],notepos[1]+20,notepos[2],notepos[3]-20))
+        sh=0
+        sw=0
+        for a in range(1,3):
+            tmp = fonts[1].render(str(notemsg[a-1]),  True,  (0,0,0))
+            txtrect=tmp.get_rect()
+            if txtrect[2]+20>sw:
+                sw+=txtrect[2]+20
+            sh+=txtrect[3]+30
+        notepos=w//2-(sw//2),(noteani[0].value*120)-100,sw,sh
+        fcolor=(forepallete[0]*noteani[0].value,forepallete[1]*noteani[0].value,forepallete[2]*noteani[0].value)
+        render('rect', arg=(notepos, (noteani[0].value*92,noteani[0].value*90,noteani[0].value*145), False), borderradius=15)
+        render('text', arg=((0,0), fcolor, False,'center'),text=notemsg[0],relative=(notepos[0],notepos[1]+15,notepos[2],10))
+        render('text', arg=((0,0), fcolor, False,'center','min'),text=notemsg[1],relative=(notepos[0],notepos[1]+20,notepos[2],notepos[3]-20))
         if noteani[0].value==notemaxh and not noteani[1]:
             if noteani[1]==0:
                 noteani[1]=time.time()
