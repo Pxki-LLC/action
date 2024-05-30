@@ -15,8 +15,8 @@ def mint(t,o):
         return t-o
 def stopnow():
     global stop
-    clear((0,0,0))
-    pygame.display.update()
+    clear((0,0,0)) # type: ignore
+    pygame.display.update() # type: ignore
     stop=1
 def cbytes(size): 
     units = ['B',  'KB',  'MB',  'GB',  'TB']
