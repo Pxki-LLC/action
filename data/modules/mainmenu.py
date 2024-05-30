@@ -1,5 +1,5 @@
 mtext='Play','Edit','Browse','Leave'#,'TB'
-toptext='Settings','Account'
+toptext='Settings','Account','Downloads'
 menupos=[]
 opacity=10
 bgdefaultcolour=(45,47,100)
@@ -37,24 +37,23 @@ def mainmenu():
         bla=(ani*w)
         anib=bladeani[0].value/100
         for a in range(1,len(mtext)+1):
-            mmenu.append((bla+(w//2-(int((wid*scale)*(len(mtext)/2)))+((wid*scale)*(a-1))),h//2-(75*scale),wid*scale,hei*scale))
+            mmenu.append((bla+(w//2-((wid*scale)*(len(mtext)/2))+((wid*scale)*(a-1))),h//2-(75*scale),wid*scale,hei*scale))
         for a in range(1,len(toptext)+1):
-            tmenu.append((w-((20*len(toptext[a-1]))*(a))+25,0,20*len(toptext[a-1]),wod))
+            tmenu.append((w-((20*7)*(a))+25,0,20*7,wod))
         drawRhomboid(screen,dcolour,bla-25,h//2-(76*scale),w+80,hei*scale,26)
         menubutton=menu_draw(mmenu, text=mtext,isblade=True,ishomemenu=True)
-        render('text', text='Note: you can get songs from osu.ppy.sh.', arg=((20,anib*55), forepallete))
-        render('rect',arg=((0,0,w,45),dcolour,False))#,surf=surface[0])
 #        for a in range(1,len(rankdiffc)+1):
 #            render('rect',arg=((0+(60*(a-1)),h-150,50,20),rankdiffc[a-1],False),borderradius=20)
 #        render('text', text=gametime/lastms, arg=((20,h-80), forepallete))
         #print(1-((gametime/(lastms+1000))))
         if gametime>=lastms+1000 or gametime<=-1:
             song_change(1)
-        tmp=(255*anib,255*anib,255*anib)
         if len(p2)!=0:
-            render('text', text=beattitle, arg=((20*(anib),10), tmp))
+            render('text', text=songtitle, arg=((20,anib*55), forepallete))
         else:
-            render('text', text='nothing...', arg=((20,10), (255,255,255)))
+            render('text', text='nothing...', arg=((20,anib*55), (255,255,255)))
+        render('text', text='Note: you can get songs from osu.ppy.sh.', arg=((20,anib*80), forepallete))
+        render('rect',arg=((0,0,w,45),dcolour,False))#,surf=surface[0])
         topbutton=menu_draw(tmenu, text=toptext,isblade=True,ignoremove=True,ishomemenu=True)
         if not qlutaerror:
             print_card(totperf,totacc,settingskeystore['username'],(w//2-150,h//2+120),totrank,home=True,isgrayed=restricted)
@@ -78,17 +77,6 @@ def mainmenu():
             msg='Browse our catalog'
         elif menubutton == 4:
             msg='See ya next time~'
-        if accounts:
-            render('rect', arg=((tmenu[1][0]-(350//2),tmenu[1][1]+55,350,230), dcolour, False),borderradius=10)
-            render('text', text='Username', arg=((tmenu[1][0]+25-(350//2),tmenu[1][1]+65), (255,255,255)))
-            if not settingskeystore['username']:
-                render('text', text='Guest Mode', arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+55,350,230//2))
-            else:
-                render('text', text=settingskeystore['username'], arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+55,350,230//2))
-            render('text', text='Password', arg=((tmenu[1][0]+25-(350//2),tmenu[1][1]+135), (255,255,255)))
-            render('text', text='Password', arg=((0,0), (255,255,255),'center'),relative=(tmenu[1][0]-(350//2),tmenu[1][1]+125,350,230//2))
-            menu_draw(((tmenu[1][0]-(350//2)+20,tmenu[1][1]+225,140,50),(tmenu[1][0]-(350//2)+5+185,tmenu[1][1]+225,140,50)),text=['Sign in','Register'])
-
 
 #        render('rect', arg=((-10,150,350,60), (maxt(40,bgcolour),maxt(40,bgcolour),maxt(100,bgcolour)), False),borderradius=10)
 #        render('text', text='WILL CHANGE', arg=((25,155), (255,255,maxt(0,bgcolour)),'grade'))

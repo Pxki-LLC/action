@@ -180,7 +180,7 @@ def beatmenu():
         else:
             diffpos=(popupw+20+hax,150)
             #pass#int(len(objects)*perfbom*scoremult)
-            render('text', text=beattitle, arg=(offset, forepallete)) # type: ignore
+            render('text', text=songtitle, arg=(offset, forepallete)) # type: ignore
             render('rect',arg=((popupw-4,76,hax*2,110),blend(opacity,20),False),borderradius=20) # type: ignore
             render('rect',arg=((popupw,80,hax*2,110),blend(opacity,0),False),borderradius=20) # type: ignore
             render('text', text=rankmodes[ranktype][0], arg=((popupw+20+hax,90), rankmodes[ranktype][1])) # type: ignore # Rank Type
