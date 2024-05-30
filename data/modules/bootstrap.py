@@ -265,7 +265,6 @@ def main():
             tmp = fonts[a-1].render(str(notemsg[a-1]),  True,  (0,0,0))
             txtrect=tmp.get_rect()
             if txtrect[2]+20>sw:
-                print(txtrect)
                 sw+=txtrect[2]+20
             sh+=txtrect[3]+30
         notepos=w//2-(sw//2),(noteani[0].value*120)-100,sw,sh
