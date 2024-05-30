@@ -1,5 +1,5 @@
 def get_input():
-    global keys,logintext,textboxid,activity,modsani,notewidth,noteheight,customid,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,logintext,textboxid,activity,modsv,modsani,notewidth,noteheight,customid,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -103,7 +103,8 @@ def get_input():
                             activity=3
                     elif sysbutton == 2:
                         modshow=not modshow
-                        modsani[1]=modshow
+                        modsani=[Tween(begin=modsv, end=1,duration=350,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),modshow]
+                        modsv=modsani[0].value
                         modsani[0].start()
                     else:
                         if gobutton:        
