@@ -217,33 +217,33 @@ def get_rank(num):
 def reloadprofile():
     global totperf,totscore,totrank,totacc,issigned,successfulsignin,restricted
 #    for a in pend:
-    try:
-        if not successfulsignin:
-            f=requests.get(settingskeystore['apiurl']+'api/chkprofile?'+str(settingskeystore['username'])+'?'+str(settingskeystore['password']),headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
-            print(f.text)
-            cache=json.loads(f.text)
-            if int(cache['success']):
-                successfulsignin=1
-            if len(cache['notification']):
-                notification('QlutaBot',cache['notification'])
-        f=requests.get(settingskeystore['apiurl']+'api/getstat?'+str(settingskeystore['username'])+'?full',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
-        f=json.loads(f.text)
-        if not f['restricted']:
-            totrank=int(f['rank'])
-            totperf=int(f['points'])
-            totscore=int(f['score'])
-            totacc=float(f['accuracy'])
-            issigned=1
-        else:
-            restricted=1
-            issigned=0
-            notification('QlutaBot',restrictedmsg)
-    except Exception as err:
-        print(err,time.time())
-        totscore=0
-        totperf=0
-        totacc=0
-        totrank=0
+    if settingskeystore['username']!='':
+        try:
+            if not successfulsignin:
+                f=requests.get(settingskeystore['apiurl']+'api/chkprofile?'+str(settingskeystore['username'])+'?'+str(settingskeystore['password']),headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
+                cache=json.loads(f.text)
+                if int(cache['success']):
+                    successfulsignin=1
+                if len(cache['notification']):
+                    notification('QlutaBot',cache['notification'])
+            f=requests.get(settingskeystore['apiurl']+'api/getstat?'+str(settingskeystore['username'])+'?full',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
+            f=json.loads(f.text)
+            if not f['restricted']:
+                totrank=int(f['rank'])
+                totperf=int(f['points'])
+                totscore=int(f['score'])
+                totacc=float(f['accuracy'])
+                issigned=1
+            else:
+                restricted=1
+                issigned=0
+                notification('QlutaBot',restrictedmsg)
+        except Exception as err:
+            print(err,time.time())
+            totscore=0
+            totperf=0
+            totacc=0
+            totrank=0
 
 def ondemand():
     global totperf,totscore,totrank,nettick,issigned,qlutaerror,menunotice,pingspeed

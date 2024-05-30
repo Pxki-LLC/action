@@ -1,5 +1,5 @@
 def get_input():
-    global keys,logintext,textboxid,activity,modsv,modsani,notewidth,noteheight,customid,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,logintext,textboxid,activity,modsv,modsani,notewidth,noteheight,customid,successfulsignin,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -42,6 +42,7 @@ def get_input():
                             settingskeystore['password']=None
                             logintext[1]=''
                             issigned=0
+                            successfulsignin=0
                             notification('QlutaBot',desc='You are offline')
                         else:
                             if logintext[0]!='' or logintext[1]!='':
