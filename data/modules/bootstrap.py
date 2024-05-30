@@ -84,7 +84,7 @@ stripetime=[]
 bgtime=time.time()
 objects=[]
 speedvel=[0,0]
-modsen=[1,0,0,0,0,0,0,0,0,0]
+modsen=[0,0,0,0,0,0,0,0,0,0]
 scoremult=1
 modshow=False
 msg=''
@@ -347,6 +347,8 @@ logbox=[('Started Engine',time.time())]
 def gamesession():
     while True:
         main()
+if os.path.isfile(datapath+'.developer'):
+    modsen[0]=1 # Automatically enables Auto Mod
 if __name__  ==  "__main__":
     try:
         if os.path.isfile(datapath+'devsettings'):
