@@ -99,7 +99,7 @@ def menu_draw(instruction, text=None,showicon=False,bradius=10,settings=False,be
                 osam=0
         else:
             buttcolour = buttonc
-        b = (72, 167, 194)
+        b = (102,100,175)
         #drawRhomboid(screen, (255,255,255), 50, 50, 300, 200, 100, 3)
         if not hidebutton:
             if not isblade:
