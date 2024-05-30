@@ -187,11 +187,11 @@ def beatmenu():
             if pp[0]!=pp[1]:
                 render('text', text=str(pp[0])+'-'+str(pp[1])+'pp', arg=((popupw+20+hax,120), forepallete)) # type: ignore
             render('text', text='BPM: '+str(int(60000/bpm)+1), arg=((popupw+20,90), forepallete)) # type: ignore # type: ignore
-            render('text', text='Lv. '+str(round(lvrating,2)), arg=((popupw+20,155), forepallete)) # type: ignore
+            render('text', text=clockify(int(lastms//1000)/speed), arg=((popupw+20,155), forepallete)) # type: ignore
             render('text', text='+'+format(maxperf,',')+'pp', arg=((popupw+20,120), forepallete)) # type: ignore
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],100+bgcolour,30), (levelcol[0]-20,levelcol[1]-20,levelcol[2]-20), False),borderradius=10) # type: ignore
             render('rect', arg=((diffpos[0],diffpos[1],100,30), levelcol, False),borderradius=10) # type: ignore
-            render('text', text=levelrating, arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],100,30)) # type: ignore
+            render('text', text='Lv. '+str(round(lvrating,2)), arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],100,30)) # type: ignore
 def timeform(t):
     if t==None:
         return 'Never Played'
