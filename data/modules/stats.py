@@ -146,7 +146,7 @@ def getstat():
         ranktype=1
         getpoints=0
 def resetscore():
-    global score,ncombo,barclicked,prevrank,timestep,unstablerate,timetaken,perf,scorew,kiai,bgcolour,objecon,combo,sre,health,healthtime,combotime,hits,last,stripetime,ppcounter,pptime,pptmp,modshow,ranking
+    global score,ncombo,barclicked,prevrank,timestep,replaystore,unstablerate,timetaken,perf,scorew,kiai,bgcolour,objecon,combo,sre,health,healthtime,combotime,hits,last,stripetime,ppcounter,pptime,pptmp,modshow,ranking
     last=0
     ncombo=0
     prevrank=totrank
@@ -155,6 +155,7 @@ def resetscore():
     healthtime=time.time()
     timetaken=time.time()
     combo=0
+    replaystore=[]
     kiai=0
     health=100
     stripetime=[]

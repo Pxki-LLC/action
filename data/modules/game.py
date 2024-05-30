@@ -57,7 +57,7 @@ def showplayfield(pos,bypass=False):
     render('rect', arg=((keymap[0][0]+pos[0],keymap[0][1]-10+pos[1],keymap[0][2]*4,10), (100,140,220), False),borderradius=0) # Judgement Line
 
 def game():
-    global activity,timestep,debugmode,ncombo,accuracy,beatnowmusic,kiai,unstablerate,fpsmode,score,scorew,keyspeed,bgcolour,totperf,totscore,objecon,healthtime,health,ranking,oldupdatetime,t,tip,gametime,combo,sre,combotime,sre,hits,last,stripetime,tmp,pptime,pptmp,ppcounter,perf
+    global activity,timestep,debugmode,ncombo,replaystore,accuracy,beatnowmusic,kiai,unstablerate,fpsmode,score,scorew,keyspeed,bgcolour,totperf,totscore,objecon,healthtime,health,ranking,oldupdatetime,t,tip,gametime,combo,sre,combotime,sre,hits,last,stripetime,tmp,pptime,pptmp,ppcounter,perf
     if activity==4:
         if bgcolour>=1:
             bgcolour-=1
@@ -164,6 +164,7 @@ def game():
                 if modsen[0]:
                     if judge[0]:
                         keys[kik-1]=1
+                        replaystore.append(str(time.time())+';'+str(keys[0])+';'+str(keys[1])+';'+str(keys[2])+';'+str(keys[3]))
                         keyslight[kik-1]=time.time()
                     else:
                         keys[kik-1]=0
@@ -289,7 +290,7 @@ def game():
 #        render('rect', arg=((w//2-200,5,tmp,10), (0,150,0), False),borderradius=10)
 #        for a in range(1,len(keys)+1):
 #            if keys[a-1]:
-#                keys[a-1]=0
+                
         song_progress()
         if "tornney" in settingskeystore:
             render('text',text=settingskeystore['username'],arg=((w-20, h-120),forepallete,'grade','rtl'))
@@ -297,6 +298,10 @@ def game():
             render('rect', arg=((0,h//2-50,w,100), (255,255,255), False))
             render('text',text='Loading...',arg=((20, 20),(0,0,0),'grade','center'),relative=(w//2-100,h//2-50,200,100))
             pygame.display.update()
+            with open(replaypath+'replay-'+str(str(time.time())+'-'+settingskeystore['username'])+'-'+str(beatmapsetid)+'-'+str(beatmapid),'w') as x:
+                x.write('#'+str(gamename)+'-'+str(gamever)+'\n'+str(settingskeystore['username'])+';'+str(hits[0])+';'+str(hits[1])+';'+str(hits[2])+';'+str(hits[3])+';'+str(mods)+'\n')
+                for a in replaystore:
+                    x.write(a+'\n')
             submit_score(perf,combo,other=str(beatmapid)
                              +';'+str(beatmapsetid) # BeatmapSet ID
                              +';'+str(hits[0])+';' # PERFECT / OUTRAGOUS
