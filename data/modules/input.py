@@ -73,6 +73,8 @@ def get_input():
                     else:
                         fpsmode-=1
                     settingskeystore['fps']=fpsmodes[fpsmode]
+                elif setbutton == 3 and setupid==1:
+                    settingskeystore['sreplay']=not settingskeystore['sreplay']
                 elif setbutton == 2 and setupid==2:
                     transitionprep(11)
                     customid=1
