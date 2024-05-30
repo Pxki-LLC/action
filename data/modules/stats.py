@@ -13,7 +13,7 @@ def reloadbg():
     except Exception:
         pass
 def reloadstats(reloadleaderboard=False):
-    global objects,difficulty,background,backgroundev,metadata,timings,lvrating,levelrating,levelcol,bpm,songoffset,maxperf,scoremult,ismulti,beattitle,perfect,great,ok,diffmode,beatmapid,beatmapsetid
+    global objects,difficulty,background,backgroundev,songtitle,metadata,timings,lvrating,levelrating,levelcol,bpm,songoffset,maxperf,scoremult,ismulti,beattitle,perfect,great,ok,diffmode,beatmapid,beatmapsetid
     diffmode=diff[diffcon][1]
     beatmap=open(gamepath+fullbeatmapname[beatsel]+'/'+pref+'['+diffmode+']'+'.osu').read().rstrip('\n').split('\n')
     objects=beatmap[beatmap.index('[HitObjects]')+1:]
@@ -56,6 +56,7 @@ def reloadstats(reloadleaderboard=False):
         elif 'BeatmapSetID' in a:
             beatmapsetid=int(a.replace('BeatmapSetID:',''))
     beattitle=p2[beatsel].replace('\n','-')+' ['+str(diffmode)+']'
+    songtitle=metadata[2].split(':')[1]+' - '+metadata[0].split(':')[1]
     threading.Thread(target=getstat).start()
     threading.Thread(target=rleaderboard).start()
     timingst=beatmap[beatmap.index('[TimingPoints]')+1:]
@@ -118,8 +119,10 @@ def getstat():
     global ranktype,getpoints,leaderboard
     #print('Loading...')
     try:
-            f = requests.get(settingskeystore['apiurl']+'api/getbeatmap?'+str(beatmapsetid),headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'},timeout=3)
-            f=f.json()['RankedStatus']
+            f = requests.get(beatmapapi+'s/'+str(beatmapsetid),headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'},timeout=3)
+            #print(f.text)
+            f=f.json()['found']
+            f=f['ranked']
 #            print(f)
             ranktypetmp=int(f)
     except Exception as error:
