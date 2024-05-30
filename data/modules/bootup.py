@@ -8,7 +8,7 @@ def logo():
         tmp=(delta/0.01)
         #print(tmp)
         if toka<=-64:
-            if issigned:
+            if issigned or restricted:
                 transitionprep(1)
             else:
                 transitionprep(10)

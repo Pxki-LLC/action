@@ -63,6 +63,10 @@ def beatmenu():
             crok=999
         else:
             crok=0
+        if restricted:
+            crub=999
+        else:
+            crub=0
         if pygame.Rect(0,(h//4),45,h//2).collidepoint(pygame.mouse.get_pos()):
             t=0
         else:
@@ -85,7 +89,7 @@ def beatmenu():
     #                   render('text', text=, arg=((17,leadpos[1]+28), col,'min'))
                      #(((hits[0]*perfbom)+(hits[1]*(perfbom/2))+(hits[2]*(perfbom/3)))*scoremult)-(hits[3]*(perfbom*2))
                     c+=1
-        sysbuttonpos=(0,h-60,100,60),(100,h-60+crok,100,60),(200,h-60+crok,100,60),
+        sysbuttonpos=(0,h-60,100,60),(100,h-60+crok,100,60),(200,h-60+crok+crub,100,60),
         if modsani[1]: # Animation for Mod Select :3
             pop=modsani[0].value
         else:
@@ -146,7 +150,7 @@ def beatmenu():
             coff=80
             render('rect',arg=((w//2-coff-5,(h-90),310,100),hcol[1],False),borderradius=10)
             render('rect',arg=((w//2-coff,(h-75),300,75),hcol[1],False))
-            print_card(totperf,totacc,settingskeystore['username'],(w//2-coff,(h-85)),totrank)
+            print_card(totperf,totacc,settingskeystore['username'],(w//2-coff,(h-85)),totrank,isgrayed=restricted)
 #        if ranktype and not ranktype==3:
 #            if not modshow:
 #                of=110
