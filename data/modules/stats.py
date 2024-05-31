@@ -222,24 +222,33 @@ def get_rank(num):
     totrank=(crok+1)-int((num/oneperf)*crok)
     return int(totrank)
 def reloadprofile():
-    global totperf,totscore,totrank,totacc,issigned,successfulsignin,restricted
+    global totperf,totscore,totrank,totacc,issigned,successfulsignin,restricted,level,qlutaerror
 #    for a in pend:
     if settingskeystore['username']!='':
         try:
             if not successfulsignin:
                 f=requests.get(settingskeystore['apiurl']+'api/chkprofile?'+str(settingskeystore['username'])+'?'+str(settingskeystore['password']),headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
                 cache=json.loads(f.text)
-                if int(cache['success']):
+                if int(cache['success'])==1:
                     successfulsignin=1
-                if len(cache['notification']):
-                    notification('QlutaBot',cache['notification'])
+                    if len(cache['notification']):
+                       notification('QlutaBot',cache['notification'])
+                    bypass=0
+                else:
+                    notification('QlutaBot','Incorrect Credentials')
+                    bypass=1
+            else:
+                bypass=0
             f=requests.get(settingskeystore['apiurl']+'api/getstat?'+str(settingskeystore['username'])+'?full',headers={'User-Agent': 'QluteClient-'+str(gamever)},timeout=5)
             f=json.loads(f.text)
-            if not f['restricted']:
+            if bypass:
+                issigned=0
+            elif not f['restricted']:
                 totrank=int(f['rank'])
                 totperf=int(f['points'])
                 totscore=int(f['score'])
                 totacc=float(f['accuracy'])
+                level=int(f['level'])
                 issigned=1
             else:
                 restricted=1
@@ -250,10 +259,11 @@ def reloadprofile():
             totscore=0
             totperf=0
             totacc=0
+            level=1
             totrank=0
 
 def ondemand():
-    global totperf,totscore,totrank,nettick,issigned,qlutaerror,menunotice,pingspeed,downloadqueue
+    global totperf,totscore,totrank,nettick,issigned,qlutaerror,menunotice,pingspeed,downloadqueue,level
     qlutaerror=True
     pingspeed=0
     while True:
@@ -279,6 +289,7 @@ def ondemand():
                     totacc=0
                     pingspeed=0
                     totrank=0
+                    level=1
                     menunotice='Server is Busy'
                     try:
                         notification('Server Error',desc=str(err))
