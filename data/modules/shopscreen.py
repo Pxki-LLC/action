@@ -70,11 +70,13 @@ def shopdirect():
             rank=getrank(entry['ranked'])
             render('rect', arg=((w-400+25,120,350,180), hcol[0], False))
             screen.blit(bgs,(w-400+25,120))
-            render('text', text=entry['title'], arg=((w-400+25,320), forepallete))
-            render('text', text=entry['artist'], arg=((w-400+25,345), forepallete))
+            render('text', text=entry['title'], arg=((w-400+25,335), forepallete))
+            render('text', text=entry['artist'], arg=((w-400+25,360), forepallete))
+            #render('text', text=entry['creator'], arg=((w-400+25,360), forepallete))
+            render('text', text='BPM:'+str(entry['bpm'])+' - '+str(getpoint(entry['beatmaps'][0]['max_combo'],0,0,0,1,combo=entry['beatmaps'][0]['max_combo']))+'pp - '+clockify(entry['beatmaps'][0]['total_length']), arg=((w-400+25,310), forepallete))
             render('rect', arg=((w-400+30,250,100,40), rankmodes[rank][1], False),borderradius=10) # type: ignore
             render('text', text=rankmodes[rank][0], arg=((0,0), forepallete,'center'),relative=(w-400+30,250,100,40))
-            print_card(0,0,entry['creator'],(w-400+25,380),0,hide=True) # type: ignore
+            print_card(0,0,entry['creator'],(w-400+25,390),0,hide=True) # type: ignore
         else:
             crok=999
         if sbid and entry['beatmaps'][0]['mode']!='mania':
