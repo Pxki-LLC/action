@@ -180,6 +180,12 @@ def fullscreenchk():
             h=600
             screenw=w
             screenh=h
+    else:
+        if not firstcom:
+            w=0
+            h=0
+            screenh=0
+            screenw=0
 
     flags=pygame.RESIZABLE
     bit=24
