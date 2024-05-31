@@ -21,7 +21,7 @@ def print_card(pp,score,name,pos,rank,isgrayed=False,home=False,hide=False):
                 pass
             else:
                 render('text', text='Accuracy - '+str(round(score,2))+'%', arg=((pos[0]+10,pos[1]+60), tmpt,'min'))
-                render('text', text=str(format(int(pp),','))+'pp (Lv. '+str(format(int(int(pp)*0.0727),','))+')', arg=((pos[0]+10,pos[1]+40), tmpt,'min'))
+                render('text', text=str(format(int(pp),','))+'pp (Lv. '+str(format(level,','))+')', arg=((pos[0]+10,pos[1]+40), tmpt,'min'))
         else:
             render('text', text='Not Logged in', arg=((pos[0]+10,pos[1]+40), tmpt,'min')) # type: ignore
         render('text', text=name, arg=((pos[0]+10,pos[1]+10), tmpt,'bold'))
