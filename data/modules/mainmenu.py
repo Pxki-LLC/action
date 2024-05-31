@@ -39,7 +39,7 @@ def mainmenu():
         for a in range(1,len(mtext)+1):
             mmenu.append((bla+(w//2-((wid*scale)*(len(mtext)/2))+((wid*scale)*(a-1))),h//2-(75*scale),wid*scale,hei*scale))
         for a in range(1,len(toptext)+1):
-            tmenu.append((w-((20*7)*(a))+25,0,20*7,wod))
+            tmenu.append((w-((20*7)*(a))+24,0,20*7,wod))
         drawRhomboid(screen,dcolour,bla-25,h//2-(76*scale),w+80,hei*scale,26)
         menubutton=menu_draw(mmenu, text=mtext,isblade=True,ishomemenu=True)
 #        for a in range(1,len(rankdiffc)+1):
@@ -52,7 +52,6 @@ def mainmenu():
             render('text', text=songtitle, arg=((20,anib*55), forepallete))
         else:
             render('text', text='nothing...', arg=((20,anib*55), (255,255,255)))
-        render('text', text='Note: you can get songs from osu.ppy.sh.', arg=((20,anib*80), forepallete))
         render('rect',arg=((0,0,w,45),dcolour,False))#,surf=surface[0])
         topbutton=menu_draw(tmenu, text=toptext,isblade=True,ignoremove=True,ishomemenu=True)
         if not qlutaerror:

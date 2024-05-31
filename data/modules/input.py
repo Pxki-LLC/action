@@ -1,5 +1,5 @@
 def get_input():
-    global keys,logintext,textboxid,activity,modsv,modsani,notewidth,noteheight,customid,successfulsignin,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,logintext,textboxid,bgs,activity,shopscroll,modsv,modsani,sbid,notewidth,noteheight,customid,successfulsignin,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -13,6 +13,8 @@ def get_input():
                     transitionprep(9)
                 elif menubutton  ==  3:
                     transitionprep(6)
+                    shopscroll=0
+                    sbid=0
                 elif menubutton  ==  4:
                     stopnow()
                 elif menubutton  ==  5:
@@ -23,8 +25,39 @@ def get_input():
                     customid=0
                 elif topbutton  ==  2:
                     transitionprep(10)
+                elif topbutton  ==  3:
+                    shopscroll=0
+                    sbid=0
+                    transitionprep(12)
             elif activity==0:
                 transitionprep(1)
+            elif activity==12:
+                if sysbutton==1:
+                    transitionprep(1)
+                elif event.button==1 and dqs:
+                    sbid=dqs
+                elif event.button==4:
+                    if not shopscroll+20>0:
+                        shopscroll+=40
+                elif event.button==5:
+                    if not shopscroll-20<-(80*(len(dq)-1)):
+                        shopscroll-=40
+
+            elif activity==6:
+                if sysbutton==1:
+                    transitionprep(1)
+                elif sysbutton==2:
+                    notification('Downloading',desc=sentry[sbid-1]['artist']+' - '+str(sentry[sbid-1]['title']))
+                    downloadqueue.append((sentry[sbid-1]['artist']+' - '+str(sentry[sbid-1]['title']),'https://catboy.best/d/'+str(sentry[sbid-1]['beatmaps'][0]['beatmapset_id'])))
+                elif event.button==1 and shopbutton:
+                    sbid=shopbutton
+                    threading.Thread(target=reload_background).start()
+                elif event.button==4:
+                    if not shopscroll+20>0:
+                        shopscroll+=40
+                elif event.button==5:
+                    if not shopscroll-20<-(80*(len(sbt)-1)):
+                        shopscroll-=40
             elif activity==9:
                 if sysbutton:
                     transitionprep(1)

@@ -7,7 +7,7 @@
 #
 import random,re,json,zipfile,os
 from random import randint
-import pygame, time, sys, threading, requests, socket,hashlib
+import pygame, time, sys, threading, requests, socket,hashlib,io
 import tkinter as tk
 from tweener import *
 nline='\n'
@@ -139,7 +139,8 @@ tip=0
 sre=0
 crox=[]
 delta=0
-beatmapapi='https://dev.catboy.best/api/v2/'
+mainurl='https://dev.catboy.best'
+beatmapapi=mainurl+'/api/v2/'
 beattitle=None
 countersp=0
 #def print(txt):
@@ -189,7 +190,7 @@ def main():
     if time.time()-sa>0.1:
         sa=time.time()
         fps=int(clock.get_fps())
-    allowed=[0,1,2,3,5,6,7,8,11,99]
+    allowed=[0,1,2,3,5,6,7,8,11,12,99]
     upd=time.time()
     fullscreenchk()
     size=60
@@ -225,12 +226,14 @@ def main():
         if gametime//bpm>tick:
             tick+=1
     for a in os.listdir(downpath):
-        os.mkdir(gamepath+a.replace('.osz',''))
-        with zipfile.ZipFile(downpath+a, 'r') as zip_ref:
-            zip_ref.extractall(gamepath+a.replace('.osz','/'))
-            reloaddatabase=1
-        os.remove(downpath+a)
-        notification('Beatmap Imported',desc=a)
+        if a.endswith('.osz'):
+            if not os.path.isdir(gamepath+a.replace('.osz','')):
+                os.mkdir(gamepath+a.replace('.osz',''))
+                with zipfile.ZipFile(downpath+a, 'r') as zip_ref:
+                    zip_ref.extractall(gamepath+a.replace('.osz','/'))
+                    reloaddatabase=1
+                notification('Beatmap Imported',desc=a)
+            os.remove(downpath+a)
     if totrank<1:
         totrank=1
     transi=((100-transani[0].value)/100)
@@ -245,6 +248,7 @@ def main():
     shopdirect()
     gameedit()
     loginscreen()
+    downloads()
     if useroverlay:
         render('rect', arg=((0,-15,w,h//2), (60,60,60), False), borderradius=15)
         posy=10

@@ -1,4 +1,5 @@
-import requests,threading
+import requests,threading,re
+from urllib.parse import unquote
 lvrating=0
 def bpmparse(bpm):
     return bpm.split(',')[1]
@@ -115,6 +116,18 @@ def rleaderboard():
     leaderboard=[]
     f=requests.get(settingskeystore['apiurl']+'api/getleaderboard?'+str(beatmapid))
     leaderboard=f.json()
+def getrank(id):
+    if id==3 or id==4:
+#        print(rankmodes[2][0])
+        return 2
+    if id==-1:
+#        print(rankmodes[2][0])
+        return 2
+    elif id>0:
+        return 0
+    else:
+#        print(rankmodes[1][0])
+        return 1
 def getstat():
     global ranktype,getpoints,leaderboard
     #print('Loading...')
@@ -138,16 +151,7 @@ def getstat():
     getpoints=0
     #if id!=None:
 #        print(ranktypetmp)
-    if ranktypetmp==3:
-#        print(rankmodes[2][0])
-        ranktype=2
-    elif ranktypetmp>0:
-        ranktype=0
-        getpoints=1
-    else:
-#        print(rankmodes[1][0])
-        ranktype=1
-        getpoints=0
+    ranktype=getrank(ranktypetmp)
 def resetscore():
     global score,ncombo,barclicked,prevrank,timestep,replaystore,unstablerate,timetaken,perf,scorew,kiai,bgcolour,objecon,combo,sre,health,healthtime,combotime,hits,last,stripetime,ppcounter,pptime,pptmp,modshow,ranking
     last=0
@@ -249,7 +253,7 @@ def reloadprofile():
             totrank=0
 
 def ondemand():
-    global totperf,totscore,totrank,nettick,issigned,qlutaerror,menunotice,pingspeed
+    global totperf,totscore,totrank,nettick,issigned,qlutaerror,menunotice,pingspeed,downloadqueue
     qlutaerror=True
     pingspeed=0
     while True:
@@ -282,4 +286,17 @@ def ondemand():
                         pass
                     qlutaerror=True
             nettick=time.time()
-        time.sleep(1/5)
+            for a in downloadqueue:
+                try:
+                    r=requests.get(a[1])
+                    filename=r.headers['content-disposition']
+                    filename = re.findall("filename=(.+)", filename)[0]
+                    filename = unquote(filename).replace('"','')
+                    with open(downpath+filename+'.tmp','wb') as tmp:
+                        tmp.write(r.content)
+                    os.rename(downpath+filename+'.tmp',downpath+filename)
+                except Exception as err:
+                    print(err)
+                downloadqueue.remove(a)
+
+        time.sleep(1/10)
