@@ -18,7 +18,6 @@ gamever='2023.06.01'
 sylphenginever=gamever
 gameverspl=gamever.split('.')
 #gameminserve=int(gameverspl[0])+((1+float(gameverspl[1]))*float(gameverspl[2]))
-modpath=datapath+'mods/' # type: ignore
 gamepath=datapath+'beatmaps/'
 samplepath=syspath+'samples/'
 downpath=datapath+'downloads/'
@@ -37,7 +36,7 @@ rankdiffc=(0,100,200),(0,200,50),(150,200,0),(200,50,0),(0,0,0),(150,0,150)
 sa=time.time()
 gametime=0
 ismusic=0
-paths=datapath,syspath,gamepath,propath,profilepath,modpath,downpath,samplepath,replaypath,skinpath
+paths=datapath,gamepath,propath,profilepath,downpath,replaypath,skinpath
 prestart=1
 reloaddatabase=1
 vol=100
@@ -374,8 +373,8 @@ if __name__  ==  "__main__":
         for a in modsen:
             greph.append(randint(1,2)-1)
         icons=[]
-        for a in os.listdir(syspath+'icons/'):
-            icons.append(pygame.image.load(syspath+'icons/'+a)) # Icons!
+        for a in os.listdir(resource_path(syspath+'icons/')):
+            icons.append(pygame.image.load(resource_path(syspath+'icons/'+a))) # Icons!
         programIcon = pygame.image.load(resource_path(syspath+'icon.png'))
         threading.Thread(target=ondemand).start()
         #threading.Thread(target=loginwindow).start()

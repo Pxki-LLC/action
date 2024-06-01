@@ -44,8 +44,8 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 datapath='./userdata/'
-syspath='./data/'
-modulepath='./data/modules/'
+syspath=resource_path('./data/')
+modulepath=syspath+'modules/'
 forepallete=(255,255,255)
 moduletime=time.time()
 if not "-devmode" in sys.argv:
