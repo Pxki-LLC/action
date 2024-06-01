@@ -2,6 +2,8 @@ name: Build and Package Binary
 
 on:
   push:
+    branches:
+      - online
 
 jobs:
   windows-build:
