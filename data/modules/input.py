@@ -1,5 +1,5 @@
 def get_input():
-    global keys,logintext,textboxid,bgs,activity,shopscroll,shopref,srank,modsv,sb,sbt,modsani,sbid,notewidth,noteheight,customid,successfulsignin,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,logintext,textboxid,bgs,activity,shopscroll,shopref,usecache,srank,modsv,sb,sbt,modsani,sbid,notewidth,noteheight,customid,successfulsignin,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -50,14 +50,21 @@ def get_input():
                     notification('Downloading',desc=sentry[sbid-1]['artist']+' - '+str(sentry[sbid-1]['title']))
                     downloadqueue.append((sentry[sbid-1]['artist']+' - '+str(sentry[sbid-1]['title']),'https://catboy.best/d/'+str(sentry[sbid-1]['beatmaps'][0]['beatmapset_id'])))
                 elif event.button==1:
-                    if shopbutton:
-                        sbid=shopbutton
-                        threading.Thread(target=reload_background).start()
-                    elif shopbutton2==1:
+                    if shopbutton2==1:
                         if not sref:
                             shopref=1
                             sb=[]
                             sbt=[]
+                    elif shopbutton2>1:
+                        if srank!=shopbutton2-2:
+                            srank=shopbutton2-2
+                            usecache=1
+                            sbid=0
+                            shopref=1
+                            shopscroll=0
+                    elif shopbutton:
+                        sbid=shopbutton
+                        threading.Thread(target=reload_background).start()
                 elif event.button==4:
                     if not shopscroll+20>0:
                         shopscroll+=40

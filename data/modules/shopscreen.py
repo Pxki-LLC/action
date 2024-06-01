@@ -1,12 +1,14 @@
 shopref=1
 sbt=[]
 serr=0
+usecache=0
 sref=1
 sbid=0
 shopbutton2=0
 shopscroll=0
 bgs=pygame.Surface((0,0))
 downloadqueue=[]
+srank=0
 def reload_background():
     global bgs
     bgs=pygame.Surface((0,0))
@@ -16,23 +18,27 @@ def reload_background():
     bgst=pygame.image.load(bgst).convert_alpha()
     bgs=pygame.transform.scale(bgst, (350,180))
 
-def shop_refresh():
-    global sbt,sentry,sref,serr
+def shop_refresh(usecached):
+    global sbt,sentrynf,sref,serr,sentry
     serr=0
     try:
-        sref=1
-        f = requests.get(beatmapapi+'search?limit=100',headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'},timeout=3)
-        f=f.json()['found']
-        sentry=f
+        if not usecached:
+            sref=1
+            f = requests.get(beatmapapi+'search?limit=100',headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'},timeout=3)
+            f=f.json()['found']
+            sentrynf=f
         tmp=[]
         tick=0
-        for a in sentry:
+        sentry=[]
+        for a in sentrynf:
             if a['beatmaps'][0]['mode']=='mania':
                 #print(a['artist']+' - '+a['title']+' - '+a['beatmaps'][0]['mode'])
-                tmp.append(a['artist']+' - '+a['title'])
+                if getrank(a['ranked'])==srank:
+                    sentry.append(a)
+                    tmp.append(a['artist']+' - '+a['title'])
             else:
                 #print('Not a mania map',time.time(),a['artist']+' - '+a['title']+' - '+a['beatmaps'][0]['mode'])
-                del sentry[tick]
+                del sentrynf[tick]
             tick+=1
         sbt=tmp
         sref=0
@@ -55,11 +61,12 @@ def downloads():
         sysbutton=menu_draw(((-10,h-60,100,60),),('Back',),bradius=0,styleid=3)
 
 def shopdirect():
-    global activity,shopref,sysbutton,shopbutton,serr,shopbutton2
+    global activity,shopref,sysbutton,shopbutton,serr,shopbutton2,usecache
     if activity==6:
         if shopref or serr:
-            threading.Thread(target=shop_refresh).start()
+            threading.Thread(target=shop_refresh, args=(usecache,)).start()
             shopref=0
+            usecache=0
             serr=0
         render('rect', arg=((0,100,w,h-160), hcol[2], False))
         sb=[]
@@ -71,7 +78,7 @@ def shopdirect():
         render('rect', arg=((0,100,w-400,20), hcol[1], False))
         render('rect', arg=((w-400,100,400,h-160), hcol[1], False))
         render('text', text='Browse', arg=((20,20), forepallete,'grade'))
-        shopbutton2=menu_draw(((0,100,100,20),), ('Refresh',),settings=True)
+        shopbutton2=menu_draw(((0,100,100,20),(100,100,100,20),(200,100,100,20),(300,100,100,20),), ('Refresh','Ranked','Unranked','Special'),settings=True,selected_button=srank+2)
         if sref:
             render('text', text='Loading...', arg=((20,20), forepallete,'grade','center'),relative=(400*((w/800)-1),100,400,h-100))
         if len(sb):
