@@ -57,8 +57,10 @@ def mainmenu():
         if not qlutaerror:
             print_card(totperf,totacc,settingskeystore['username'],(w//2-150,h//2+120),totrank,home=True,isgrayed=restricted)
         if menunotice!='':
-            render('rect',arg=((w//2-150,h//2-170,300,50),(bgdefaultcolour[0]+25,bgdefaultcolour[1]+25,bgdefaultcolour[2]+25),False),borderradius=10)
-            render('text',text=menunotice,arg=((20, 20),(255,255,255),'center'),relative=(w//2-150,h//2-170,300,50))
+            tmp = fonts[0].render(str(menunotice),  True,  (0,0,0))
+            txtrect=tmp.get_rect()
+            render('rect',arg=((w//2-(txtrect[2]//2)-10,h//2-170,txtrect[2]+20,50),(bgdefaultcolour[0]+25,bgdefaultcolour[1]+25,bgdefaultcolour[2]+25),False),borderradius=10)
+            render('text',text=menunotice,arg=((20, 20),(255,255,255),'center'),relative=(w//2-(txtrect[2]//2)-10,h//2-170,txtrect[2]+20,50))
         if totrank==1:
             t=2
         else:
