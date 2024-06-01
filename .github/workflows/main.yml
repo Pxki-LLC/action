@@ -27,7 +27,7 @@ jobs:
       run: |
         pyinstaller --hidden-import=pygame --hidden-import=tweener --onefile --name qlute --add-data "data:data" launcher.py
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: Windows-Qlute
         path: ./dist
@@ -51,7 +51,7 @@ jobs:
       run: |
         pyinstaller --hidden-import=pygame --hidden-import=tweener --onefile --name qlute --add-data "data:data" launcher.py
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: Linux-Qlute
         path: ./dist
@@ -61,12 +61,45 @@ jobs:
     needs: [linux-build, windows-build]
     if: ${{ needs.windows-build.result == 'success' && needs.windows-build.result == 'success' }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v3
-        with:
-          path: Linux-Qlute.zip
-      - uses: actions/download-artifact@v3
-        with:
-          path: Windows-Qlute.zip
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Download math result for job 1
+      uses: actions/download-artifact@v4
+      with:
+          name: Linux-Qlute
+    - uses: actions/download-artifact@v4
+      with:
+          name: Windows-Qlute
+    - name: Get current date for Release
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y.%m.%d')"
+    - name: release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: ${{ steps.date.outputs.date }}
+        tag_name: ${{ steps.date.outputs.date }} 
+        body: |
+         This release has been automated
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: upload linux artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: qlute
+        asset_name: qlute
+        asset_content_type: application/octet-stream
+    - name: upload windows artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: qlute.exe
+        asset_name: qlute.exe
+        asset_content_type: application/octet-stream
