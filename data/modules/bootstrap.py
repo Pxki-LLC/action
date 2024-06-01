@@ -8,7 +8,6 @@
 import random,re,json,zipfile,os
 from random import randint
 import pygame, time, sys, threading, requests, socket,hashlib,io
-import tkinter as tk
 from tweener import *
 nline='\n'
 axe=0
