@@ -372,9 +372,9 @@ if __name__  ==  "__main__":
         greph=[]
         for a in modsen:
             greph.append(randint(1,2)-1)
-        icons=[]
+        icons={}
         for a in os.listdir(resource_path(syspath+'icons/')):
-            icons.append(pygame.image.load(resource_path(syspath+'icons/'+a))) # Icons!
+            icons[a]=(pygame.image.load(resource_path(syspath+'icons/'+a))) # Icons!
         programIcon = pygame.image.load(resource_path(syspath+'icon.png'))
         threading.Thread(target=ondemand).start()
         #threading.Thread(target=loginwindow).start()

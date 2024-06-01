@@ -16,8 +16,8 @@ def get_mods(bpos):
     for a in modsaliasab:
         if modsen[b]:
             pos=(bpos[0]+(15*tap),bpos[1])
-            rec=icons[1].get_rect() # type: ignore
-            screen.blit(icons[1],pos) # type: ignore
+            rec=icons['emblem.png'].get_rect() # type: ignore
+            screen.blit(icons['emblem.png'],pos) # type: ignore
             mods+=a
             render('text', text=a, arg=((0,0), (0,0,0),'center'),relative=(pos[0],pos[1],rec[2],rec[3])) # type: ignore
             tap+=1
