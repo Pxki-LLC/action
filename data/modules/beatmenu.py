@@ -2,6 +2,12 @@ import pygame
 modsalias="Auto",'Blind','Slice','EZ','Random'#,'DT','HT'
 modsaliasab='AT','BD','SL','EZ','RND'#,'DT','HT'
 mods=''
+def reload_database():
+    global reloaddatabase,cross,beatsel
+    reloaddatabase=1
+    if not fbt in fullbeatmapname and len(p2):
+        song_change(1)
+    cross[0]=0
 def get_mods(bpos):
     global mods
     b=0
@@ -38,7 +44,7 @@ def beatmenu():
             background=0
         a=0
         tmp=(h//60)//2 # type: ignore
-        if len(p2)>0: # type: ignore
+        if beatmaps>0: # type: ignore
             pp=int(int(getpoint(diffp[0][0],0,0,0,scoremult,combo=diffp[0][0]))),int(getpoint(diffp[-1][0],0,0,0,scoremult,combo=diffp[-1][0])) # type: ignore
             if len(diffp)<2 or activity==7: # type: ignore
                 gotext='Q'
@@ -59,7 +65,7 @@ def beatmenu():
             soup=0
             sel=beatsel
             button=menu_draw(p1,p2,beatmenu=True,selected_button=sel+1,startlimit=int(cross[0])-tmp-1,endlimit=int(cross[0])+tmp+2,styleid=1) # type: ignore
-        if len(p2)==0: # type: ignore
+        if beatmaps==0: # type: ignore
             crok=999
         else:
             crok=0
@@ -136,7 +142,7 @@ def beatmenu():
         render('rect', arg=((0,h-60,w,60), hcol[0], False)) # type: ignore
 #        for systrocity in sysbuttonpos:
 #            render('rect', arg=((systrocity), (100,100,150), True),bordercolor=(80,80,100),borderradius=10)
-        if len(p2): # type: ignore
+        if beatmaps: # type: ignore
             gobutton=menu_draw(((w-120,h-60,120,60),),(gotext,),bigmode=True,styleid=3,bradius=0) # type: ignore
         else:
             gobutton=0
@@ -175,12 +181,12 @@ def beatmenu():
             popupw=w//2-hax # type: ignore
         else:
             popupw=50
-        if len(p2)==0: # type: ignore
+        if beatmaps==0: # type: ignore
             render('text', text='No Beatmap added :sad:', arg=(offset, forepallete)) # type: ignore
         else:
             diffpos=(popupw+20+hax,150)
             #pass#int(len(objects)*perfbom*scoremult)
-            render('text', text=songtitle, arg=(offset, forepallete)) # type: ignore
+            render('text', text=songtitle, arg=((20,15), forepallete)) # type: ignore
             render('rect',arg=((popupw-4,76,hax*2,110),blend(opacity,20),False),borderradius=20) # type: ignore
             render('rect',arg=((popupw,80,hax*2,110),blend(opacity,0),False),borderradius=20) # type: ignore
             render('text', text=rankmodes[ranktype][0], arg=((popupw+20+hax,90), rankmodes[ranktype][1])) # type: ignore # Rank Type
@@ -192,6 +198,7 @@ def beatmenu():
             render('rect', arg=((diffpos[0]-(bgcolour//2),diffpos[1],100+bgcolour,30), (levelcol[0]-20,levelcol[1]-20,levelcol[2]-20), False),borderradius=10) # type: ignore
             render('rect', arg=((diffpos[0],diffpos[1],100,30), levelcol, False),borderradius=10) # type: ignore
             render('text', text='Lv. '+str(round(lvrating,2)), arg=((0,0), forepallete,"center"),relative=(diffpos[0],diffpos[1],100,30)) # type: ignore
+            textbox((20,44,300),20,text=search[1],center=True,min=True,bg_colour=hcol[0])
 def timeform(t):
     if t==None:
         return 'Never Played'

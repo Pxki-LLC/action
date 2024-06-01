@@ -48,7 +48,7 @@ def mainmenu():
         #print(1-((gametime/(lastms+1000))))
         if gametime>=lastms+1000 or gametime<=-1:
             song_change(1)
-        if len(p2)!=0:
+        if beatmaps!=0:
             render('text', text=songtitle, arg=((20,anib*55), forepallete))
         else:
             render('text', text='nothing...', arg=((20,anib*55), (255,255,255)))
@@ -71,7 +71,7 @@ def mainmenu():
         #print_card(totperf//2,totscore//2,'MiXer',(340,60),2,isgrayed=1)
         render('text', text=gamename+'/'+gameedition+' ('+str(gamever)+')', arg=((0,0), forepallete,'center'),relative=(w//2,h-35,0,0))
         if menubutton == 1:
-            msg=' You have '+str(format(len(p2),','))+' Songs '
+            msg=' You have '+str(format(beatmaps,','))+' Songs '
         elif menubutton == 2:
             msg='Time to make beatmaps!'
         elif menubutton == 3:

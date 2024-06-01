@@ -188,19 +188,20 @@ def change_diff():
         diffcon=0
 def song_change(switch):
     global beatsel,beatnowmusic,diffcon,cross
-    if not switch:
-        if not beatsel-1<=-1:
-            beatsel-=1
+    if len(p2):
+        if not switch:
+            if not beatsel-1<=-1:
+                beatsel-=1
+            else:
+                beatsel=len(p2)-1
         else:
-            beatsel=len(p2)-1
-    else:
-        if not beatsel+1>=len(p2):
-            beatsel+=1
-        else:
-            beatsel=0
-    beatnowmusic=1
-    diffcon=0
-    cross[1]=0
+            if not beatsel+1>=len(p2):
+                beatsel+=1
+            else:
+                beatsel=0
+        beatnowmusic=1
+        diffcon=0
+        cross[1]=0
 def diff_change(switch):
     global beatsel,beatnowmusic,diffcon,diffani
     if not switch:
@@ -214,7 +215,7 @@ def diff_change(switch):
         else:
             diffcon=0
     reloadstats()
-    diffani=[Tween(begin=cross[1], end=diffcon,duration=1500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),0]
+    diffani=[Tween(begin=cross[1], end=diffcon,duration=350,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),0]
     diffani[0].start()
 def get_rank(num):
     #crok=256*oneperf

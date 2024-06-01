@@ -1,5 +1,5 @@
 def get_input():
-    global keys,logintext,textboxid,bgs,activity,shopscroll,search,shopref,usecache,srank,modsv,sb,sbt,modsani,sbid,notewidth,noteheight,customid,successfulsignin,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,logintext,textboxid,bgs,reloaddatabase,activity,shopscroll,search,shopref,usecache,srank,modsv,sb,sbt,modsani,sbid,notewidth,noteheight,customid,successfulsignin,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -218,6 +218,11 @@ def get_input():
                     logintext[textboxid] = logintext[textboxid][:-1]
                 elif activity==6:
                     search[0] = search[0][:-1]
+                elif activity==3:
+                    tmp=search[1]
+                    search[1] = search[1][:-1]
+                    if len(search[1])!=len(tmp):
+                        reload_database()
             elif event.key == pygame.K_TAB: 
                 if activity==10:
                     textboxid=not textboxid
@@ -245,6 +250,11 @@ def get_input():
                     logintext[textboxid] += event.unicode
                 elif activity==6:
                     search[0] += event.unicode
+                elif activity==3:
+                    tmp=search[1]
+                    search[1] += event.unicode
+                    if len(search[1])!=len(tmp):
+                        reload_database()
             if activity==11:
                 if customid==1:
                     if event.key  ==  pygame.K_LEFT:

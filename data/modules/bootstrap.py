@@ -205,7 +205,7 @@ def main():
 
     if "bpm" in globals():
         if activity in allowed or kiai:
-            if len(p2)!=0:
+            if beatmaps!=0:
                 if not activity in (3,7):
                     clear((maxt(bgdefaultcolour[0],bgcolour),maxt(bgdefaultcolour[1],bgcolour),maxt(bgdefaultcolour[2],bgcolour)))
                 else:
