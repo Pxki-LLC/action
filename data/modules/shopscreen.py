@@ -9,6 +9,7 @@ shopscroll=0
 bgs=pygame.Surface((0,0))
 downloadqueue=[]
 srank=0
+search=['','']
 def reload_background():
     global bgs
     bgs=pygame.Surface((0,0))
@@ -24,7 +25,11 @@ def shop_refresh(usecached):
     try:
         if not usecached:
             sref=1
-            f = requests.get(beatmapapi+'search?limit=100',headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'},timeout=3)
+            if search[0]!='':
+                alt='?query='+str(search[0])
+            else:
+                alt=''
+            f = requests.get(beatmapapi+'search'+alt+'?limit=100',headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'},timeout=3)
             f=f.json()['found']
             sentrynf=f
         tmp=[]
@@ -78,14 +83,19 @@ def shopdirect():
         render('rect', arg=((0,100,w-400,20), hcol[1], False))
         render('rect', arg=((w-400,100,400,h-160), hcol[1], False))
         render('text', text='Browse', arg=((20,20), forepallete,'grade'))
-        shopbutton2=menu_draw(((0,100,100,20),(100,100,100,20),(200,100,100,20),(300,100,100,20),), ('Refresh','Ranked','Unranked','Special'),settings=True,selected_button=srank+2)
+        render('rect', arg=((0,80,300,20), hcol[0], True),bordercolor=forepallete)
+        render('text', text=search[0], arg=((0,0), forepallete,'center','min'),relative=(0,80,300,20))
+        shopbutton2=menu_draw(((0,100,100,20),(300,80,100,20),(100,100,100,20),(200,100,100,20),(300,100,100,20),), ('Refresh','Search','Ranked','Unranked','Special'),settings=True,selected_button=srank+3)
         if sref:
             render('text', text='Loading...', arg=((20,20), forepallete,'grade','center'),relative=(400*((w/800)-1),100,400,h-100))
         if len(sb):
-            render('rect', arg=((0,120,10,h-180), (80,80,80), False))
-            t=-20
-            t+=(-shopscroll/-(80*(len(sbt)-1)))*((h-180)-((h-180)//len(sb)))
-            render('rect', arg=((0,100-t,10,(h-180)//len(sb)), hcol[0], False))
+            try:
+                t=-20
+                t+=(-shopscroll/-(80*(len(sbt)-1)))*((h-180)-((h-180)//len(sb)))
+                render('rect', arg=((0,120,10,h-180), (80,80,80), False))
+                render('rect', arg=((0,100-t,10,(h-180)//len(sb)), hcol[0], False))
+            except Exception:
+                pass
         if sbid:
             crok=0
             entry=sentry[sbid-1]

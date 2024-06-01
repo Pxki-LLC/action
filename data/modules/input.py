@@ -1,5 +1,5 @@
 def get_input():
-    global keys,logintext,textboxid,bgs,activity,shopscroll,shopref,usecache,srank,modsv,sb,sbt,modsani,sbid,notewidth,noteheight,customid,successfulsignin,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,logintext,textboxid,bgs,activity,shopscroll,search,shopref,usecache,srank,modsv,sb,sbt,modsani,sbid,notewidth,noteheight,customid,successfulsignin,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -50,18 +50,19 @@ def get_input():
                     notification('Downloading',desc=sentry[sbid-1]['artist']+' - '+str(sentry[sbid-1]['title']))
                     downloadqueue.append((sentry[sbid-1]['artist']+' - '+str(sentry[sbid-1]['title']),'https://catboy.best/d/'+str(sentry[sbid-1]['beatmaps'][0]['beatmapset_id'])))
                 elif event.button==1:
-                    if shopbutton2==1:
+                    if shopbutton2 in (1,2):
                         if not sref:
                             shopref=1
                             sb=[]
                             sbt=[]
-                    elif shopbutton2>1:
-                        if srank!=shopbutton2-2:
-                            srank=shopbutton2-2
-                            usecache=1
-                            sbid=0
-                            shopref=1
-                            shopscroll=0
+                    elif shopbutton2>2:
+                        if srank!=shopbutton2-3:
+                            if not sref:
+                                srank=shopbutton2-3
+                                usecache=1
+                                sbid=0
+                                shopref=1
+                                shopscroll=0
                     elif shopbutton:
                         sbid=shopbutton
                         threading.Thread(target=reload_background).start()
@@ -215,12 +216,18 @@ def get_input():
             elif event.key == pygame.K_BACKSPACE: 
                 if activity==10:
                     logintext[textboxid] = logintext[textboxid][:-1]
+                elif activity==6:
+                    search[0] = search[0][:-1]
             elif event.key == pygame.K_TAB: 
                 if activity==10:
                     textboxid=not textboxid
             elif event.key  ==  pygame.K_RETURN:
                 if activity==10:
                     pass # Bypass repeated sequence
+                elif activity==6:
+                    shopref=1
+                    sb=[]
+                    sbt=[]
 
             # Unicode standard is used for string 
             # formation 
@@ -236,6 +243,8 @@ def get_input():
             else: 
                 if activity==10:
                     logintext[textboxid] += event.unicode
+                elif activity==6:
+                    search[0] += event.unicode
             if activity==11:
                 if customid==1:
                     if event.key  ==  pygame.K_LEFT:
