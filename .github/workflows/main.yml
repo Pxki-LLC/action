@@ -1,14 +1,41 @@
 name: Build and Package Binary
 
 on:
-  push:
-    branches:
-      - online
+  schedule:
+    # Runs at 11 PM EST daily
+    - cron: '0 4 * * *'  # Note: 11 PM EST is 4 AM UTC
 
 jobs:
-  windows-build:
-    runs-on: windows-latest
+  check-commits:
+    name: Checking if there are changes
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
+      - name: Check for commits in the last 24 hours
+        id: check-commits
+        run: |
+          # Get the current date and time in UTC
+          current_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          # Get the date and time 24 hours ago in UTC
+          past_time=$(date -u -d "-24 hours" +"%Y-%m-%dT%H:%M:%SZ")
+          # Check for commits in the last 24 hours
+          commits=$(git log --since="$past_time" --until="$current_time" --pretty=format:'%h')
+          echo "Commits in the last 24 hours: $commits"
+          if [ -z "$commits" ]; then
+            echo "No commits found."
+            echo "::set-output name=has_commits::false"
+          else
+            echo "Commits found."
+            echo "::set-output name=has_commits::true"
+          fi
+  windows-build:
+    name: Windows build
+    needs: check-commits
+    if: needs.check-commits.outputs.has_commits == 'true'
+    runs-on: windows-latest
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -32,6 +59,9 @@ jobs:
         name: Windows-Qlute
         path: ./dist
   linux-build:
+    name: Linux build
+    needs: check-commits
+    if: needs.check-commits.outputs.has_commits == 'true'
     runs-on: ubuntu-latest
 
     steps:
@@ -63,7 +93,11 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Download math result for job 1
+    - name: "✏️ Generate release changelog"
+      uses: heinrichreimer/action-github-changelog-generator@v2.3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }} 
+    - name: Download de artifacts
       uses: actions/download-artifact@v4
       with:
           name: Linux-Qlute
@@ -81,8 +115,7 @@ jobs:
         prerelease: false
         release_name: ${{ steps.date.outputs.date }}
         tag_name: ${{ steps.date.outputs.date }} 
-        body: |
-         This release has been automated
+        body_path: CHANGELOG.md
       env:
         GITHUB_TOKEN: ${{ github.token }}
     - name: upload linux artifact
