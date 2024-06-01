@@ -1,9 +1,12 @@
-def textbox():
-    global maxtext
-    maxtext=24*(w//640+1)
-    render('rect', arg=(((w - button_size_width) // 2,  ((h - button_size_height) // 2) + (button_size_height - 60), button_size_width,  60), (0, 0, 0), True), bordercolor=forepallete)
-    if len(textbox_text)<maxtext:
-        colortext=255, 255, 255
+def textbox(pos,size,text='',center=False,min=False,border_colour=(255,255,255),bg_colour=(40,40,40)):
+    hw=(pos[0],pos[1],pos[2],size)
+    if center:
+        c='center'
     else:
-        colortext=255, 0, 0
-    render('text', arg=(((w - button_size_width) // 2+10, ((h - button_size_height) // 2) + (button_size_height//4)), colortext), text=textbox_text)
+        c=''
+    if min:
+        b='min'
+    else:
+        b=''
+    render('rect', arg=(hw, bg_colour, True),bordercolor=border_colour)
+    render('text', text=text, arg=((pos[0],pos[1]), forepallete,c,b),relative=hw)

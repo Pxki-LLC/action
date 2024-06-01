@@ -83,8 +83,7 @@ def shopdirect():
         render('rect', arg=((0,100,w-400,20), hcol[1], False))
         render('rect', arg=((w-400,100,400,h-160), hcol[1], False))
         render('text', text='Browse', arg=((20,20), forepallete,'grade'))
-        render('rect', arg=((0,80,300,20), hcol[0], True),bordercolor=forepallete)
-        render('text', text=search[0], arg=((0,0), forepallete,'center','min'),relative=(0,80,300,20))
+        textbox((0,80,300),20,text=search[0],center=True,min=True,bg_colour=hcol[0])
         shopbutton2=menu_draw(((0,100,100,20),(300,80,100,20),(100,100,100,20),(200,100,100,20),(300,100,100,20),), ('Refresh','Search','Ranked','Unranked','Special'),settings=True,selected_button=srank+3)
         if sref:
             render('text', text='Loading...', arg=((20,20), forepallete,'grade','center'),relative=(400*((w/800)-1),100,400,h-100))

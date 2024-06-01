@@ -30,10 +30,8 @@ def loginscreen():
                     id+=1
                 render('text', text='Username:', arg=((w//2-300,h//2-80), forepallete))
                 render('text', text='Password: ('+format(len(logintext[1]),',')+' Characters)', arg=((w//2-300,h//2), forepallete))
-                render('rect', arg=((w//2-300,h//2-50,600,40), (40,40,40), True),bordercolor=l[0])
-                render('rect', arg=((w//2-300,h//2+30,600,40), (40,40,40), True),bordercolor=l[1])
-                render('text', text=logintext[0], arg=((w//2-290,h//2-40), forepallete))
-                render('text', text='*'*len(logintext[1]), arg=((w//2-290,h//2+40), forepallete))
+                textbox((w//2-300,h//2-50,600),40,text=logintext[0],border_colour=l[0],center=True)
+                textbox((w//2-300,h//2+30,600),40,text='*'*len(logintext[1]),border_colour=l[1],center=True)
                 render('text', text='Login', arg=((20,20), forepallete,'grade'))
                 render('text', text='For new users, please vist our site to sign up', arg=((20,80), forepallete))
                 logbutton=menu_draw(((w//2-150,h//2+90,100,25),(w//2+20,h//2+90,100,25),),('Log in','Sign Up'),bradius=15,styleid=3)
