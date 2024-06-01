@@ -1,5 +1,5 @@
 def get_input():
-    global keys,logintext,textboxid,bgs,activity,shopscroll,shopref,modsv,sb,sbt,modsani,sbid,notewidth,noteheight,customid,successfulsignin,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
+    global keys,logintext,textboxid,bgs,activity,shopscroll,shopref,srank,modsv,sb,sbt,modsani,sbid,notewidth,noteheight,customid,successfulsignin,issigned,modshow,setupid,gobutton,useroverlay,replaymen,beatnowmusic,beatsel,beatsel,diffani,diffcon,beatnowmusic,change,setbutton,settingskeystore,fpsmode,firstcom,accounts
     for event in pygame.event.get():
         if event.type  ==  pygame.QUIT:
             stopnow()
@@ -181,7 +181,7 @@ def get_input():
                                     else:
                                         if button-1!=diffcon:
                                             diffcon=button-1
-                                            diffani=[Tween(begin=cross[1], end=diffcon,duration=1500,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),0]
+                                            diffani=[Tween(begin=cross[1], end=diffcon,duration=350,easing=Easing.CUBIC,easing_mode=EasingMode.OUT),0]
                                             diffani[0].start()
                                             reloadstats()
                                         else:

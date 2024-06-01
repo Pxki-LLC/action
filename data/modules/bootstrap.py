@@ -15,7 +15,7 @@ axe=0
 gamename='Qlute'
 gameeditions='stable','beta','canary','dev'
 gameedition=gameeditions[-1]
-gamever='2023.05.31'
+gamever='2023.06.01'
 sylphenginever=gamever
 gameverspl=gamever.split('.')
 #gameminserve=int(gameverspl[0])+((1+float(gameverspl[1]))*float(gameverspl[2]))
@@ -195,8 +195,8 @@ def main():
     fullscreenchk()
     size=60
     scale=(w/400)
-    if scale>=3:
-        scale=3
+    if scale>=2:
+        scale=2
     cardsize=int(300*scale)
     if activity==2:
         ingame=True
