@@ -301,7 +301,7 @@ def game():
             render('text',text='Loading...',arg=((20, 20),(0,0,0),'grade','center'),relative=(w//2-100,h//2-50,200,100))
             pygame.display.update()
             if settingskeystore['sreplay']:
-                with open(replaypath+'replay-'+str(str(time.time())+'-'+settingskeystore['username'])+'-'+str(beatmapsetid)+'-'+str(beatmapid),'w') as x:
+                with open(replaypath+'replay-'+str(str(time.time())+'-'+str(settingskeystore['username']))+'-'+str(beatmapsetid)+'-'+str(beatmapid),'w') as x:
                     x.write('#'+str(gamename)+'-'+str(gamever)+'\n'+str(settingskeystore['username'])+';'+str(hits[0])+';'+str(hits[1])+';'+str(hits[2])+';'+str(hits[3])+';'+str(mods)+'\n')
                     for a in replaystore:
                         x.write(a+'\n')
