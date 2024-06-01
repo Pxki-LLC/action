@@ -143,8 +143,7 @@ def beatmapload():
 #            for a in beatmap[:3]:
 #                print(a)
 #            sys.exit()
-    except Exception as error:
-        print('Could not load Song: '+str(error))
+    except Exception:
         song_change(1)
 def volchg(t):
     global vol,voltime,volani
