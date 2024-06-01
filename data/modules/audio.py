@@ -1,3 +1,4 @@
+bpm=60000
 def spectrum():
     global bars
     for a in range(1,len(bars)+1):
@@ -25,7 +26,7 @@ def beatmapload():
                     fullbeatmapname.append(b)
             except Exception:
                 pass
-        if not len(p2):
+        if not len(p2) and beatmaps>0:
             background=pygame.Surface((0,0))
             pygame.mixer.music.stop()
             songtitle='No beatmaps avaliable!'
@@ -136,8 +137,6 @@ def beatmapload():
 #                        ranktype=
             else:
                 lastms=1
-                bpm=60000
-                level=1
                 #objects=['','']
                 #metadata=beatmap[beatmap.index('[Metadata]')+1:]
 #            for a in beatmap[:3]:

@@ -201,7 +201,7 @@ def main():
     else:
         ingame=False
 
-    if "bpm" in globals():
+    if "bpm" in globals() and "beatmaps" in globals():
         if activity in allowed or kiai:
             if beatmaps!=0:
                 if not activity in (3,7):

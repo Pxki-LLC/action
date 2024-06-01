@@ -12,7 +12,7 @@ def clockify(clo):
     sec="{:02d}".format(int(clo-(60*minraw)))
     return str(min)+':'+str(sec)
 def song_progress():
-    if lastms<1:
+    if not lastms<1:
         slop=(gametime/lastms)
         if slop>1:
             slop=1
