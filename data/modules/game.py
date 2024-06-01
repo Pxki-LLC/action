@@ -12,13 +12,14 @@ def clockify(clo):
     sec="{:02d}".format(int(clo-(60*minraw)))
     return str(min)+':'+str(sec)
 def song_progress():
-    slop=(gametime/lastms)
-    if slop>1:
-        slop=1
-    render('text',text=clockify(int(gametime//1000)/speed),arg=((25,h-50),forepallete))
-    render('text',text='-'+clockify(int((lastms-gametime)//1000)/speed),arg=((w-25,h-50),forepallete,'rtl'))
-    render('rect', arg=((10,h-20,w-20,10), (50,50,50), False),borderradius=10)
-    render('rect', arg=((10,h-20,slop*(w-20),10), (255,255,255), False),borderradius=10)
+    if lastms<1:
+        slop=(gametime/lastms)
+        if slop>1:
+            slop=1
+        render('text',text=clockify(int(gametime//1000)/speed),arg=((25,h-50),forepallete))
+        render('text',text='-'+clockify(int((lastms-gametime)//1000)/speed),arg=((w-25,h-50),forepallete,'rtl'))
+        render('rect', arg=((10,h-20,w-20,10), (50,50,50), False),borderradius=10)
+        render('rect', arg=((10,h-20,slop*(w-20),10), (255,255,255), False),borderradius=10)
 def iscatched(block,isauto,ob,fir,id):
     lean=(perfect,great,ok,miss,20) # Last one is for Auto
     tick=0
