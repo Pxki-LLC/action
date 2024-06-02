@@ -48,6 +48,10 @@ syspath=resource_path('./data/')
 modulepath=syspath+'modules/'
 forepallete=(255,255,255)
 moduletime=time.time()
+if os.path.isfile(syspath+'.version'):
+    gamever=open(syspath+'.version').read().rstrip("\n")
+if os.path.isfile(syspath+'.edition'):
+    gameedition=open(syspath+'.edition').read().rstrip("\n")
 if not "-devmode" in sys.argv:
     devmode=True # Bypasses the sha256sum Checks and open as Normal. Which would make players able to run the game with modified code that I didn't Verify yet.
 else:

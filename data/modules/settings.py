@@ -89,7 +89,7 @@ def settingspage():
         if setupid==5:
             render('text',text='Game Name - '+str(gamename),arg=((20,120+(23*0)),forepallete))
             render('text',text='Game Version - '+str(gamever),arg=((20,120+(23*1)),forepallete))
-            render('text',text='Slyph Engine Version - '+str(sylphenginever)+' (will now be the same version as game)',arg=((20,120+(23*2)),forepallete))
+            render('text',text='Slyph Engine Version - '+str(sylphenginever),arg=((20,120+(23*2)),forepallete))
             render('text',text='Module Initial Time - '+str(moduletime),arg=((20,120+(23*3)),forepallete))
             render('text',text='Ping Speed - '+str(pingspeed)+'ms',arg=((20,120+(23*4)),forepallete))
         else:

@@ -13,8 +13,12 @@ nline='\n'
 axe=0
 gamename='Qlute'
 gameeditions='stable','beta','canary','dev'
-gameedition=gameeditions[-1]
-gamever='2023.06.01'
+if not "gamever" in globals():
+    gamever='0.0.0'
+if not "gameedition" in globals() or not gameedition.isdigit():
+    gameedition=gameeditions[-1]
+else:
+    gameedition=gameeditions[int(gameedition)]
 sylphenginever=gamever
 gameverspl=gamever.split('.')
 #gameminserve=int(gameverspl[0])+((1+float(gameverspl[1]))*float(gameverspl[2]))
