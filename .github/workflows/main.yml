@@ -85,6 +85,8 @@ jobs:
     needs: [linux-build, windows-build]
     if: ${{ needs.windows-build.result == 'success' && needs.windows-build.result == 'success' }}
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
     - name: Set RELEASE
       run: echo $(date +'%Y.%m.%d') > RELEASE
     - name: Download de artifacts
@@ -98,7 +100,10 @@ jobs:
       id: date
       run: echo "::set-output name=date::$(date +'%Y.%m.%d')"
     - name: Make changelog
-      run: git log --since="$past_date 00:00:00" --until="$current_date 23:59:59" --format='%H' >>CHANGELOG.md
+      run: |
+       cd 
+       echo "#What's Changed">CHANGELOG.md
+       git log --since="$past_date 00:00:00" --until="$current_date 23:59:59" --format='%H' >>CHANGELOG.md
     - name: release
       uses: actions/create-release@v1
       id: create_release
