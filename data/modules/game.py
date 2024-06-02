@@ -282,7 +282,7 @@ def game():
             fon=1
         tim=temp-(int(float(tim[0])))+(h//2)
         if tim <=h+100 and tim>=-40:
-            render('rect', arg=(((fieldpos[0]//2)-keymap[0][2],tim,keymap[0][2]*6,5), (255,255,255), False),borderradius=20)
+            render('rect', arg=((w//2-(notewidth*2)-100,tim,keymap[0][2]*6,5), (255,255,255), False),borderradius=20)
             
 #        tmp=end*400
 #        if tmp<0:
