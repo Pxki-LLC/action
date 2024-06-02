@@ -103,7 +103,7 @@ jobs:
       run: |
        current_date=$(date -u +"%Y-%m-%d")
        echo "# What's Changed">CHANGELOG.md
-       git log --since="$past_date 00:00:00" --until="$current_date 23:59:59" --format='## %s (By @%an)' >>CHANGELOG.md
+       git log --since="$current_date 00:00:00" --until="$current_date 23:59:59" --format='### %h : %s (By @%an)' >>CHANGELOG.md
     - name: release
       uses: actions/create-release@v1
       id: create_release
