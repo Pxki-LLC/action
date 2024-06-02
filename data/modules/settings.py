@@ -92,6 +92,7 @@ def settingspage():
             render('text',text='Slyph Engine Version - '+str(sylphenginever),arg=((20,120+(23*2)),forepallete))
             render('text',text='Module Initial Time - '+str(moduletime),arg=((20,120+(23*3)),forepallete))
             render('text',text='Ping Speed - '+str(pingspeed)+'ms',arg=((20,120+(23*4)),forepallete))
+            render('text',text='OS - '+str(ostype),arg=((20,120+(23*5)),forepallete))
         else:
             setuptxt=[]
             for a in setuplist[setupcatagory[setupid-1].lower()]:

@@ -43,7 +43,11 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
-datapath='./userdata/'
+ostype=os.name
+datapath=os.path.expanduser('~')+'/.qlute/'
+if os.path.isdir('./userdata'):
+    print('Successfully migrated to '+str(datapath))
+    os.rename('./userdata',datapath)
 syspath=resource_path('./data/')
 modulepath=syspath+'modules/'
 forepallete=(255,255,255)
