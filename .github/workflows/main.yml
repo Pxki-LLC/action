@@ -101,7 +101,6 @@ jobs:
       run: echo "::set-output name=date::$(date +'%Y.%m.%d')"
     - name: Make changelog
       run: |
-       cd 
        echo "#What's Changed">CHANGELOG.md
        git log --since="$past_date 00:00:00" --until="$current_date 23:59:59" --format='%H' >>CHANGELOG.md
     - name: release
