@@ -103,7 +103,7 @@ jobs:
       run: |
        current_date=$(date -u +"%Y-%m-%d")
        echo "# What's Changed">CHANGELOG.md
-       git log --since="$current_date 00:00:00" --until="$current_date 23:59:59" --format='### %h : %s (By @%an)' >>CHANGELOG.md
+       git log --since="$current_date 00:00:00" --until="$current_date 23:59:59" --format='### %h : %s (By @%cn)' >>CHANGELOG.md
     - name: release
       uses: actions/create-release@v1
       id: create_release
@@ -133,7 +133,7 @@ jobs:
         asset_path: qlute.exe
         asset_name: qlute.exe
         asset_content_type: application/octet-stream
-    - name: upload windows artifact
+    - name: upload RELEASE
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ github.token }}
